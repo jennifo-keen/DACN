@@ -1,0 +1,338 @@
+/* ===== HEADER CỐ ĐỊNH TRÊN CÙNG ===== */
+.hd-bar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* ===== CONTAINER CANH GIỮA ===== */
+.hd-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 64px;
+}
+
+/* ===== TRÁI: LOGO + NAV + SEARCH ===== */
+.hd-left {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  flex: 1;
+  min-width: 0;
+}
+
+.hd-logo img {
+  height: 40px;
+  width: auto;
+}
+
+.hd-nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  white-space: nowrap;
+}
+
+.hd-nav a {
+  color: #222;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+.hd-nav a:hover {
+  color: #e45b2f;
+}
+
+/* ===== THANH TÌM KIẾM (DESKTOP) ===== */
+.hd-search {
+  flex: 1;
+  max-width: 300px;
+}
+.hd-search input {
+  width: 100%;
+  padding: 6px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* ===== PHẢI: BUTTONS + USER ===== */
+.hd-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.btn-book {
+  background: #e45b2f;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 18px;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  border: none;
+}
+.btn-book:hover {
+  background: #d1491d;
+}
+
+.btn-outline {
+  color: #e45b2f;
+  border: 1px solid #e45b2f;
+  padding: 7px 14px;
+  border-radius: 18px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.hd-lang {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.hd-auth {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hd-cart {
+  background: transparent;
+  border: 0;
+  position: relative;
+  font-size: 20px;
+  cursor: pointer;
+}
+.hd-badge {
+  position: absolute;
+  top: -5px;
+  right: -8px;
+  background: #e45b2f;
+  color: #fff;
+  font-size: 11px;
+  border-radius: 999px;
+  padding: 1px 5px;
+}
+
+.hd-user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f6f6f6;
+  border-radius: 18px;
+  padding: 4px 10px;
+  position: relative;
+  cursor: pointer;
+}
+.hd-userName {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.hd-userMenu {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  min-width: 180px;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  padding: 8px 0;
+  display: none;
+}
+.hd-user:hover .hd-userMenu {
+  display: block;
+}
+.hd-userMenu a,
+.hd-userMenu button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 10px 14px;
+  background: transparent;
+  border: 0;
+  font-size: 14px;
+  color: #222;
+  cursor: pointer;
+}
+.hd-userMenu a:hover,
+.hd-userMenu button:hover {
+  background: #f5f5f5;
+}
+
+/* ===== BURGER MENU + DRAWER (MOBILE) ===== */
+.hd-burger {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+.hd-burger span {
+  width: 22px;
+  height: 2px;
+  background: #222;
+}
+
+/* ===== DRAWER + OVERLAY ===== */
+.hd-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 900;
+}
+.hd-drawer {
+  position: fixed;
+  right: -100%;
+  top: 0;
+  width: 84%;
+  max-width: 420px;
+  height: 100vh;
+  background: #fff;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  z-index: 950;
+  transition: right 0.3s ease;
+  padding: 20px env(safe-area-inset-right) 24px 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.hd-drawer.is-open {
+  right: 0;
+}
+.hd-close {
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+.hd-drawerHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ===== DRAWER MENU ===== */
+.hd-drawerNav {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-top: 24px;
+}
+.hd-drawerNav a {
+  color: #222;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.hd-drawerNav a:hover {
+  color: #e45b2f;
+}
+
+/* ===== DRAWER SEARCH (mobile) ===== */
+.hd-drawerSearch {
+  margin-top: 16px;
+}
+.hd-drawerSearch input {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* ===== DRAWER ACTIONS ===== */
+.hd-drawerActions {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.btn-ghost {
+  background: #fff;
+  border: 1px solid #ddd;
+  color: #333;
+  padding: 8px 14px;
+  border-radius: 18px;
+  text-align: center;
+}
+
+/* ===== RESPONSIVE BREAKPOINTS ===== */
+@media (max-width: 1200px) {
+  .hd-container {
+    padding: 10px 16px;
+  }
+  .hd-left {
+    gap: 20px;
+  }
+  .hd-nav {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 992px) {
+  .hd-nav,
+  .hd-search {
+    display: none;
+  }
+  .btn-book {
+    padding: 7px 12px;
+    border-radius: 16px;
+    font-size: 13px;
+  }
+  .btn-outline {
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 13px;
+  }
+  .hd-burger {
+    display: flex;
+  }
+  .hd-userName {
+    max-width: 96px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hd-container {
+    min-height: 56px;
+  }
+  .hd-logo img {
+    height: 34px;
+  }
+  .hd-right {
+    gap: 8px;
+  }
+  .hd-lang span {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn-book {
+    display: none;
+  }
+  .hd-lang {
+    display: none;
+  }
+  .hd-userName {
+    display: none;
+  }
+}

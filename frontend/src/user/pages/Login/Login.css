@@ -1,0 +1,162 @@
+/* Vùng tổng thể, chia 2 cột */
+.login-wrap {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.8fr 1fr; /* trái rộng hơn phải để giống ảnh */
+  background: #1f1f1f; /* viền tối quanh như ảnh */
+}
+
+/* Khi đã đăng nhập mà chỉ muốn card giữa trang */
+.login-wrap.only-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f6f8;
+}
+
+.login-hero {
+  background-size: cover;
+  background-position: center;
+}
+
+/* Cột phải */
+.login-side {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background: #ffffff;
+  padding: 32px 24px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 460px;
+  background: #fff;
+}
+
+/* Logo + tên */
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column; /* để logo nằm trên, chữ FUNWORLD nằm dưới */
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.brand img {
+  width: 150px; /* ← tăng size logo tại đây */
+  height: auto; /* tự co theo tỉ lệ */
+  object-fit: contain;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 24px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 18px;
+  justify-content: center;
+}
+.tab {
+  background: transparent;
+  border: 0;
+  padding: 12px 0;
+  font-weight: 600;
+  color: #777;
+  cursor: pointer;
+}
+.tab.active {
+  color: #e15b2e;
+  border-bottom: 2px solid #e15b2e;
+}
+
+/* Form */
+.form { display: grid; gap: 12px; }
+.label { font-weight: 600; color: #222; }
+.req { color: #e53935; }
+.input {
+  width: 100%;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  padding: 12px 14px;
+  outline: none;
+  transition: border-color .2s ease;
+  background: #fff;
+}
+.input:focus-within,
+.input:focus { border-color: #e15b2e; }
+
+/* input có addon (nút hiện/ẩn mật khẩu) */
+.with-addon {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  padding: 0;
+}
+.with-addon > input {
+  border: 0;
+  padding: 12px 14px;
+}
+.addon {
+  border: 0;
+  background: transparent;
+  padding: 0 12px;
+  cursor: pointer;
+  color: #666;
+}
+
+/* Checkbox điều khoản */
+.check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  color: #333;
+}
+.check a { color: #0b76ff; text-decoration: none; }
+.check a:hover { text-decoration: underline; }
+
+/* Buttons */
+.btnlogin {
+  display: inline-block;
+  width: 100%;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-weight: 700;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform .02s ease, box-shadow .2s ease, background .2s ease;
+}
+.btnlogin.primary {
+  background: #ffffff; /* cam vàng giống nút trong ảnh */
+  color: #ffa726;
+  border: 3px solid #ffa726;
+}
+.btnlogin.primary:hover { 
+    color: rgb(255, 255, 255);
+    background:#ffa726 ;
+    box-shadow: 0 6px 20px rgba(255,167,38,.35); 
+}
+.btnlogin.primary:disabled { 
+    opacity: .6; cursor: not-allowed; 
+}
+.btnlogin.outline {
+  background: #fff; border-color: #e0e0e0; color: #333;
+}
+.btnlogin.outline:hover { background: #f7f7f7; }
+
+/* Text phụ + link */
+.muted { color: #666; font-size: 14px; text-align: center; }
+.link { border: 0; background: none; color: #0b76ff; cursor: pointer; padding: 0 2px; }
+.link:hover { text-decoration: underline; }
+
+/* Thông báo */
+.msg { margin-top: 8px; color: #e15b2e; text-align: center; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .login-wrap { grid-template-columns: 1fr; }
+  .login-hero { display: none; }
+  .login-side { padding: 24px 16px; }
+}
