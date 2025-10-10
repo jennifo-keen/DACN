@@ -7,27 +7,47 @@ import { User } from "./models/User.js";
 // ➕ import routes
 import branchRoutes from "./routes/branch.route.js";
 import uploadRoutes from "./routes/upload.route.js";
+import authRoutes from "./routes/auth.routes.js";
+import bcrypt from "bcryptjs"; 
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-// ===== LOGIN DEMO (bạn giữ nguyên) =====
+// ===== LOGIN DEMO (bạn giữ nguyên) ====
 app.post("/auth/login-plain", async (req, res) => {
   try {
     const { email, password } = req.body;
-    if (!email || !password) return res.status(400).json({ error: "Missing email or password" });
-    const user = await User.findOne({ email: email.toLowerCase(), password, status: "active" });
-    if (!user) return res.status(401).json({ error: "Invalid credentials" });
-    res.json({ _id: user._id, email: user.email, name: user.name, role: user.role, status: user.status });
-  } catch (e) { res.status(500).json({ error: e.message }); }
+    if (!email || !password)
+      return res.status(400).json({ error: "Missing email or password" });
+
+    // ✅ lấy cả password vì bạn có select: false
+    const user = await User.findOne({ email: email.toLowerCase(), status: "active" }).select("+password");
+    if (!user)
+      return res.status(401).json({ error: "Invalid credentials" });
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch)
+      return res.status(401).json({ error: "Invalid credentials" });
+    res.json({
+      _id: user._id,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+      status: user.status
+    });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
 });
+
 
 app.get("/", (_req, res) => res.json({ ok: true }));
 
 // ✅ mount API cho branches + upload
 app.use("/api", branchRoutes);
 app.use("/api/admin", uploadRoutes);
+app.use("/auth", authRoutes);
 
 const PORT = process.env.PORT || 4000;
 connectDB().then(() => app.listen(PORT, () => console.log(`🚀 http://localhost:${PORT}`)));
