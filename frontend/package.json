@@ -7,10 +7,16 @@
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^13.5.0",
+    "classnames": "^2.5.1",
+    "date-fns": "^2.30.0",
     "react": "^19.1.1",
+    "react-date-range": "^1.4.0",
+    "react-datepicker": "^8.8.0",
     "react-dom": "^19.1.1",
+    "react-list": "^0.8.18",
     "react-router-dom": "^7.9.1",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
+    "shallow-equal": "^3.1.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

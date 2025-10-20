@@ -3,51 +3,76 @@ import express from "express";
 import cors from "cors";
 import { connectDB } from "./config/db.js";
 import { User } from "./models/User.js";
+import bcrypt from "bcryptjs";
 
-// ➕ import routes
+// Import routes
 import branchRoutes from "./routes/branch.route.js";
 import uploadRoutes from "./routes/upload.route.js";
 import authRoutes from "./routes/auth.routes.js";
-import bcrypt from "bcryptjs"; 
+import provinceRouter from "./routes/provinceRouter.js";
 
 const app = express();
-app.use(express.json());
-app.use(cors());
 
-// ===== LOGIN DEMO (bạn giữ nguyên) ====
+// Middleware
+app.use(express.json());
+app.use(cors({
+  origin: process.env.CORS_ORIGIN || "*", // Cấu hình CORS linh hoạt
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  credentials: true,
+}));
+
+// ===== LOGIN DEMO =====
 app.post("/auth/login-plain", async (req, res) => {
   try {
     const { email, password } = req.body;
-    if (!email || !password)
+
+    // Kiểm tra trường bắt buộc
+    if (!email || !password) {
       return res.status(400).json({ error: "Missing email or password" });
+    }
 
-    // ✅ lấy cả password vì bạn có select: false
-    const user = await User.findOne({ email: email.toLowerCase(), status: "active" }).select("+password");
-    if (!user)
+    // Tìm user với email và status active, bao gồm password
+    const user = await User.findOne({ email: email.toLowerCase(), status: "active" })
+      .select("+password")
+      .lean(); // Sử dụng lean để tối ưu hóa hiệu suất
+
+    if (!user) {
       return res.status(401).json({ error: "Invalid credentials" });
+    }
 
+    // So sánh mật khẩu
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch)
+    if (!isMatch) {
       return res.status(401).json({ error: "Invalid credentials" });
-    res.json({
-      _id: user._id,
-      email: user.email,
-      name: user.name,
-      role: user.role,
-      status: user.status
-    });
-  } catch (e) {
-    res.status(500).json({ error: e.message });
+    }
+
+    // Trả về thông tin user (loại bỏ password)
+    const { password: _, ...userData } = user;
+    res.json(userData);
+  } catch (error) {
+    console.error("Login error:", error); // Log lỗi để debug
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
-
+// Route kiểm tra server
 app.get("/", (_req, res) => res.json({ ok: true }));
 
-// ✅ mount API cho branches + upload
+// Mount API routes
 app.use("/api", branchRoutes);
 app.use("/api/admin", uploadRoutes);
 app.use("/auth", authRoutes);
+app.use("/api/provinces", provinceRouter); 
 
 const PORT = process.env.PORT || 4000;
-connectDB().then(() => app.listen(PORT, () => console.log(`🚀 http://localhost:${PORT}`)));
+
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on http://localhost:${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error("Failed to connect to database:", error);
+    process.exit(1); // Thoát nếu không kết nối được DB
+  });

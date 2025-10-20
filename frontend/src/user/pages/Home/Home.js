@@ -1,4 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { vi } from "date-fns/locale";
+
 import "./Home.css";
 
 const slides = [
@@ -28,19 +32,67 @@ const slides = [
   },
 ];
 
-const destinations = [
-  { img: "/dest/hcm.jpg", name: "Hồ Chí Minh", sub: "Tâm điểm giải trí và lễ hội mới của thành phố" },
-  { img: "/dest/na.jpg",  name: "Nghệ An",     sub: "Quần thể du lịch - giải trí lớn nhất Bắc Trung Bộ" },
-  { img: "/dest/ht.jpg",  name: "Hà Tĩnh",     sub: "Thiên đường giải mát lạnh tại Bắc Trung Bộ" },
-  { img: "/dest/pq.jpg",  name: "Phú Quốc",    sub: "Thiên đường biển xanh và công viên chủ đề" },
-  { img: "/dest/nt.jpg",  name: "Nha Trang",   sub: "Đa trải nghiệm giải trí - nghỉ dưỡng" },
-  { img: "/dest/ha.jpg",  name: "Hội An",      sub: "Sắc màu phố cổ & show đêm đặc sắc" },
-];
-
 export default function Home() {
-  /* ================= HERO SLIDER ================= */
+  const [destinations, setDestinations] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [idx, setIdx] = useState(0);
   const timer = useRef(null);
+
+  const [isResultsVisible, setIsResultsVisible] = useState(false);
+  const [selectedBranch, setSelectedBranch] = useState(null);
+  const resultsRef = useRef(null);
+  
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [showCalendar, setShowCalendar] = useState(false);
+  const calendarRef = useRef(null);
+
+  useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (
+      resultsRef.current &&
+      !resultsRef.current.contains(event.target) &&
+      !event.target.closest(".searchField") 
+    ) {
+      setIsResultsVisible(false);
+    }
+  };
+
+  document.addEventListener("mousedown", handleClickOutside);
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, []);
+
+
+
+  const toggleResults = () => {
+    setIsResultsVisible(!isResultsVisible);
+  };
+
+
+  useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await fetch("http://localhost:4000/api/provinces");
+      const data = await response.json();
+      // Chuyển đổi dữ liệu từ API thành định dạng phù hợp với destinations
+      const formattedDestinations = data.map((province) => ({
+        img: `/dest/${province.provinceName.toLowerCase().replace(" ", "-")}.jpg`,
+        name: province.provinceName,
+        sub: province.branches.length > 0 ? province.branches[0].description : "Khám phá điểm đến",
+        branches: province.branches, 
+      }));
+      setDestinations(formattedDestinations);
+    } catch (error) {
+      console.error("Lỗi khi lấy dữ liệu:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchData();
+  }, []);
+
 
   const startAuto = () => {
     clearInterval(timer.current);
@@ -52,19 +104,18 @@ export default function Home() {
   useEffect(() => {
     startAuto();
     return () => clearInterval(timer.current);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  
   }, []);
 
   const go = (n) => {
     setIdx((i) => (i + n + slides.length) % slides.length);
-    startAuto(); // bấm mũi tên xong vẫn tự chạy tiếp
+    startAuto();
   };
 
   const s = slides[idx];
 
-  /* =========== DESTINATIONS CAROUSEL (trượt theo item) =========== */
-  const [per, setPer] = useState(3);     // số item hiển thị
-  const [iPage, setIPage] = useState(0); // vị trí dịch
+  const [per, setPer] = useState(3);
+  const [iPage, setIPage] = useState(0);
   const totalPages = Math.max(1, destinations.length - per + 1);
 
   useEffect(() => {
@@ -82,9 +133,49 @@ export default function Home() {
   const nextPage = () => setIPage((p) => Math.min(p + 1, totalPages - 1));
   const prevPage = () => setIPage((p) => Math.max(p - 1, 0));
 
+  if (loading) {
+    return <div>Loading...</div>; // Hiển thị loading trong khi chờ dữ liệu
+  }
+
+  const handleSearch = async () => {
+    if (!selectedBranch) {
+      alert("Vui lòng chọn chi nhánh!");
+      return;
+    }
+
+    if (!selectedDate) {
+      alert("Vui lòng chọn ngày!");
+      return;
+    }
+
+    const payload = {
+      branchId: selectedBranch.branchId,
+      branchName: selectedBranch.branchName,
+      provinceName: selectedBranch.provinceName,
+      date: selectedDate.toISOString().split("T")[0], 
+    };
+
+    try {
+      const response = await fetch("http://localhost:4000/api/search", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) throw new Error("Lỗi khi gửi dữ liệu!");
+
+      const result = await response.json();
+      console.log("Kết quả từ server:", result);
+      alert("Dữ liệu đã được gửi thành công!");
+    } catch (error) {
+      console.error("Lỗi khi gửi dữ liệu:", error);
+      alert("Gửi dữ liệu thất bại. Vui lòng thử lại!");
+    }
+};
+
+
   return (
     <div className="home">
-      
       <section className="hero" style={{ backgroundImage: `url(${s.img})` }}>
         <div className="hero__overlay" />
 
@@ -108,29 +199,89 @@ export default function Home() {
             />
           ))}
         </div>
-
-        {/* SEARCH BAR */}
-        <div className="searchCard">
-          <div className="searchField">
-            <span className="ic">📍</span>
-            <select defaultValue="">
-              <option value="" disabled>Chọn điểm đến</option>
-              <option>Phú Quốc</option>
-              <option>Nha Trang</option>
-              <option>Hội An - Đà Nẵng</option>
-              <option>Hà Nội</option>
-            </select>
-          </div>
-
-          <div className="searchField">
-            <span className="ic">📅</span>
-            <input type="date" />
-          </div>
-
-          <button className="btn btn--search">Tìm kiếm</button>
-        </div>
       </section>
+        {/* SEARCH BAR */}
+      <div className="searchCard">
+        <div className="searchField" onClick={toggleResults}>
+          <div className="des">
+            <span className="select">
+              {selectedBranch
+                ? `${selectedBranch.provinceName} - ${selectedBranch.branchName}`
+              : "Chọn chi nhánh"}
+            </span>
+          <span className="ic-down"></span>
+        </div>
+      </div>
 
+      <div
+          className="searchField date-input"
+          onClick={() => {
+            setShowCalendar(!showCalendar);
+            setIsResultsVisible(false); 
+          }}
+        >
+      <span className="ic">📅</span>
+        <div className="des">
+          <span className="select">
+            {selectedDate
+              ? selectedDate.toLocaleDateString("vi-VN")
+             : "Chọn ngày"}
+           </span>
+        </div>
+       </div>
+
+
+        {/* Popup lịch */}
+        {showCalendar && (
+          <div ref={calendarRef} className="calendar-popup">
+            <DatePicker
+              selected={selectedDate}
+              onChange={(date) => setSelectedDate(date)}
+              inline
+              dateFormat="dd/MM/yyyy"
+              locale={vi}
+              minDate={new Date()}
+            />
+          </div>
+        )}
+
+        <button className="btn btn--search"  onClick={handleSearch}>Tìm kiếm</button>
+
+      </div>
+      <div ref={resultsRef} className={`resultsFrame ${isResultsVisible ? "active" : ""}`}>
+        {destinations.length > 0 ? (
+          destinations.map((province, pIndex) => (
+            <div key={pIndex} className="province-group">
+              <div className="province__name">📍{province.name}</div>
+
+              <div className="branch__list">
+                {province.branches && province.branches.length > 0 ? (
+                  province.branches.map((branch, bIndex) => (
+                    <div
+                      key={bIndex}
+                      className="branch__item"
+                      onClick={() => {
+                        setSelectedBranch({
+                          provinceName: province.name,
+                          branchName: branch.branchName,
+                          branchId: branch.id_branch, 
+                        });
+                        setIsResultsVisible(false);
+                      }}
+                    >
+                      <span className="branchName">{branch.branchName}</span>
+                    </div>
+                  ))
+                ) : (
+                  <p>Không có chi nhánh nào.</p>
+                )}
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>Không có dữ liệu.</p>
+        )}
+      </div>
       {/* ===== EXPERIENCE GRID ===== */}
       <section className="experience">
         <h2 className="experience__title">TRẢI NGHIỆM VINWONDERS</h2>
@@ -178,7 +329,7 @@ export default function Home() {
               {destinations.map((d, i) => (
                 <div className="dest__item" key={i}>
                   <div className="dest__pic">
-                    <img src={d.img} alt={d.name} />
+                    <img src={d.image_branch} alt={d.name} />
                   </div>
                   <h3 className="dest__name">{d.name}</h3>
                   <p className="dest__sub">{d.sub}</p>
