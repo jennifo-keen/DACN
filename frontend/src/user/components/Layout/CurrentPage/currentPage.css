@@ -1,0 +1,31 @@
+.currentpage {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #555;
+  margin: 10px 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.currentpage__link {
+  color: black;
+  text-decoration: none;
+  font-size: 19px;
+}
+
+.currentpage__link:hover {
+  text-decoration: underline;
+}
+
+.currentpage__sep {
+  color: black;
+  font-size: 29px;
+  margin-bottom: 8px;
+}
+
+.currentpage__current {
+  color: grey;
+  font-weight: 500;
+  font-size: 19px;
+}

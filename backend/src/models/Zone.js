@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const ticketSchema = new mongoose.Schema(
+const zoneSchema = new mongoose.Schema(
   {
     eventName: { type: String, required: true },
     customerName: { type: String, required: true },
@@ -11,4 +11,5 @@ const ticketSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const Ticket = mongoose.model("Ticket", ticketSchema);
+export const Zone = mongoose.model("Zone", zoneSchema, "zones");
+

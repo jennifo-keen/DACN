@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { vi } from "date-fns/locale";
+import { useNavigate } from "react-router-dom";
+import Loading from "../../components/Layout/loading.js"
 
 import "./Home.css";
 
@@ -46,53 +48,53 @@ export default function Home() {
   const [showCalendar, setShowCalendar] = useState(false);
   const calendarRef = useRef(null);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-  const handleClickOutside = (event) => {
-    if (
-      resultsRef.current &&
-      !resultsRef.current.contains(event.target) &&
-      !event.target.closest(".searchField") 
-    ) {
-      setIsResultsVisible(false);
-    }
-  };
+    const handleClickOutside = (event) => {
+      if (
+        resultsRef.current &&
+        !resultsRef.current.contains(event.target) &&
+        !event.target.closest(".searchField") 
+      ) {
+        setIsResultsVisible(false);
+      }
+    };
 
-  document.addEventListener("mousedown", handleClickOutside);
-  return () => {
-    document.removeEventListener("mousedown", handleClickOutside);
-  };
-}, []);
-
-
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const toggleResults = () => {
     setIsResultsVisible(!isResultsVisible);
+    setShowCalendar(false);
   };
 
 
   useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const response = await fetch("http://localhost:4000/api/provinces");
-      const data = await response.json();
-      // Chuyển đổi dữ liệu từ API thành định dạng phù hợp với destinations
-      const formattedDestinations = data.map((province) => ({
-        img: `/dest/${province.provinceName.toLowerCase().replace(" ", "-")}.jpg`,
-        name: province.provinceName,
-        sub: province.branches.length > 0 ? province.branches[0].description : "Khám phá điểm đến",
-        branches: province.branches, 
-      }));
-      setDestinations(formattedDestinations);
-    } catch (error) {
-      console.error("Lỗi khi lấy dữ liệu:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:4000/api/provinces");
+        const data = await response.json();
+        
+        const formattedDestinations = data.map((province) => ({
+          name: province.provinceName,
+          sub: province.branches.length > 0 ? province.branches[0].description : "Khám phá điểm đến",
+          branches: province.branches,
+          image: province.branches.length > 0 ? province.branches[0].image_branch : "/dest/default.jpg",
+        }));
+        setDestinations(formattedDestinations);
+      } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  fetchData();
+    fetchData();
   }, []);
-
 
   const startAuto = () => {
     clearInterval(timer.current);
@@ -104,7 +106,6 @@ export default function Home() {
   useEffect(() => {
     startAuto();
     return () => clearInterval(timer.current);
-  
   }, []);
 
   const go = (n) => {
@@ -133,11 +134,9 @@ export default function Home() {
   const nextPage = () => setIPage((p) => Math.min(p + 1, totalPages - 1));
   const prevPage = () => setIPage((p) => Math.max(p - 1, 0));
 
-  if (loading) {
-    return <div>Loading...</div>; // Hiển thị loading trong khi chờ dữ liệu
-  }
+  const handleSearch = (e) => {
+    if (e) e.preventDefault(); 
 
-  const handleSearch = async () => {
     if (!selectedBranch) {
       alert("Vui lòng chọn chi nhánh!");
       return;
@@ -152,27 +151,18 @@ export default function Home() {
       branchId: selectedBranch.branchId,
       branchName: selectedBranch.branchName,
       provinceName: selectedBranch.provinceName,
-      date: selectedDate.toISOString().split("T")[0], 
+      date: selectedDate
+        ? `${selectedDate.getDate().toString().padStart(2, "0")}-${(selectedDate.getMonth() + 1)
+            .toString()
+            .padStart(2, "0")}-${selectedDate.getFullYear()}`
+        : "",
     };
+    navigate(`/search?id=${payload.branchId}&usingDate=${payload.date}`, { state: payload });
+  };
 
-    try {
-      const response = await fetch("http://localhost:4000/api/search", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) throw new Error("Lỗi khi gửi dữ liệu!");
-
-      const result = await response.json();
-      console.log("Kết quả từ server:", result);
-      alert("Dữ liệu đã được gửi thành công!");
-    } catch (error) {
-      console.error("Lỗi khi gửi dữ liệu:", error);
-      alert("Gửi dữ liệu thất bại. Vui lòng thử lại!");
-    }
-};
-
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className="home">
@@ -200,43 +190,50 @@ export default function Home() {
           ))}
         </div>
       </section>
-        {/* SEARCH BAR */}
+
+      {/* SEARCH BAR */}
       <div className="searchCard">
-        <div className="searchField" onClick={toggleResults}>
+        <div 
+          className="searchField" 
+          onClick={toggleResults}
+        >
+          <span className="ic">📍</span>
           <div className="des">
             <span className="select">
               {selectedBranch
                 ? `${selectedBranch.provinceName} - ${selectedBranch.branchName}`
-              : "Chọn chi nhánh"}
+                : "Chọn chi nhánh"}
             </span>
-          <span className="ic-down"></span>
+            <span className="ic-down">▾</span>
+          </div>
         </div>
-      </div>
 
-      <div
+        <div
           className="searchField date-input"
           onClick={() => {
             setShowCalendar(!showCalendar);
-            setIsResultsVisible(false); 
+            setIsResultsVisible(false);
           }}
         >
-      <span className="ic">📅</span>
-        <div className="des">
-          <span className="select">
-            {selectedDate
-              ? selectedDate.toLocaleDateString("vi-VN")
-             : "Chọn ngày"}
-           </span>
+          <span className="ic">📅</span>
+          <div className="des">
+            <span className="select">
+              {selectedDate
+                ? selectedDate.toLocaleDateString("vi-VN")
+                : "Chọn ngày"}
+            </span>
+          </div>
         </div>
-       </div>
-
 
         {/* Popup lịch */}
         {showCalendar && (
           <div ref={calendarRef} className="calendar-popup">
             <DatePicker
               selected={selectedDate}
-              onChange={(date) => setSelectedDate(date)}
+              onChange={(date) => {
+                setSelectedDate(date);
+                setShowCalendar(false); 
+              }}
               inline
               dateFormat="dd/MM/yyyy"
               locale={vi}
@@ -245,14 +242,17 @@ export default function Home() {
           </div>
         )}
 
-        <button className="btn btn--search"  onClick={handleSearch}>Tìm kiếm</button>
-
+        <button className="btn btn--search" onClick={handleSearch}>
+          Tìm kiếm
+        </button>
       </div>
+
+      {/* RESULTS FRAME */}
       <div ref={resultsRef} className={`resultsFrame ${isResultsVisible ? "active" : ""}`}>
         {destinations.length > 0 ? (
           destinations.map((province, pIndex) => (
             <div key={pIndex} className="province-group">
-              <div className="province__name">📍{province.name}</div>
+              <span className="province__name">{province.name}</span>
 
               <div className="branch__list">
                 {province.branches && province.branches.length > 0 ? (
@@ -264,7 +264,7 @@ export default function Home() {
                         setSelectedBranch({
                           provinceName: province.name,
                           branchName: branch.branchName,
-                          branchId: branch.id_branch, 
+                          branchId: branch.branchId,
                         });
                         setIsResultsVisible(false);
                       }}
@@ -273,15 +273,16 @@ export default function Home() {
                     </div>
                   ))
                 ) : (
-                  <p>Không có chi nhánh nào.</p>
+                  <p className="no-branches">Không có chi nhánh</p>
                 )}
               </div>
             </div>
           ))
         ) : (
-          <p>Không có dữ liệu.</p>
+          <p className="no-data">Không có dữ liệu.</p>
         )}
       </div>
+
       {/* ===== EXPERIENCE GRID ===== */}
       <section className="experience">
         <h2 className="experience__title">TRẢI NGHIỆM VINWONDERS</h2>
@@ -317,19 +318,18 @@ export default function Home() {
             disabled={iPage === 0}
           >‹</button>
 
-          {/* MASK để canh giữa + ẩn tràn */}
           <div className="dest__mask">
             <div
               className="dest__viewport"
               style={{
-                "--per": `${per}`, // CSS var phải là chuỗi
+                "--per": `${per}`,
                 transform: `translateX(calc(${iPage} * -100% / var(--per)))`,
               }}
             >
               {destinations.map((d, i) => (
                 <div className="dest__item" key={i}>
                   <div className="dest__pic">
-                    <img src={d.image_branch} alt={d.name} />
+                    <img src={d.image || "/dest/default.jpg"} alt={d.name} />
                   </div>
                   <h3 className="dest__name">{d.name}</h3>
                   <p className="dest__sub">{d.sub}</p>
