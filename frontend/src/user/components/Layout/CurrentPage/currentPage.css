@@ -12,6 +12,8 @@
   color: black;
   text-decoration: none;
   font-size: 19px;
+  filter: invert(1); 
+  mix-blend-mode: exclusion;
 }
 
 .currentpage__link:hover {
@@ -29,3 +31,14 @@
   font-weight: 500;
   font-size: 19px;
 }
+
+@media (prefers-color-scheme: dark) {
+  .currentpage__sep {
+    color: white;
+  }
+
+  .currentpage__current {
+    color: lightgray;
+  }
+}
+

@@ -446,8 +446,8 @@
 
 .hd-dest-column {
   flex: 1;
-  margin-right: 16px;
-  max-width: 200px;
+  margin-right: 35px;
+  max-width: 300px;
 }
 
 .hd-dest-column:last-child {

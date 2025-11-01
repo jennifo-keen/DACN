@@ -1,4 +1,7 @@
-body {
+.ticketpage {
+  max-width: 1550px;
+  margin: 0 auto;
+  padding: 20px;
   background: linear-gradient(135deg, 
     #e0f7fa 0%,      /* Xanh nhạt */
     #fff 25%,         /* Trắng */
@@ -6,14 +9,7 @@ body {
     #fff 75%,         /* Trắng */
     #b2ebf2 100%      /* Xanh pastel */
   );
-  background-attachment: fixed;
-  min-height: 100vh;
-}
-
-.ticketpage {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* Header Section */

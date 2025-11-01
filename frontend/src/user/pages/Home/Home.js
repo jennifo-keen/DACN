@@ -76,7 +76,7 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/provinces");
+        const response = await fetch("http://localhost:4000/api/provincesBranches");
         const data = await response.json();
         
         const formattedDestinations = data.map((province) => ({

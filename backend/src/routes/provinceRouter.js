@@ -4,7 +4,7 @@ import { Branch } from "../models/Branch.js";
 
 const router = Router();
 
-router.get("/", async (_req, res) => {
+router.get("/provincesBranches", async (_req, res) => {
   try {
     const provinces = await Province.find({});
 

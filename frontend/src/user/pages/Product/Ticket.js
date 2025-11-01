@@ -17,7 +17,16 @@ export default function Ticket() {
   const ticketsPerPage = 10;
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    const hasReloaded = sessionStorage.getItem('ticketPageReloaded');
+    
+    if (!hasReloaded) {
+      sessionStorage.setItem('ticketPageReloaded', 'true');
+      window.location.reload();
+    }
+    
+    return () => {
+      sessionStorage.removeItem('ticketPageReloaded');
+    };
   }, []);
 
   useEffect(() => {
@@ -39,7 +48,7 @@ export default function Ticket() {
   useEffect(() => {
     const getTicketById = async () => {
       if (!state?.branchId) return;
-
+      
       setLoading(true);
       try {
         const id = state.branchId;
@@ -71,7 +80,6 @@ export default function Ticket() {
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const formatDate = (date) => {
@@ -145,7 +153,7 @@ export default function Ticket() {
                   setSelectedDate(tomorrow);
                   updateDateInURL(tomorrow);
                 }}
-              >
+              > 
                 Ngày mai
               </button>
               <button

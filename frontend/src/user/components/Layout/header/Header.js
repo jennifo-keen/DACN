@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./Header.css";
-import { Link } from "react-router-dom";
 
 export default function Header() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [destDropdownOpen, setDestDropdownOpen] = useState(false);
   const [provinces, setProvinces] = useState([]);
-  const [responsive, setResponsive] = useState(false)
 
   const navigate = useNavigate();
 
@@ -40,7 +38,7 @@ export default function Header() {
   useEffect(() => {
     const getProvinces = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/provinces", {
+        const response = await fetch("http://localhost:4000/api/provincesBranches", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -48,37 +46,33 @@ export default function Header() {
         });
 
         const data = await response.json();
-
         if (Array.isArray(data)) {
           setProvinces(data);
         } else {
           console.error("Dữ liệu trả về không đúng định dạng mảng:", data);
+          setProvinces([]); 
         }
       } catch (e) {
         console.error("Lỗi khi gọi API:", e);
+        setProvinces([]); 
       }
     };
 
     getProvinces();
   }, []);
 
-  useEffect(() => {
-    document.body.style.overflow = drawerOpen ? "hidden" : "";
-  }, [drawerOpen]);
-
   return (
     <>
       <header className="hd-bar">
         <div className="hd-container">
           <div className="hd-left">
-            <Link  href="/" className="hd-logo">
+            <Link to="/" className="hd-logo">
               <img src="/logo.png" alt="Logo" />
             </Link>
 
             <nav className="hd-nav">
-              <Link  href="#about">Về Chúng Tôi</Link>
+              <Link to="#about">Về Chúng Tôi</Link>
 
-              {/* Dropdown điểm đến */}
               <div
                 className="hd-dest-container"
                 onMouseEnter={() => setDestDropdownOpen(true)}
@@ -96,7 +90,11 @@ export default function Header() {
                         {province.branches?.map((branch, j) => (
                           <Link
                             key={j}
-                            to={`/dest?id=${branch.branchId}&&branchName=${branch.branchName}`}
+                            to={`/dest?id=${branch.branchId}&branchName=${encodeURIComponent(branch.branchName)}`}
+                            onClick={() => {
+                              setDestDropdownOpen(false);
+                              setDrawerOpen(false);
+                            }}
                             className="hd-dest-item"
                           >
                             {branch.branchName}
@@ -108,15 +106,15 @@ export default function Header() {
                 )}
               </div>
 
-              <Link href="#super">Siêu Phẩm </Link>
-              <Link href="#offer">Ưu Đãi </Link>
-              <Link href="#wpedia">Wonderpedia </Link>
-              <Link href="#club">VinClub </Link>
+              <Link to="#super">Siêu Phẩm</Link>
+              <Link to="#offer">Ưu Đãi</Link>
+              <Link to="#wpedia">Wonderpedia</Link>
+              <Link to="#club">VinClub</Link>
             </nav>
           </div>
 
           <div className="hd-right">
-            <Link  className="btn-book" href="#book">
+            <Link className="btn-book" to="#book">
               Đặt vé
             </Link>
 
@@ -126,7 +124,7 @@ export default function Header() {
             </div>
 
             {!user ? (
-              <Link  className="btn-outline" href="/login">
+              <Link className="btn-outline" to="/login">
                 Đăng nhập
               </Link>
             ) : (
@@ -144,8 +142,8 @@ export default function Header() {
                       : user.name}
                   </span>
                   <div className="hd-userMenu">
-                    <Link  href="/profile">Tài khoản của tôi</Link>
-                    <Link  href="/orders">Đơn hàng</Link>
+                    <Link to="/profile">Tài khoản của tôi</Link>
+                    <Link to="/orders">Đơn hàng</Link>
                     <button onClick={handleLogout}>Đăng xuất</button>
                   </div>
                 </div>
@@ -186,22 +184,22 @@ export default function Header() {
         </div>
 
         <nav className="hd-drawerNav">
-          <Link href="#about" onClick={() => setDrawerOpen(false)}>
+          <Link to="#about" onClick={() => setDrawerOpen(false)}>
             Về Chúng Tôi
           </Link>
-          <Link href="/dest" onClick={() => setDrawerOpen(false)}>
+          <Link to="/dest" onClick={() => setDrawerOpen(false)}>
             Điểm Đến
           </Link>
-          <Link href="#super" onClick={() => setDrawerOpen(false)}>
+          <Link to="#super" onClick={() => setDrawerOpen(false)}>
             Siêu Phẩm
           </Link>
-          <Link href="#offer" onClick={() => setDrawerOpen(false)}>
+          <Link to="#offer" onClick={() => setDrawerOpen(false)}>
             Ưu Đãi
           </Link>
-          <Link href="#wpedia" onClick={() => setDrawerOpen(false)}>
+          <Link to="#wpedia" onClick={() => setDrawerOpen(false)}>
             Wonderpedia
           </Link>
-          <Link href="#club" onClick={() => setDrawerOpen(false)}>
+          <Link to="#club" onClick={() => setDrawerOpen(false)}>
             VinClub
           </Link>
         </nav>
@@ -209,16 +207,16 @@ export default function Header() {
         <div className="hd-drawerActions">
           {!user ? (
             <>
-              <Link 
+              <Link
                 className="btn-book"
-                href="/login"
+                to="/login"
                 onClick={() => setDrawerOpen(false)}
               >
                 Đăng nhập
               </Link>
-              <Link 
+              <Link
                 className="btn-ghost"
-                href="/signup"
+                to="/signup"
                 onClick={() => setDrawerOpen(false)}
               >
                 Đăng ký
@@ -226,9 +224,9 @@ export default function Header() {
             </>
           ) : (
             <>
-              <Link 
+              <Link
                 className="btn-ghost"
-                href="/profile"
+                to="/profile"
                 onClick={() => setDrawerOpen(false)}
               >
                 Tài khoản

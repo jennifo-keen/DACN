@@ -63,7 +63,7 @@ app.get("/", (_req, res) => res.json({ ok: true }));
 app.use("/api", branchRoutes);
 app.use("/api/admin", uploadRoutes);
 app.use("/auth", authRoutes);
-app.use("/api/provinces", provinceRouter); 
+app.use("/api", provinceRouter); 
 app.use("/api", ticketTypeRouter)
 
 const PORT = process.env.PORT || 4000;

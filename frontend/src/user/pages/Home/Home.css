@@ -323,7 +323,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   z-index: 2000;
   width: auto;
   font-family: "Inter", sans-serif;
-  animation: fadeIn 0.25s ease;
+  animation:  0.25s ease;
   user-select: none;
 }
 

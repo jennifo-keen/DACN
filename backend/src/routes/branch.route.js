@@ -24,11 +24,39 @@ router.post("/branches", async (req, res) => {
 
 router.get("/branches/:id", async (req, res) => {
   try {
+    const {id} = req.params
 
+    const data = await Branch.findOne({ _id: id})
+
+    if (data) {
+    res.status(200).json({
+      success: true,
+      message: "Lấy tỉnh theo ID thành công!",
+      data: data,
+    })}
   }
   catch (e) {
     res.status(500).json({message: 'Lỗi server'})
   }
 });
+
+router.get("/branchesZone/:id", async (req, res) => {
+  try {
+    const {id} = req.params
+
+    const data = await Branch.findOne({ branchId: id})
+
+    if (data) {
+    res.status(200).json({
+      success: true,
+      message: "Lấy tỉnh theo ID thành công!",
+      data: data,
+    })}
+  }
+  catch (e) {
+    res.status(500).json({message: 'Lỗi server'})
+  }
+});
+
 
 export default router;
