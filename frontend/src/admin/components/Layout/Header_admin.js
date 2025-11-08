@@ -25,7 +25,27 @@ export default function Header() {
         children: ["Danh sách người dùng", "Người dùng mới", "Báo cáo"],
       },
       {
-        parent: "Cài đặt hệ thống",
+        parent: "Quản lý vé",
+        children: ["Cấu hình chung", "Bảo mật", "Sao lưu dữ liệu"],
+      },
+      {
+        parent: "Quản lý thanh toán",
+        children: ["Cấu hình chung", "Bảo mật", "Sao lưu dữ liệu"],
+      },
+      {
+        parent: "Quản lý vé điện tử",
+        children: ["Cấu hình chung", "Bảo mật", "Sao lưu dữ liệu"],
+      },
+      {
+        parent: "Quản lý khuyến mãi",
+        children: ["Cấu hình chung", "Bảo mật", "Sao lưu dữ liệu"],
+      },
+      {
+        parent: "Thống kê và báo cáo",
+        children: ["Cấu hình chung", "Bảo mật", "Sao lưu dữ liệu"],
+      },
+      {
+        parent: "Quản lý khuyến mãi",
         children: ["Cấu hình chung", "Bảo mật", "Sao lưu dữ liệu"],
       },
     ],

@@ -6,8 +6,7 @@ export function AuthProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  // ✅ Kiểm tra token khi mở app
+  
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     if (token) {
@@ -49,7 +48,6 @@ export function AuthProvider({ children }) {
       console.log(data)
       if (!response.ok) throw new Error(data.error || "Đăng nhập thất bại");
 
-      // ✅ Lưu token vào localStorage
       localStorage.setItem("authToken", data.token);
       setIsLoggedIn(true);
       setUser(data.user);

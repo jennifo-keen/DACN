@@ -12,7 +12,6 @@ export default function Layout_admin() {
   return (
     <div>
       <div className="admin-layout" style={{ display: "flex" }}>
-        <Sidebar />
         <div className="right-panel">
           <Header />
           <main className="content-area">
