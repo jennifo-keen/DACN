@@ -11,10 +11,17 @@ export default function Layout_admin() {
 
   return (
     <div>
-      <Header />
-      <main style={{ padding: "20px" }}>
-        <Outlet />
-      </main>
+      <div className="admin-layout" style={{ display: "flex" }}>
+        <Sidebar />
+        <div className="right-panel">
+          <Header />
+          <main className="content-area">
+            <Outlet />
+          </main>
+        </div>
+      </div>
     </div>
   );
 }
+
+
