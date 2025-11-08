@@ -278,7 +278,7 @@
 .hd-burger span {
   width: 24px;
   height: 3px;
-  background: #333; /* Đổi màu burger thành xám đậm */
+  background: #333;
   border-radius: 2px;
   transition: all 0.3s ease;
 }
@@ -300,8 +300,8 @@
 .hd-drawer {
   position: fixed;
   right: -100%;
-  top: 0;
-  width: 85%;
+  top: 7%;
+  width: 70%;
   max-width: 1000px;
   height: 100vh;
   background: white; /* Đổi thành nền trắng */

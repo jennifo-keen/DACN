@@ -6,10 +6,12 @@
 }
 
 html, body {
-  overflow-x: hidden; /* Ẩn cuộn ngang */
-  overflow-y: auto; /* Giữ cuộn dọc nếu cần, có thể đổi thành hidden */
-  -ms-overflow-style: none; /* Ẩn trên IE và Edge */
-  scrollbar-width: none; /* Ẩn trên Firefox */
+  overflow-x: hidden;
+  overflow-y: auto; 
+  -ms-overflow-style: none; 
+  scrollbar-width: none; 
+  scroll-behavior: smooth;
+
 }
 
 /* Ẩn thanh cuộn trên Webkit (Chrome, Safari, Edge) */

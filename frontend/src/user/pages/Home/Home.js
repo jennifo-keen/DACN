@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { vi } from "date-fns/locale";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, useLoaderData } from "react-router-dom";
 import Loading from "../../components/Layout/loading.js"
 
 import "./Home.css";
@@ -49,6 +49,17 @@ export default function Home() {
   const calendarRef = useRef(null);
 
   const navigate = useNavigate();
+  const location = useLocation();
+  
+
+  useEffect(() => {
+    if (location.hash === '#book') {
+      const element = document.querySelector('.searchCard');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  }, [location]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -192,7 +203,7 @@ export default function Home() {
       </section>
 
       {/* SEARCH BAR */}
-      <div className="searchCard">
+      <div className="searchCard" id="book">
         <div 
           className="searchField" 
           onClick={toggleResults}

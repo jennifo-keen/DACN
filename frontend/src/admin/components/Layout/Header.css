@@ -1,0 +1,303 @@
+.sidebar {
+  width: 280px;
+  height: 100vh;
+  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  color: #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+  position: fixed;
+  left: 0;
+  top: 0;
+  overflow-y: auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 4px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* ============================================
+   SIDEBAR HEADER
+   ============================================ */
+.sidebar-header {
+  padding: 24px 20px;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  text-align: center;
+  border-bottom: 3px solid #1d4ed8;
+}
+
+.sidebar-header h4 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================
+   NAVIGATION
+   ============================================ */
+.navigation {
+  flex: 1;
+  padding: 20px 0;
+  overflow-y: auto;
+}
+
+.nav-parent {
+  margin-bottom: 8px;
+  transition: all 0.3s ease;
+}
+
+.nav-parent-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  color: #cbd5e1;
+  background: transparent;
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+}
+
+.nav-parent-title:hover {
+  background: rgba(59, 130, 246, 0.1);
+  color: #60a5fa;
+  border-left-color: #3b82f6;
+  padding-left: 24px;
+}
+
+.nav-parent-title span:first-child {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Arrow icon */
+.arrow {
+  font-size: 12px;
+  transition: transform 0.3s ease;
+  color: #94a3b8;
+}
+
+.arrow.open {
+  transform: rotate(180deg);
+  color: #60a5fa;
+}
+
+/* Nav Children */
+.nav-children {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.4s ease;
+  background: rgba(15, 23, 42, 0.5);
+}
+
+.nav-children.open {
+  max-height: 500px;
+  padding: 8px 0;
+  border-left: 2px solid #3b82f6;
+  margin-left: 20px;
+}
+
+.nav-child-item {
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+.nav-child-item a {
+  display: block;
+  padding: 12px 20px 12px 40px;
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.nav-child-item a::before {
+  content: "•";
+  position: absolute;
+  left: 24px;
+  color: #3b82f6;
+  font-size: 18px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.nav-child-item a:hover {
+  color: #ffffff;
+  background: rgba(59, 130, 246, 0.15);
+  padding-left: 44px;
+}
+
+.nav-child-item a:hover::before {
+  opacity: 1;
+}
+
+/* ============================================
+   USER SECTION
+   ============================================ */
+.user-section {
+  padding: 20px;
+  border-top: 1px solid #334155;
+  background: rgba(15, 23, 42, 0.5);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.user-info:hover {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: #3b82f6;
+  transform: translateY(-2px);
+}
+
+.user-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 3px solid #3b82f6;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.user-info:hover .user-avatar {
+  border-color: #60a5fa;
+  box-shadow: 0 6px 12px rgba(59, 130, 246, 0.4);
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 15px;
+  color: #e2e8f0;
+}
+
+/* ============================================
+   LOGOUT BUTTON
+   ============================================ */
+.sidebar button {
+  margin: 16px 20px 20px;
+  width: calc(100% - 40px);
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sidebar button:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+}
+
+.sidebar button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  
+  .sidebar-header h4 {
+    font-size: 24px;
+  }
+  
+  .nav-parent-title {
+    font-size: 14px;
+  }
+  
+  .nav-child-item a {
+    font-size: 13px;
+  }
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.nav-parent {
+  animation: slideIn 0.3s ease forwards;
+}
+
+.nav-parent:nth-child(1) { animation-delay: 0.1s; }
+.nav-parent:nth-child(2) { animation-delay: 0.2s; }
+.nav-parent:nth-child(3) { animation-delay: 0.3s; }
+
+/* ============================================
+   DARK MODE ENHANCEMENTS
+   ============================================ */
+.sidebar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.sidebar > * {
+  position: relative;
+  z-index: 1;
+}

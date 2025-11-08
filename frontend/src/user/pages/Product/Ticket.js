@@ -202,7 +202,6 @@ export default function Ticket() {
                           </div>
                         </div>
                         <div className="ticket-actions">
-                          <button className="select-btn-details">Xem chi tiết</button>
                           <button className="select-btn-buy">Chọn</button>
                         </div>
                       </div>

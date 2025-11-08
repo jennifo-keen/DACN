@@ -118,11 +118,6 @@ export default function Header() {
               Đặt vé
             </Link>
 
-            <div className="hd-lang">
-              <img src="https://flagcdn.com/w20/vn.png" alt="VI" />
-              <span>VI</span>
-            </div>
-
             {!user ? (
               <Link className="btn-outline" to="/login">
                 Đăng nhập
