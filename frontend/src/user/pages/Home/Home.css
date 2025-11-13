@@ -11,7 +11,7 @@
 .home {
   background: var(--color-bg);
   color: var(--color-text);
-  font-family: "Inter", sans-serif;
+  font-family: "Roboto", sans-serif;
   position: relative; /* Đảm bảo .home là context cho z-index */
 }
 
@@ -568,11 +568,11 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 }
 .dest__name {
   font-family: "Momo";
-  letter-spacing: 1px;
+  letter-spacing: 2px;
   font-size: 20px;
   font-weight: 800;
   margin: 6px 0 2px;
-  color: #fff;
+  color: #4b3e3e;
 }
 .dest__sub {
   color: #9fb0c6;

@@ -372,59 +372,6 @@ export default function Home() {
           ))}
         </div>
       </section>
-      <section class="pricing" id="pricing">
-        <div class="pricing__header">
-          <button class="pricing__badge">🎟️ Bảng giá ưu đãi</button>
-          <h2>Chọn vé phù hợp với <span>Nhu cầu của bạn</span></h2>
-          <p>Từ vé cơ bản đến gói VIP, FunWork mang đến nhiều lựa chọn để bạn tận hưởng trọn vẹn ngày vui!</p>
-        </div>
-
-        <div class="pricing__grid">
-          {/* <!-- Vé cơ bản --> */}
-          <div class="pricing__card basic">
-            <h3>Vé Cơ Bản</h3>
-            <p class="price">350.000đ <span>/ 1 ngày</span></p>
-            <ul>
-              <li>✅ Tất cả trò chơi khu Gia Đình</li>
-              <li>✅ Khu Mạo Hiểm</li>
-              <li>✅ Bãi đậu xe miễn phí</li>
-              <li>✅ Wi-Fi toàn khu</li>
-              <li>✅ Bản đồ & hướng dẫn</li>
-            </ul>
-            <button class="btn choose">Chọn gói này</button>
-          </div>
-
-          {/* <!-- Vé Premium --> */}
-          <div class="pricing__card premium">
-            <div class="tag">Phổ biến nhất</div>
-            <h3>Vé Premium</h3>
-            <p class="price">450.000đ <span class="old">500.000đ</span> <span>/ 1 ngày</span></p>
-            <ul>
-              <li>✅ Tất cả ưu đãi của Vé Cơ Bản</li>
-              <li>✅ Miễn phí công viên nước</li>
-              <li>✅ Fast Track – ưu tiên trò chơi</li>
-              <li>✅ Voucher đồ uống 100k</li>
-              <li>✅ Quà lưu niệm FunWork</li>
-            </ul>
-            <button class="btn choose">Chọn gói này</button>
-          </div>
-{/* 
-          <!-- Combo Gia đình --> */}
-          <div class="pricing__card family">
-            <h3>Combo Gia Đình</h3>
-            <p class="price">1.200.000đ <span class="old">1.400.000đ</span> <span>/ 1 ngày</span></p>
-            <ul>
-              <li>✅ 4 vé Premium (2 người lớn + 2 trẻ em)</li>
-              <li>✅ Bữa trưa miễn phí cho 4 người</li>
-              <li>✅ Ảnh gia đình lưu niệm</li>
-              <li>✅ Xe đưa đón tại cổng</li>
-              <li>✅ Bảo hiểm du lịch</li>
-            </ul>
-            <button class="btn choose">Chọn gói này</button>
-          </div>
-        </div>
-      </section>
-
     </div>
   );
 }
