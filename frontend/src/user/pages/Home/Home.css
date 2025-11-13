@@ -166,6 +166,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   border-radius: 48px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   width: min(1000px, calc(100% - 32px));
+  margin-top: -40px;
 }
 
 .calendar-popup {
@@ -230,6 +231,8 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   cursor: pointer;
   align-items: center;
   gap: 10px;
+  width: 150px;
+  height: 60px;
   padding: 12px 16px;
   border-radius: 32px;
   background: var(--color-neutral-light);
@@ -263,13 +266,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   left: 50%;
   transform: translateX(-50%);
   z-index: 9999;
-  background: linear-gradient(135deg, 
-    #FFE7C2 0%,        /* cam pastel nhạt */
-    #FFF8E7 25%,       /* nền chính */
-    #E0F5FF 50%,       /* xanh pastel */
-    #FFF8E7 75%,       
-    #CDEFFF 100%       /* xanh pastel sáng */
-  );
+  background: white;
   width: min(1300px, calc(100% - 32px));
   border-radius: 18px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -554,12 +551,11 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   align-items: center;
 }
 .dest__pic {
-  width: min(340px, 90%);    /* <= 90% chiều rộng của .dest__item, tối đa 340px */
+  width: min(340px, 90%);    
   aspect-ratio: 1/1;
   margin: 0 auto 14px;
   border-radius: 999px;
   overflow: hidden;
-  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.2);
 }
 .dest__pic img {
   width: 100%;

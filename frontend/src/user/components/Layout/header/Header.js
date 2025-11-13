@@ -67,7 +67,7 @@ export default function Header() {
         <div className="hd-container">
           <div className="hd-left">
             <Link to="/" className="hd-logo">
-              <img src="/logo.png" alt="Logo" />
+              <img src="/logo.svg" alt="Logo" />
             </Link>
 
             <nav className="hd-nav">
@@ -124,10 +124,6 @@ export default function Header() {
               </Link>
             ) : (
               <div className="hd-auth">
-                <button className="hd-cart" aria-label="Giỏ hàng">
-                  <span className="hd-cartIcon">🛒</span>
-                  <span className="hd-badge">99+</span>
-                </button>
 
                 <div className="hd-user">
                   <span className="hd-userIcon">👤</span>

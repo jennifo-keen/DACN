@@ -211,7 +211,7 @@ export default function Home() {
       {/* SEARCH BAR */}
       <div className="searchCard" id="book">
         <div className="searchField" onClick={toggleResults}>
-          <span className="ic">📍</span>
+            <img src="/icons/local.svg" alt="Location Icon" />
           <div className="des">
             <span className="select">
               {selectedBranch
@@ -229,7 +229,7 @@ export default function Home() {
             setIsResultsVisible(false);
           }}
         >
-          <span className="ic">📅</span>
+            <img src="/icons/date.svg" alt="Location Icon" />
           <div className="des">
             <span className="select">
               {selectedDate ? selectedDate.toLocaleDateString("vi-VN") : "Chọn ngày"}
