@@ -12,6 +12,7 @@ import authRoutes from "./routes/auth.routes.js";
 import provinceRouter from "./routes/provinceRouter.js";
 import ticketTypeRouter from "./routes/ticketTypeRouter.js"
 import zoneRouter from "./routes/zoneRouter.js"
+import bookingRouter from "./routes/bookingRouter.js"
 
 import adminRouter from './routes/adminRouter.js'
 
@@ -67,8 +68,9 @@ app.use("/api", branchRoutes);
 app.use("/api/admin", uploadRoutes);
 app.use("/auth", authRoutes);
 app.use("/api", provinceRouter); 
-app.use("/api", ticketTypeRouter)
-app.use("/api", zoneRouter)
+app.use("/api", ticketTypeRouter);
+app.use("/api", zoneRouter);
+app.use("/api", bookingRouter);
 
 app.use("/api", adminRouter);
 

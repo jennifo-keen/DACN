@@ -11,7 +11,7 @@ const ticketTypeSchema = new mongoose.Schema(
     description_ticket: { type: String, required: true },
     priceAdult: { type: Number, required: true, min: 0 },
     priceChild: { type: Number, required: true, min: 0 },
-    includedZones: [{ type: mongoose.Schema.Types.ObjectId, ref: "Zone" }],
+    includedZones: [{ type: mongoose.Schema.Types.ObjectId, ref: "zones" }],
     image_tktypes: [{ type: String }], 
     status: { type: String, default: "hoạt động" },
   },

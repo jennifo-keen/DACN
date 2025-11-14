@@ -18,51 +18,92 @@ export default function Header() {
     superadmin: [
       {
         parent: "Quản lý quản trị viên",
-        children: ["Danh sách quản trị viên", "Thêm quản trị viên", "Phân quyền"],
+        children: [
+          { name: "Danh sách quản trị viên", link: "/admin/list" },
+          { name: "Thêm quản trị viên", link: "/admin/admins/add" },
+          { name: "Phân quyền", link: "/admin/admins/permission" },
+        ],
+      },
+      {
+        parent: "Quản lý chi nhánh",
+        children: [
+          { name: "Danh sách chi nhánh", link: "/admin/users/list" },
+          { name: "Tạo chi nhánh mới", link: "/admin/branches" },
+          { name: "Báo cáo", link: "/admin/users/report" },
+        ],
       },
       {
         parent: "Quản lý người dùng",
-        children: ["Danh sách người dùng", "Người dùng mới", "Báo cáo"],
+        children: [
+          { name: "Danh sách người dùng", link: "/admin/users/list" },
+          { name: "Người dùng mới", link: "/admin/users/add" },
+          { name: "Báo cáo", link: "/admin/users/report" },
+        ],
       },
       {
         parent: "Quản lý vé",
-        children: ["Cấu hình chung", "Bảo mật", "Sao lưu dữ liệu"],
+        children: [
+          { name: "Cấu hình chung", link: "/admin/tickets/config" },
+          { name: "Bảo mật", link: "/admin/tickets/security" },
+          { name: "Sao lưu dữ liệu", link: "/admin/tickets/backup" },
+        ],
       },
       {
         parent: "Quản lý thanh toán",
-        children: ["Cấu hình chung", "Bảo mật", "Sao lưu dữ liệu"],
+        children: [
+          { name: "Cấu hình chung", link: "/admin/payments/config" },
+          { name: "Bảo mật", link: "/admin/payments/security" },
+          { name: "Sao lưu dữ liệu", link: "/admin/payments/backup" },
+        ],
       },
       {
         parent: "Quản lý vé điện tử",
-        children: ["Cấu hình chung", "Bảo mật", "Sao lưu dữ liệu"],
+        children: [
+          { name: "Cấu hình chung", link: "/admin/eticket/config" },
+          { name: "Bảo mật", link: "/admin/eticket/security" },
+          { name: "Sao lưu dữ liệu", link: "/admin/eticket/backup" },
+        ],
       },
       {
         parent: "Quản lý khuyến mãi",
-        children: ["Cấu hình chung", "Bảo mật", "Sao lưu dữ liệu"],
+        children: [
+          { name: "Cấu hình chung", link: "/admin/promo/config" },
+          { name: "Bảo mật", link: "/admin/promo/security" },
+          { name: "Sao lưu dữ liệu", link: "/admin/promo/backup" },
+        ],
       },
       {
         parent: "Thống kê và báo cáo",
-        children: ["Cấu hình chung", "Bảo mật", "Sao lưu dữ liệu"],
-      },
-      {
-        parent: "Quản lý khuyến mãi",
-        children: ["Cấu hình chung", "Bảo mật", "Sao lưu dữ liệu"],
+        children: [
+          { name: "Thống kê", link: "/admin/statistic" },
+          { name: "Báo cáo", link: "/admin/report" },
+        ],
       },
     ],
+
     admin: [
       {
         parent: "Quản lý người dùng",
-        children: ["Danh sách người dùng", "Người dùng mới"],
+        children: [
+          { name: "Danh sách người dùng", link: "/admin/users/list" },
+          { name: "Người dùng mới", link: "/admin/users/add" },
+        ],
       },
       {
         parent: "Báo cáo & thống kê",
-        children: ["Doanh thu", "Người dùng hoạt động"],
+        children: [
+          { name: "Doanh thu", link: "/admin/report/revenue" },
+          { name: "Người dùng hoạt động", link: "/admin/report/active-users" },
+        ],
       },
     ],
+
     staff: [
       {
         parent: "Người dùng",
-        children: ["Danh sách người dùng"],
+        children: [
+          { name: "Danh sách người dùng", link: "/admin/users/list" },
+        ],
       },
     ],
   };
@@ -90,7 +131,7 @@ export default function Header() {
             <ul className={`nav-children ${openNav === index ? "open" : ""}`}>
               {item.children.map((child, childIndex) => (
                 <li key={childIndex} className="nav-child-item">
-                  <a href="#">{child}</a>
+                  <Link to={child.link}>{child.name}</Link>
                 </li>
               ))}
             </ul>

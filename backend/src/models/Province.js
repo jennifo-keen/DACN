@@ -2,14 +2,14 @@ import mongoose from "mongoose";
 
 const ProvinceSchema = new mongoose.Schema(
   {
-    provinceName: { type: String, required: true }, // Tên tỉnh thành
-    description: { type: String, default: "" }, // Mô tả tỉnh
+    provinceName: { type: String, required: true },
+    description: { type: String, default: "" }, 
     image_province: {
-      type: [String], // Mảng đường dẫn ảnh (Cloudinary, local...)
-      default: [],    // Mặc định rỗng
+      type: [String], 
+      default: [],  
     },
   },
-  { timestamps: true } // Tự động tạo createdAt, updatedAt
+  { timestamps: true } 
 );
 
 export const Province = mongoose.model("provinces", ProvinceSchema);
