@@ -7,6 +7,7 @@ import About from "../user/pages/About";
 import Login from "../user/pages/Login/Login"
 import Ticket from "../user/pages/Product/Ticket";
 import Destination from "../user/pages/Destination/Destination"
+import Profile from "../user/pages/Profile/Profile";
 // Admin
 
 export function UserRoutes() {
@@ -17,6 +18,7 @@ export function UserRoutes() {
       <Route path="about" element={<About />} />
       <Route path="/search" element={<Ticket />} />
       <Route path="/dest" element={<Destination />} />
+      <Route path="/profile" element={<Profile />} />
     </Route>
     <Route path="login" element={<Login />} />
     </>
