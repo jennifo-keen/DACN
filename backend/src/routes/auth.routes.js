@@ -42,6 +42,59 @@ router.post("/login-plain", async (req, res) => {
       name: user.name,
       role: user.role,
       status: user.status,
+      phone: user.phone,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 📌 CẬP NHẬT THÔNG TIN USER
+router.put("/update-profile/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { name, email, phone } = req.body;
+
+    if (!name || !email || !phone) {
+      return res.status(400).json({ error: "Thiếu thông tin bắt buộc" });
+    }
+
+    if (!phone.match(/^0\d{9}$/)) {
+      return res.status(400).json({ error: "Số điện thoại không hợp lệ (phải có 10 chữ số, bắt đầu bằng 0)" });
+    }
+
+    const existingUser = await User.findOne({ 
+      email: email.toLowerCase(), 
+      _id: { $ne: userId } 
+    });
+    
+    if (existingUser) {
+      return res.status(400).json({ error: "Email đã được sử dụng bởi tài khoản khác" });
+    }
+
+    // Cập nhật user
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { 
+        name: name.trim(),
+        email: email.toLowerCase().trim(),
+        phone: phone.trim()
+      },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: "Không tìm thấy người dùng" });
+    }
+
+    // Trả về thông tin đã cập nhật
+    res.json({
+      _id: updatedUser._id,
+      email: updatedUser.email,
+      name: updatedUser.name,
+      phone: updatedUser.phone,
+      role: updatedUser.role,
+      status: updatedUser.status,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });

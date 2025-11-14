@@ -8,6 +8,7 @@ import Login from "../user/pages/Login/Login"
 import Ticket from "../user/pages/Product/Ticket";
 import TicketDetail from "../user/pages/ProductDetail/TicketDetail";
 import Destination from "../user/pages/Destination/Destination"
+import Profile from "../user/pages/Profile/Profile";
 // Admin
 
 export function UserRoutes() {
@@ -19,6 +20,7 @@ export function UserRoutes() {
       <Route path="/search" element={<Ticket />} />
       <Route path="search/:ticketId" element={<TicketDetail />} />
       <Route path="/dest" element={<Destination />} />
+      <Route path="/profile" element={<Profile />} />
     </Route>
     <Route path="login" element={<Login />} />
     </>

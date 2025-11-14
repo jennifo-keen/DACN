@@ -72,7 +72,7 @@ export default function Admin() {
     };
 
     const handleAddNew = () => {
-        navigate("/admin/add"); // Điều hướng đến trang thêm admin mới
+        navigate("/admin/add"); 
     };
 
     return (
@@ -80,15 +80,9 @@ export default function Admin() {
             <div className="admin-header">
                 <h1>Quản Lý Admin</h1>
                 <button className="btn-add" onClick={handleAddNew}>
-                    ➕ Thêm Admin Mới
+                    Thêm Admin Mới
                 </button>
             </div>
-
-            {error && (
-                <div className="error-message">
-                    ❌ {error}
-                </div>
-            )}
 
             {loading ? (
                 <div className="loading">
@@ -116,12 +110,12 @@ export default function Admin() {
                                             <td className="username">{admin.admin_login || admin.username}</td>
                                             <td>
                                                 <span className={`role-badge ${admin.role}`}>
-                                                    {admin.role === 'admin' ? '👑 Admin' : '👤 User'}
+                                                    {admin.role === 'admin' ? 'Admin' : 'User'}
                                                 </span>
                                             </td>
                                             <td>
                                                 <span className={`status-badge ${admin.status || 'active'}`}>
-                                                    {admin.status === 'active' ? '✅ Hoạt động' : '🔒 Khóa'}
+                                                    {admin.status === 'active' ? 'Hoạt động' : 'Khóa'}
                                                 </span>
                                             </td>
                                             <td className="actions">
@@ -129,13 +123,13 @@ export default function Admin() {
                                                     className="btn-detail"
                                                     onClick={() => handleViewDetail(admin)}
                                                 >
-                                                    👁️ Xem
+                                                    Xem chi tiết
                                                 </button>
                                                 <button 
                                                     className="btn-delete"
                                                     onClick={() => handleDelete(admin._id, admin.admin_login || admin.username)}
                                                 >
-                                                    🗑️ Xóa
+                                                    Xóa
                                                 </button>
                                             </td>
                                         </tr>
@@ -157,7 +151,6 @@ export default function Admin() {
                 </>
             )}
 
-            {/* Modal chi tiết */}
             {showModal && selectedAdmin && (
                 <div className="modal-overlay" onClick={() => setShowModal(false)}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -203,7 +196,7 @@ export default function Admin() {
                             </div>
                         </div>
                         <div className="modal-footer">
-                            <button className="btn-edit">✏️ Chỉnh sửa</button>
+                            <button className="btn-edit">Chỉnh sửa</button>
                             <button className="btn-cancel" onClick={() => setShowModal(false)}>
                                 Đóng
                             </button>
