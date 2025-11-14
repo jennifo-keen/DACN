@@ -10,7 +10,7 @@ import "./Home.css";
 const slides = [
   {
     img: "/hero/slide1.jpg",
-    title: "AQUAFIELD OCEAN CITY - TỔ HỢP SPA XÔNG HƠI CAO CẤP BẬC NHẤT VIỆT NAM",
+    title: "AQUAFIELD OCEAN CITY",
     sub: "Mừng khai trương ưu đãi tới 30%!",
     desc: "Ốc đảo thư giãn chuẩn Hàn giữa lòng phố thị với không gian xông hơi tương - ẩm - lạnh, phòng đá muối Himalaya, phòng tuyết…",
     cta: "Khám phá ngay",
@@ -211,7 +211,7 @@ export default function Home() {
       {/* SEARCH BAR */}
       <div className="searchCard" id="book">
         <div className="searchField" onClick={toggleResults}>
-          <span className="ic">📍</span>
+            <img src="/icons/local.svg" alt="Location Icon" />
           <div className="des">
             <span className="select">
               {selectedBranch
@@ -229,7 +229,7 @@ export default function Home() {
             setIsResultsVisible(false);
           }}
         >
-          <span className="ic">📅</span>
+            <img src="/icons/date.svg" alt="Location Icon" />
           <div className="des">
             <span className="select">
               {selectedDate ? selectedDate.toLocaleDateString("vi-VN") : "Chọn ngày"}
@@ -342,7 +342,7 @@ export default function Home() {
               {destinations.map((d, i) => (
                 <div className="dest__item" key={i}>
                   <div className="dest__pic">
-                    <img src={d.image || "/dest/default.jpg"} alt={d.name} />
+                    <img src={d.image} alt={d.name} />
                   </div>
                   <h3 className="dest__name">{d.name}</h3>
                   <p className="dest__sub">{d.sub}</p>

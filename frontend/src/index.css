@@ -2,9 +2,24 @@ html, body, #root {
   margin: 0;
   padding: 0;
   height: 100%;
-  background-color: #0e1b2a;
+
 }
 
 * {
   box-sizing: border-box;
+}
+
+@font-face {
+  font-family: 'Momo'; /* Tên bạn đặt */
+  src: url('./assets/fonts/MomoTrustDisplay-Regular.ttf') format('truetype'); 
+
+  font-weight: 400; 
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Monstera'; /* Tên bạn đặt */
+  src: url('./assets/fonts/Montserrat-Regular.ttf') format('truetype'); 
+
+  font-weight: 400; 
+  font-style: normal;
 }

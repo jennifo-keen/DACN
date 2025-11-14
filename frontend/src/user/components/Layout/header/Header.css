@@ -28,7 +28,7 @@
 }
 
 .hd-logo img {
-  height: 36px;
+  height: 70px;
   width: auto;
 }
 
@@ -415,24 +415,18 @@
 .hd-dest-dropdown {
   position: absolute;
   top: 41.5px;
-  left: 50%;
+  left: 160%;
   width: 1536px;
   transform: translateX(-28.11%);
   height:300px;
-  background: linear-gradient(135deg, 
-    #e0f7fa 0%,      /* Xanh nhạt */
-    #fff 25%,         /* Trắng */
-    #fce4ec 50%,      /* Hồng nhạt */
-    #fff 75%,         /* Trắng */
-    #b2ebf2 100%      /* Xanh pastel */
-  );
+  background: white;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 16px;
   display: flex;
   justify-content: space-between;
-  z-index: 100000;
+  z-index: 50;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.2s ease, visibility 0s linear 0.2s;
@@ -522,7 +516,7 @@
     padding: 0 16px;
   }
   .hd-logo img {
-    height: 32px;
+    height: 70px;
   }
   .hd-right {
     gap: 10px;
