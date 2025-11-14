@@ -203,7 +203,7 @@ export default function Ticket() {
                         </div>
                         <div className="ticket-actions" style={{marginLeft: '400px'}}>
                           <button className="select-btn-buy" onClick={() => {
-                              const currentParams = window.location.search; // giữ query params
+                              const currentParams = window.location.search; 
                               navigate(`/search/${ticket._id}${currentParams}`, { state });
                             }}
                           >Chi tiết vé</button>

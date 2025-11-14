@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./TicketDetail.css";
 import Loading from "../../components/Layout/loading";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 export default function TicketDetailPage() {
     const [ticketDetail, setTicketDetail] = useState([])
@@ -10,7 +10,7 @@ export default function TicketDetailPage() {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     const params = new URLSearchParams(window.location.search);
-    const id_ticket = params.get("ticket");
+    const id_ticket = useParams();
 
     useEffect (() => {
         const getTicketDetail = async () => {
@@ -19,7 +19,7 @@ export default function TicketDetailPage() {
                 if (!id_ticket) {
                     alert("Không tìm thấy id vé")
                 }
-                const response = await fetch(`http://localhost:4000/api/ticketDetail/${id_ticket}`, {
+                const response = await fetch(`http://localhost:4000/api/ticketDetail/${id_ticket.ticketId}`, {
                     method: 'GET',
                     headers: {
                         'Content-type': 'application/json'
