@@ -24,7 +24,7 @@ router.post("/admin/login", async (req, res) => {
         admin_login: admin.admin_login,
         role: admin.role,
       },
-      process.env.JWT_SECRET || "your-secret-key",
+      "vinwonder",
       { expiresIn: "7h" }
     );
 
@@ -92,7 +92,7 @@ export const verifyToken = (req, res, next) => {
   if (!token) return res.status(401).json({ error: "Không có token" });
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || "your-secret-key");
+    const decoded = jwt.verify(token, "vinwonder");
     req.user = decoded;
     next();
   } catch (err) {

@@ -1,0 +1,285 @@
+/* Reset & Base */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #f9fafb;
+  color: #1f2937;
+}
+
+/* Layout */
+.ticket-detail-page {
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Header */
+.page-header {
+  background-color: white;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.page-header .container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-size: 0.875rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.back-btn:hover {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.page-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0;
+  flex: 1;
+}
+
+/* Main Content */
+.page-main {
+  padding: 2rem 0;
+}
+
+.ticket-detail-content {
+  background-color: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.ticket-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 1.5rem;
+  line-height: 1.4;
+}
+
+/* Carousel */
+.ticket-carousel {
+  position: relative;
+  margin-bottom: 2rem;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-image {
+  width: 100%;
+  height: 24rem;
+  object-fit: cover;
+  display: block;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s;
+}
+
+.carousel-btn:hover {
+  background-color: white;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.prev { left: 1rem; }
+.next { right: 1rem; }
+
+.carousel-indicators {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5rem;
+}
+
+.indicator {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.indicator.active {
+  background-color: white;
+  width: 1.5rem;
+  border-radius: 9999px;
+}
+
+/* Sections */
+.section {
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 3rem;
+  height: 3px;
+  background-color: #f97316;
+  border-radius: 2px;
+}
+
+/* Lists */
+.includes-list,
+.activities-list,
+.terms-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+}
+
+.list-item,
+.activity-item,
+.term-item {
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+  color: #374151;
+  line-height: 1.6;
+}
+
+.bullet {
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+  font-weight: bold;
+}
+
+.bullet.green { color: #16a34a; }
+.bullet.red { color: #dc2626; }
+.bullet.small { font-size: 0.875rem; color: #6b7280; }
+
+.description,
+.schedule,
+.activities-title {
+  margin: 1rem 0;
+  color: #374151;
+  line-height: 1.6;
+}
+
+.activities-title {
+  font-weight: 600;
+  margin-top: 1.5rem;
+}
+
+.schedule {
+  font-weight: 500;
+}
+
+/* Price & Action */
+.price-action {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.price-info {
+  flex: 1;
+}
+
+.price-main {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.price-highlight {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #ea580c;
+}
+
+.price-details {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  margin-top: 0.25rem;
+}
+
+.select-btn {
+  background-color: #f97316;
+  color: white;
+  padding: 0.875rem 2.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.select-btn:hover {
+  background-color: #ea580c;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .page-main { padding: 1rem 0; }
+  .ticket-detail-content { padding: 1.5rem; }
+  .carousel-image { height: 16rem; }
+  .ticket-title { font-size: 1.25rem; }
+  .price-action { flex-direction: column; align-items: stretch; }
+  .select-btn { width: 100%; }
+}
+
+@media (max-width: 480px) {
+  .carousel-btn { width: 2.5rem; height: 2.5rem; }
+  .price-highlight { font-size: 1.5rem; }
+}

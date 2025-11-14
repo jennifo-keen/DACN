@@ -201,6 +201,13 @@ export default function Ticket() {
                             <span className="price-amount">{ticket.priceChild?.toLocaleString('vi-VN')} VNĐ</span>
                           </div>
                         </div>
+                        <div className="ticket-actions" style={{marginLeft: '400px'}}>
+                          <button className="select-btn-buy" onClick={() => {
+                              const currentParams = window.location.search; // giữ query params
+                              navigate(`/search/${ticket._id}${currentParams}`, { state });
+                            }}
+                          >Chi tiết vé</button>
+                        </div>
                         <div className="ticket-actions">
                           <button className="select-btn-buy">Chọn</button>
                         </div>

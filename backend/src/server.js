@@ -11,6 +11,7 @@ import uploadRoutes from "./routes/upload.route.js";
 import authRoutes from "./routes/auth.routes.js";
 import provinceRouter from "./routes/provinceRouter.js";
 import ticketTypeRouter from "./routes/ticketTypeRouter.js"
+import zoneRouter from "./routes/zoneRouter.js"
 
 import adminRouter from './routes/adminRouter.js'
 
@@ -67,6 +68,7 @@ app.use("/api/admin", uploadRoutes);
 app.use("/auth", authRoutes);
 app.use("/api", provinceRouter); 
 app.use("/api", ticketTypeRouter)
+app.use("/api", zoneRouter)
 
 app.use("/api", adminRouter);
 
