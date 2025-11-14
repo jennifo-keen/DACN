@@ -19,9 +19,8 @@ export default function Header() {
       {
         parent: "Quản lý quản trị viên",
         children: [
-          { name: "Danh sách quản trị viên", link: "/admin/list" },
-          { name: "Thêm quản trị viên", link: "/admin/admins/add" },
-          { name: "Phân quyền", link: "/admin/admins/permission" },
+          { name: "Danh sách quản trị viên", link: "/admin/admin" },
+          { name: "Thêm quản trị viên", link: "/admin/admin/add" },
         ],
       },
       {
@@ -73,9 +72,8 @@ export default function Header() {
         ],
       },
       {
-        parent: "Thống kê và báo cáo",
+        parent: "Báo cáo doanh thu",
         children: [
-          { name: "Thống kê", link: "/admin/statistic" },
           { name: "Báo cáo", link: "/admin/report" },
         ],
       },

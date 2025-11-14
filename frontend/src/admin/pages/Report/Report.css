@@ -4,13 +4,6 @@
   box-sizing: border-box;
 }
 
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  min-height: 100vh;
-  padding: 20px;
-}
-
 .report-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -32,7 +25,6 @@ body {
   font-weight: 700;
 }
 
-/* Bộ lọc */
 .filters {
   display: flex;
   gap: 20px;
@@ -82,7 +74,6 @@ body {
   box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
 }
 
-/* Thông báo */
 .report-container p {
   text-align: center;
   padding: 15px;
@@ -97,7 +88,6 @@ body {
   border: 2px solid #fcc;
 }
 
-/* Summary box */
 .summary-box {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
@@ -140,7 +130,6 @@ body {
   z-index: 1;
 }
 
-/* Bảng dữ liệu */
 .report-table {
   width: 100%;
   border-collapse: separate;
@@ -211,7 +200,6 @@ body {
   color: #11998e;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .report-container {
     padding: 20px;
@@ -231,8 +219,9 @@ body {
     width: 100%;
   }
 
-  .summary-box h3 {
-    font-size: 1.3em;
+  .summary-box {
+    font-size: 14px;
+    height:30px;
   }
 
   .report-table {
@@ -248,7 +237,6 @@ body {
   }
 }
 
-/* Loading animation */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -272,7 +260,6 @@ body {
 .report-table tbody tr:nth-child(5) { animation-delay: 0.3s; }
 .report-table tbody tr:nth-child(n+6) { animation-delay: 0.35s; }
 
-/* Empty state */
 .report-table tbody:empty::after {
   content: 'Không có dữ liệu';
   display: block;
@@ -282,7 +269,6 @@ body {
   font-style: italic;
 }
 
-/* Scrollbar custom */
 .report-table::-webkit-scrollbar {
   height: 8px;
 }
