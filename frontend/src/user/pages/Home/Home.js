@@ -2,15 +2,15 @@ import React, { useEffect, useRef, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { vi } from "date-fns/locale";
-import { useNavigate } from "react-router-dom";
-import Loading from "../../components/Layout/loading.js"
+import { useNavigate, useLocation, useLoaderData } from "react-router-dom";
+import Loading from "../../components/Layout/loading.js";
 
 import "./Home.css";
 
 const slides = [
   {
     img: "/hero/slide1.jpg",
-    title: "AQUAFIELD OCEAN CITY - TỔ HỢP SPA XÔNG HƠI CAO CẤP BẬC NHẤT VIỆT NAM",
+    title: "AQUAFIELD OCEAN CITY",
     sub: "Mừng khai trương ưu đãi tới 30%!",
     desc: "Ốc đảo thư giãn chuẩn Hàn giữa lòng phố thị với không gian xông hơi tương - ẩm - lạnh, phòng đá muối Himalaya, phòng tuyết…",
     cta: "Khám phá ngay",
@@ -43,19 +43,29 @@ export default function Home() {
   const [isResultsVisible, setIsResultsVisible] = useState(false);
   const [selectedBranch, setSelectedBranch] = useState(null);
   const resultsRef = useRef(null);
-  
+
   const [selectedDate, setSelectedDate] = useState(null);
   const [showCalendar, setShowCalendar] = useState(false);
   const calendarRef = useRef(null);
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash === "#book") {
+      const element = document.querySelector(".searchCard");
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+  }, [location]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
         resultsRef.current &&
         !resultsRef.current.contains(event.target) &&
-        !event.target.closest(".searchField") 
+        !event.target.closest(".searchField")
       ) {
         setIsResultsVisible(false);
       }
@@ -72,19 +82,20 @@ export default function Home() {
     setShowCalendar(false);
   };
 
-
+  // ===== FETCH DATA DESTINATIONS =====
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch("http://localhost:4000/api/provincesBranches");
         const data = await response.json();
-        
+
         const formattedDestinations = data.map((province) => ({
           name: province.provinceName,
-          sub: province.branches.length > 0 ? province.branches[0].description : "Khám phá điểm đến",
           branches: province.branches,
-          image: province.branches.length > 0 ? province.branches[0].image_branch : "/dest/default.jpg",
+          image: province.image,
         }));
+
+
         setDestinations(formattedDestinations);
       } catch (error) {
         console.error("Lỗi khi lấy dữ liệu:", error);
@@ -135,7 +146,7 @@ export default function Home() {
   const prevPage = () => setIPage((p) => Math.max(p - 1, 0));
 
   const handleSearch = (e) => {
-    if (e) e.preventDefault(); 
+    if (e) e.preventDefault();
 
     if (!selectedBranch) {
       alert("Vui lòng chọn chi nhánh!");
@@ -173,11 +184,17 @@ export default function Home() {
           <h1 className="hero__title">{s.title}</h1>
           <p className="hero__sub">{s.sub}</p>
           <p className="hero__desc">{s.desc}</p>
-          <a href={s.link} className="btn btn--ghost">{s.cta}</a>
+          <a href={s.link} className="btn btn--ghost">
+            {s.cta}
+          </a>
         </div>
 
-        <button className="hero__arrow left" onClick={() => go(-1)} aria-label="Prev">‹</button>
-        <button className="hero__arrow right" onClick={() => go(1)} aria-label="Next">›</button>
+        <button className="hero__arrow left" onClick={() => go(-1)} aria-label="Prev">
+          ‹
+        </button>
+        <button className="hero__arrow right" onClick={() => go(1)} aria-label="Next">
+          ›
+        </button>
 
         <div className="hero__dots">
           {slides.map((_, i) => (
@@ -192,12 +209,9 @@ export default function Home() {
       </section>
 
       {/* SEARCH BAR */}
-      <div className="searchCard">
-        <div 
-          className="searchField" 
-          onClick={toggleResults}
-        >
-          <span className="ic">📍</span>
+      <div className="searchCard" id="book">
+        <div className="searchField" onClick={toggleResults}>
+            <img src="/icons/local.svg" alt="Location Icon" />
           <div className="des">
             <span className="select">
               {selectedBranch
@@ -215,24 +229,21 @@ export default function Home() {
             setIsResultsVisible(false);
           }}
         >
-          <span className="ic">📅</span>
+            <img src="/icons/date.svg" alt="Location Icon" />
           <div className="des">
             <span className="select">
-              {selectedDate
-                ? selectedDate.toLocaleDateString("vi-VN")
-                : "Chọn ngày"}
+              {selectedDate ? selectedDate.toLocaleDateString("vi-VN") : "Chọn ngày"}
             </span>
           </div>
         </div>
 
-        {/* Popup lịch */}
         {showCalendar && (
           <div ref={calendarRef} className="calendar-popup">
             <DatePicker
               selected={selectedDate}
               onChange={(date) => {
                 setSelectedDate(date);
-                setShowCalendar(false); 
+                setShowCalendar(false);
               }}
               inline
               dateFormat="dd/MM/yyyy"
@@ -283,7 +294,7 @@ export default function Home() {
         )}
       </div>
 
-      {/* ===== EXPERIENCE GRID ===== */}
+      {/* EXPERIENCE GRID */}
       <section className="experience">
         <h2 className="experience__title">TRẢI NGHIỆM VINWONDERS</h2>
         <div className="experience__grid">
@@ -306,9 +317,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== DESTINATIONS CAROUSEL ===== */}
+      {/* DESTINATIONS CAROUSEL */}
       <section className="dest">
-        <h2 className="dest__title">KHÁM PHÁ CÁC ĐIỂM ĐẾN CỦA VINWONDERS!</h2>
+        <h2 className="dest__title">KHÁM PHÁ CÁC ĐIỂM ĐẾN CỦA FUNWORK!</h2>
 
         <div className="dest__wrap">
           <button
@@ -316,7 +327,9 @@ export default function Home() {
             onClick={prevPage}
             aria-label="Prev"
             disabled={iPage === 0}
-          >‹</button>
+          >
+            ‹
+          </button>
 
           <div className="dest__mask">
             <div
@@ -329,7 +342,7 @@ export default function Home() {
               {destinations.map((d, i) => (
                 <div className="dest__item" key={i}>
                   <div className="dest__pic">
-                    <img src={d.image || "/dest/default.jpg"} alt={d.name} />
+                    <img src={d.image} alt={d.name} />
                   </div>
                   <h3 className="dest__name">{d.name}</h3>
                   <p className="dest__sub">{d.sub}</p>
@@ -343,7 +356,9 @@ export default function Home() {
             onClick={nextPage}
             aria-label="Next"
             disabled={iPage >= totalPages - 1}
-          >›</button>
+          >
+            ›
+          </button>
         </div>
 
         <div className="dest__dots">

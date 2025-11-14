@@ -67,7 +67,7 @@ export default function Header() {
         <div className="hd-container">
           <div className="hd-left">
             <Link to="/" className="hd-logo">
-              <img src="/logo.png" alt="Logo" />
+              <img src="/logo.svg" alt="Logo" />
             </Link>
 
             <nav className="hd-nav">
@@ -118,21 +118,12 @@ export default function Header() {
               Đặt vé
             </Link>
 
-            <div className="hd-lang">
-              <img src="https://flagcdn.com/w20/vn.png" alt="VI" />
-              <span>VI</span>
-            </div>
-
             {!user ? (
               <Link className="btn-outline" to="/login">
                 Đăng nhập
               </Link>
             ) : (
               <div className="hd-auth">
-                <button className="hd-cart" aria-label="Giỏ hàng">
-                  <span className="hd-cartIcon">🛒</span>
-                  <span className="hd-badge">99+</span>
-                </button>
 
                 <div className="hd-user">
                   <span className="hd-userIcon">👤</span>

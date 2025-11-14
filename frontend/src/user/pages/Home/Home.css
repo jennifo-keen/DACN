@@ -1,15 +1,26 @@
+:root {
+  --color-bg: #ffffff;
+  --color-text: #333333;
+  --color-primary: #FF8C00;
+  --color-secondary: #00BFFF;
+  --color-accent: #FFD700;
+  --color-neutral-light: #F4F6F9;
+}
+
+/* ===== GLOBAL ===== */
 .home {
-  background: #0e1b2a;
-  color: #dfe6ef;
-  font-family: "Inter", sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: "Roboto", sans-serif;
   position: relative; /* Đảm bảo .home là context cho z-index */
 }
 
 html, body {
-  overflow-x: hidden; /* Ẩn cuộn ngang */
-  overflow-y: auto; /* Giữ cuộn dọc nếu cần, có thể đổi thành hidden */
-  -ms-overflow-style: none; /* Ẩn trên IE và Edge */
-  scrollbar-width: none; /* Ẩn trên Firefox */
+  overflow-x: hidden;
+  overflow-y: auto; 
+  -ms-overflow-style: none; 
+  scrollbar-width: none; 
+  scroll-behavior: smooth;
 }
 
 /* Ẩn thanh cuộn trên Webkit (Chrome, Safari, Edge) */
@@ -49,17 +60,20 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 }
 .hero__title {
   font-size: clamp(26px, 3.4vw, 46px);
+  font-family: "Momo";
+  letter-spacing: 1.5px;
   font-weight: 800;
   line-height: 1.3;
   text-transform: uppercase;
-  letter-spacing: 1px;
   text-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
 }
 .hero__sub {
+  font-family: "Momo";
+  letter-spacing: 1.5px;
   margin-top: 12px;
   font-weight: 600;
   font-size: 18px;
-  color: #ffd699;
+  color: var(--color-accent);
 }
 .hero__desc {
   margin: 12px auto 22px;
@@ -143,7 +157,6 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 33.5%;
   z-index: 100; 
   background: #fff;
   display: flex;
@@ -153,6 +166,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   border-radius: 48px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   width: min(1000px, calc(100% - 32px));
+  margin-top: -40px;
 }
 
 .calendar-popup {
@@ -160,7 +174,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   top: 85px;
   left: 50%;
   z-index: 100;
-  background: white;
+  background: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   overflow: hidden;
@@ -183,20 +197,18 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   bottom: -4px;
   width: 0;
   height: 2px;
-  background: #ff8c5a;
+  background: var(--color-primary);
   transition: all 0.3s ease;
   transform: translateX(-50%);
 }
 
-
 .branchName:hover {
-  color: #ff8c5a;
+  color: var(--color-primary);
 }
 
 .branchName:hover::after {
   width: 100%;
 }
-
 
 .branch__item {
   margin-left: 30px;
@@ -212,15 +224,18 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   color: black;
   cursor: pointer;
 }
+
 .searchField {
   flex: 1;
   display: flex;
   cursor: pointer;
   align-items: center;
   gap: 10px;
+  width: 150px;
+  height: 60px;
   padding: 12px 16px;
   border-radius: 32px;
-  background: #f4f6f9;
+  background: var(--color-neutral-light);
 }
 .searchField .ic {
   font-size: 18px;
@@ -235,13 +250,13 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   color: #1d2a3b;
 }
 .btn--search {
-  background: #e1591a;
+  background: var(--color-primary);
   color: #fff;
   padding: 14px 26px;
   border-radius: 30px;
 }
 .btn--search:hover {
-  background: #f06f2f;
+  background: #ff9e2a; /* primary sáng hơn chút */
 }
 
 /* RESULT FRAME */
@@ -251,13 +266,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   left: 50%;
   transform: translateX(-50%);
   z-index: 9999;
-  background: linear-gradient(135deg, 
-    #e0f7fa 0%,      /* Xanh nhạt */
-    #fff 25%,         /* Trắng */
-    #fce4ec 50%,      /* Hồng nhạt */
-    #fff 75%,         /* Trắng */
-    #b2ebf2 100%      /* Xanh pastel */
-  );
+  background: white;
   width: min(1300px, calc(100% - 32px));
   border-radius: 18px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -281,7 +290,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 }
 
 .province__name {
-  color: #ff8c5a;
+  color: var(--color-primary);
   font-size:20px;
 }
 
@@ -289,6 +298,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   padding:30px;
   width:300px;
 }
+
 /* ===== EXPERIENCE GRID ===== */
 .experience {
   max-width: 1180px;
@@ -299,17 +309,22 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 }
 
 .experience__title {
+  font-family: "Momo";
   font-size: 26px;
   font-weight: 800;
-  color: #e1591a;
+  color: var(--color-primary);
   margin-bottom: 32px;
-  letter-spacing: 0.5px;
+  letter-spacing: 2px;
 }
 
 .experience__grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 24px;
+}
+.experience__grid img{
+  display: flex;
+  max-height: 100%;
 }
 
 /* CALENDAR */
@@ -397,7 +412,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 }
 
 .calendar-day.selected {
-  background: #e1591a;
+  background: var(--color-primary);
   color: #fff;
   font-weight: 700;
 }
@@ -416,12 +431,14 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 
 /* EXPERIENCE CARDS */
 .experience .expCard {
+  display:flex;
+  justify-content: center;
   position: relative;
   overflow: hidden;
   border-radius: 18px;
   cursor: pointer;
   transition: transform 0.3s, box-shadow 0.3s;
-  height: 600px;
+  height: 500px;
 }
 
 .experience .expCard__label {
@@ -482,7 +499,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 }
 
 .resultsFrame .expCard:hover > div:first-child {
-  color: #e1591a;
+  color: var(--color-primary);
 }
 
 .resultsFrame .expCard:hover {
@@ -493,19 +510,20 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 /* ===== DESTINATIONS CAROUSEL ===== */
 .dest {
   max-width: 1180px;
-  margin: 60px auto 120px;
+  margin: 60px auto 60px;
   padding: 0 16px;
   text-align: center;
   position: relative;
   z-index: 1;
 }
 .dest__title {
+  font-family: "Momo";
   font-size: 26px;
   font-weight: 900;
-  color: #e1591a;
+  color: var(--color-primary);
   text-transform: uppercase;
   margin-bottom: 26px;
-  letter-spacing: 0.4px;
+  letter-spacing: 2px;
 }
 
 .dest__wrap {
@@ -521,7 +539,6 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 }
 .dest__viewport {
   display: flex;
-  gap: 28px;
   transition: transform 0.35s ease;
   will-change: transform;
   justify-content: flex-start;
@@ -529,14 +546,16 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 .dest__item {
   flex: 0 0 calc(100% / var(--per));
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .dest__pic {
-  width: clamp(220px, 26vw, 340px);
+  width: min(340px, 90%);    
   aspect-ratio: 1/1;
   margin: 0 auto 14px;
   border-radius: 999px;
   overflow: hidden;
-  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.2);
 }
 .dest__pic img {
   width: 100%;
@@ -544,10 +563,12 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   object-fit: cover;
 }
 .dest__name {
+  font-family: "Momo";
+  letter-spacing: 2px;
   font-size: 20px;
   font-weight: 800;
   margin: 6px 0 2px;
-  color: #fff;
+  color: #4b3e3e;
 }
 .dest__sub {
   color: #9fb0c6;
@@ -591,7 +612,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 }
 .dest__dots .dot.is-active {
   width: 20px;
-  background: #e1591a;
+  background: var(--color-primary);
 }
 
 /* ===== RESPONSIVE ===== */
@@ -600,10 +621,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     min-height: 70vh;
   }
   .dest__pic {
-    width: clamp(200px, 28vw, 300px);
-  }
-  .searchCard {
-    width: min(900px, calc(100% - 32px));
+    width: clamp(100px, 28vw, 200px);
   }
   .experience__grid {
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -676,7 +694,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     font-size: 20px;
   }
   .dest__pic {
-    width: clamp(160px, 50vw, 240px);
+    width: clamp(180px, 50vw, 240px);
   }
   .experience__grid {
     grid-template-columns: 1fr; /* 1 cột trên mobile */
@@ -731,6 +749,148 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   .dest__arrow {
     width: 36px;
     height: 36px;
+    font-size: 24px;
+  }
+}
+/* ===== PRICING SECTION ===== */
+.pricing {
+  background: #ffffff;
+  padding: 100px 16px;
+  text-align: center;
+  font-family: "Inter", sans-serif;
+}
+
+.pricing__header h2 {
+  font-size: 32px;
+  font-weight: 800;
+  color: #333;
+  margin-top: 12px;
+}
+.pricing__header h2 span {
+  color: #00BFFF;
+}
+.pricing__header p {
+  color: #555;
+  max-width: 700px;
+  margin: 8px auto 40px;
+  line-height: 1.6;
+}
+.pricing__badge {
+  background: #FFD700;
+  color: #333;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: default;
+}
+
+/* GRID */
+.pricing__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 28px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.pricing__card {
+  background: #fff;
+  border-radius: 18px;
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+  padding: 32px 24px;
+  position: relative;
+  transition: all 0.25s ease;
+}
+.pricing__card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.pricing__card h3 {
+  font-size: 20px;
+  font-weight: 800;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.pricing__card .price {
+  font-size: 28px;
+  font-weight: 900;
+  color: #FF8C00;
+  margin-bottom: 12px;
+}
+.pricing__card .price .old {
+  font-size: 16px;
+  color: #999;
+  text-decoration: line-through;
+  margin-left: 4px;
+}
+
+.pricing__card ul {
+  text-align: left;
+  margin: 20px 0;
+  line-height: 1.6;
+  color: #444;
+}
+.pricing__card li {
+  margin-bottom: 6px;
+}
+
+/* Gói nổi bật */
+.pricing__card.premium {
+  border-color: #a14cf3;
+  box-shadow: 0 0 0 3px rgba(161, 76, 243, 0.15);
+}
+.pricing__card .tag {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #a14cf3;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 4px 14px;
+  border-radius: 12px;
+}
+
+/* Nút chọn */
+.btn.choose {
+  background: #FF8C00;
+  color: #fff;
+  border: none;
+  padding: 12px 26px;
+  border-radius: 30px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+.btn.choose:hover {
+  background: #ff9f2f;
+}
+
+/* Gói riêng */
+.pricing__card.basic {
+  border-color: #00BFFF;
+}
+.pricing__card.family {
+  border-color: #00c853;
+}
+.pricing__card.family .btn.choose {
+  background: #00c853;
+}
+.pricing__card.family .btn.choose:hover {
+  background: #00e060;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .pricing {
+    padding: 60px 16px;
+  }
+  .pricing__header h2 {
     font-size: 24px;
   }
 }

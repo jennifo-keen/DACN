@@ -6,6 +6,7 @@ import Home from "../user/pages/Home/Home";
 import About from "../user/pages/About";
 import Login from "../user/pages/Login/Login"
 import Ticket from "../user/pages/Product/Ticket";
+import TicketDetail from "../user/pages/ProductDetail/TicketDetail";
 import Destination from "../user/pages/Destination/Destination"
 import Profile from "../user/pages/Profile/Profile";
 // Admin
@@ -17,6 +18,7 @@ export function UserRoutes() {
       <Route index element={<Home />} />
       <Route path="about" element={<About />} />
       <Route path="/search" element={<Ticket />} />
+      <Route path="search/:ticketId" element={<TicketDetail />} />
       <Route path="/dest" element={<Destination />} />
       <Route path="/profile" element={<Profile />} />
     </Route>

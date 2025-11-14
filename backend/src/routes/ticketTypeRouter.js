@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { TicketType } from "../models/TicketType.js";
+import { Zone } from "../models/Zone.js"
 import mongoose from "mongoose";
 
 const router = Router();
@@ -33,5 +34,28 @@ router.get("/ticketType/:id", async (req, res) => {
     });
   }
 });
+
+router.get("/ticketDetail/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      res.status(404).json({ message: "Không có id vé" })
+    }
+
+    const ticketDetail = await TicketType.findOne({_id: id}).populate("includedZones")
+
+    res.status(200).json({
+      success: true,
+      data: ticketDetail,
+      message: "Lấy thành công chi tiết vé"
+    })
+  }
+  catch (e) {
+    res.status(500).json({
+      success: false,
+      message: "Lỗi lấy chi tiết vé",
+    })
+  }
+})
 
 export default router;

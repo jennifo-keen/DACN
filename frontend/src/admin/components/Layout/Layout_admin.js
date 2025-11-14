@@ -1,15 +1,27 @@
-import { Outlet } from "react-router-dom";
-import Header from "./Header_admin";
-import Footer from "./Footer_admin";
+  import { Outlet, Navigate } from "react-router-dom";
+  import Header from "./Header_admin";
+  import { useAuth } from "../../context/Auth";
+  import Loading from "../loading";
+  import './Layout.css'
 
-export default function Layout_admin() {
-  return (
-    <div>
-      <Header />
-      <main>
-        <Outlet />
-      </main>
-      <Footer />
-    </div>
-  );
-}
+  export default function Layout_admin() {
+    const { isLoggedIn, loading } = useAuth();
+
+    if (loading) return <Loading />;
+    if (!isLoggedIn) return <Navigate to="/admin/login" replace />;
+
+    return (
+      <div>
+        <div className="admin-layout">
+          <div className="right-panel">
+            <Header />
+            <main className="content-area">
+              <Outlet />
+            </main>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+

@@ -1,0 +1,18 @@
+.admin-layout {
+  display: flex;
+  min-height: 100vh; /* chiếm toàn màn hình */
+}
+
+.right-panel {
+  flex: 1; /* chiếm phần còn lại */
+  display: flex;
+  flex-direction: column;
+  margin-left: 260px; /* nếu sidebar cố định width 260px */
+}
+
+.content-area {
+  flex: 1; /* chiếm phần còn lại */
+  padding: 20px;
+  background-color: #f5f5f5;
+  overflow-y: auto;
+}
