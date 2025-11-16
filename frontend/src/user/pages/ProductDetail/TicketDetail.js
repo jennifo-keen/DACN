@@ -54,14 +54,45 @@ export default function TicketDetailPage() {
                 <h2 className="ticket-title">{ticketDetail.ticketName}</h2>
 
                 {ticketDetail.image_tktypes && ticketDetail.image_tktypes.length > 0 && (
-                    <div className="ticket-carousel">
-                        <img
-                            src="https://anhdulich.vn/storage/images/vinwonders-phu-quoc/a4-toan-canh.jpg"
-                            alt="Ticket preview"
-                            className="carousel-image"
-                        />
-                    </div>
+                <div className="ticket-carousel">
+                    <img
+                    src={ticketDetail.image_tktypes[currentImageIndex]}
+                    alt={`Ticket ${currentImageIndex + 1}`}
+                    className="carousel-image"
+                    />
+
+                    {/* Nút điều hướng trái/phải */}
+                    {ticketDetail.image_tktypes.length > 1 && (
+                    <>
+                        <button
+                        className="carousel-btn left"
+                        onClick={() =>
+                            setCurrentImageIndex((prev) =>
+                            prev === 0
+                                ? ticketDetail.image_tktypes.length - 1
+                                : prev - 1
+                            )
+                        }
+                        >
+                        ‹
+                        </button>
+                        <button
+                        className="carousel-btn right"
+                        onClick={() =>
+                            setCurrentImageIndex((prev) =>
+                            prev === ticketDetail.image_tktypes.length - 1
+                                ? 0
+                                : prev + 1
+                            )
+                        }
+                        >
+                        ›
+                        </button>
+                    </>
+                    )}
+                </div>
                 )}
+
 
                 <section className="section">
                     <h3 className="section-title">BAO GỒM</h3>

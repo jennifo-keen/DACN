@@ -17,8 +17,8 @@ export function UserRoutes() {
     <Route path="/" element={<Layout />}>
       <Route index element={<Home />} />
       <Route path="about" element={<About />} />
-      <Route path="/search" element={<Ticket />} />
-      <Route path="search/:ticketId" element={<TicketDetail />} />
+      <Route path="/search" element={<Ticket />} /> {/* tìm kiếm vé ở trang chủ */}
+      <Route path="search/:ticketId" element={<TicketDetail />} /> 
       <Route path="/dest" element={<Destination />} />
       <Route path="/profile" element={<Profile />} />
     </Route>

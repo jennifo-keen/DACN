@@ -88,7 +88,7 @@ const TicketTypeList = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
               className="search-input"
             />
-            <button type="submit" className="btn btn-search">
+            <button type="submit" className="btn-timkiem">
               Tìm kiếm
             </button>
             {searchTerm && (

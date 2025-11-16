@@ -2,17 +2,96 @@
   max-width: 1550px;
   margin: 0 auto;
   padding: 20px;
-  background: linear-gradient(135deg, 
-    #e0f7fa 0%,      /* Xanh nhạt */
-    #fff 25%,         /* Trắng */
-    #fce4ec 50%,      /* Hồng nhạt */
-    #fff 75%,         /* Trắng */
-    #b2ebf2 100%      /* Xanh pastel */
+  background: linear-gradient(
+    135deg,
+    #e0f7fa 0%,
+    #fff 25%,
+    #fce4ec 50%,
+    #fff 75%,
+    #b2ebf2 100%
   );
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Header Section */
+/* ===================== GALLERY ===================== */
+
+/* Khi có từ 2 ảnh trở lên */
+.ticketpage__gallery.multi-image {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 12px;
+  margin-bottom: 40px;
+  height: 520px;
+  align-items: stretch;
+}
+
+.gallery-main,
+.gallery-item {
+  border-radius: 18px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.gallery-main img,
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.gallery-side {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 12px;
+}
+
+/* Khi chỉ có 1 ảnh — căn giữa */
+.ticketpage__gallery.single-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+  height: auto;
+  padding-top: 10px;
+}
+
+.ticketpage__gallery.single-image .gallery-main {
+  width: 50%;
+  max-width: 1000px;
+  aspect-ratio: 16 / 9;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+}
+
+.ticketpage__gallery.single-image .gallery-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 18px;
+  display: block;
+}
+
+.ticketpage__gallery.single-image .gallery-main:hover {
+  transform: scale(1.02);
+}
+
+/* Nhẹ nhàng fade-in khi ảnh load */
+.ticketpage__gallery img {
+  opacity: 0;
+  animation: fadeIn 0.6s ease forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* ===================== HEADER ===================== */
 .ticketpage__header {
   margin-bottom: 30px;
 }
@@ -24,58 +103,7 @@
   color: #1a1a1a;
 }
 
-/* Image Gallery */
-.ticketpage__gallery {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 10px;
-  margin-bottom: 30px;
-  height: 500px;
-}
-
-.gallery-main {
-  border-radius: 16px;
-  overflow: hidden;
-  position: relative;
-}
-
-.gallery-main img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.gallery-side {
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  gap: 10px;
-}
-
-.gallery-item {
-  border-radius: 16px;
-  overflow: hidden;
-  position: relative;
-}
-
-.gallery-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.gallery-counter {
-  position: absolute;
-  bottom: 15px;
-  right: 15px;
-  background: rgba(0, 0, 0, 0.6);
-  color: white;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-
-/* Date Selection */
+/* ===================== DATE SELECTOR ===================== */
 .date-selector {
   display: flex;
   gap: 15px;
@@ -105,58 +133,14 @@
   border-color: #ff6b35;
 }
 
-/* Tabs */
-.ticket-tabs {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 30px;
-  border-bottom: 2px solid #e0e0e0;
-  flex-wrap: wrap;
-}
-
-.tab-btn {
-  padding: 12px 24px;
-  background: none;
-  border: none;
-  font-size: 0.95rem;
-  cursor: pointer;
-  position: relative;
-  color: #666;
-  font-weight: 500;
-  transition: color 0.3s ease;
-}
-
-.tab-btn:hover {
-  color: #ff6b35;
-}
-
-.tab-btn.active {
-  color: #ff6b35;
-}
-
-.tab-btn.active::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: #ff6b35;
-}
-
-.tab-btn.hot::before {
-  content: '🔥';
-  margin-right: 5px;
-}
-
-/* Main Content Layout */
+/* ===================== MAIN CONTENT ===================== */
 .ticketpage__content {
   display: grid;
   grid-template-columns: 1fr 400px;
   gap: 30px;
 }
 
-/* Ticket List */
+/* ===================== TICKET LIST ===================== */
 .ticketpage__body {
   display: flex;
   flex-direction: column;
@@ -170,44 +154,7 @@
   font-size: 1.1rem;
 }
 
-/* VIP Banner */
-.vip-banner {
-  background: linear-gradient(135deg, #6b46c1 0%, #9333ea 100%);
-  padding: 20px 30px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  color: white;
-  margin-bottom: 20px;
-}
-
-.vip-badge {
-  background: #fbbf24;
-  color: #6b46c1;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 0.9rem;
-}
-
-.vip-content {
-  flex: 1;
-}
-
-.vip-content h3 {
-  font-size: 1.1rem;
-  margin-bottom: 8px;
-}
-
-.vip-features {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  font-size: 0.9rem;
-}
-
-/* Ticket Card */
+/* ===================== TICKET CARD ===================== */
 .ticket-card {
   background: white;
   border-radius: 16px;
@@ -215,11 +162,6 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
 }
-
-/* .ticket-card:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-  transform: translateY(-2px);
-} */
 
 .ticket-header {
   display: flex;
@@ -259,7 +201,6 @@
   color: #c62828;
 }
 
-/* Ticket Details */
 .ticket-details {
   margin: 15px 0;
 }
@@ -271,15 +212,7 @@
   font-size: 0.95rem;
 }
 
-.zone-tag {
-  background: #f5f5f5;
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 0.85rem;
-  color: #666;
-}
-
-/* Ticket Footer */
+/* ===================== TICKET FOOTER ===================== */
 .ticket-footer {
   display: flex;
   justify-content: space-between;
@@ -313,7 +246,8 @@
   color: #ff6b35;
 }
 
-.select-btn-buy {
+.select-btn-buy,
+.select-btn-details {
   background: #ff6b35;
   color: white;
   padding: 12px 32px;
@@ -324,35 +258,16 @@
   cursor: pointer;
   transition: all 0.7s ease;
   white-space: nowrap;
+  border-radius: 50px;
 }
 
-.select-btn-buy:hover {
+.select-btn-buy:hover,
+.select-btn-details:hover {
   background: #e85a28;
   transform: scale(1.05);
-  border-radius: 50px;
 }
 
-.select-btn-details {
-  background: #0e6e9a;
-  color: white;
-  padding: 12px 32px;
-  border: none;
-  width: 150px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.7s ease;
-  white-space: nowrap;
-  margin-right:30px;
-}
-
-.select-btn-details:hover {
-  background: #0e6e9a;
-  transform: scale(1.05);
-  border-radius: 50px;
-}
-
-/* Cart Sidebar */
+/* ===================== CART SIDEBAR ===================== */
 .cart-sidebar {
   position: sticky;
   top: 20px;
@@ -428,7 +343,7 @@
   background: #e85a28;
 }
 
-/* Responsive */
+/* ===================== RESPONSIVE ===================== */
 @media (max-width: 1200px) {
   .ticketpage__content {
     grid-template-columns: 1fr;
@@ -451,7 +366,7 @@
     padding: 15px;
   }
 
-  .ticketpage__gallery {
+  .ticketpage__gallery.multi-image {
     grid-template-columns: 1fr;
     height: auto;
   }
@@ -489,7 +404,8 @@
     align-items: stretch;
   }
 
-  .select-btn {
+  .select-btn-buy,
+  .select-btn-details {
     width: 100%;
   }
 
@@ -502,4 +418,178 @@
   .tab-btn {
     white-space: nowrap;
   }
+
+  .ticketpage__gallery.single-image .gallery-main {
+    width: 90%;
+    aspect-ratio: 16 / 9;
+  }
+}
+/* Overlay */
+.ticket-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 100000;
+  backdrop-filter: blur(3px);
+}
+@media (max-width: 768px) {
+  .ticket-popup {
+    width: 100%;
+    border-radius: 0;
+  }
+}
+/* Popup bên phải */
+.ticket-popup {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 700px; /* ✅ tăng từ 450px → 540px */
+  max-width: 90vw; /* đảm bảo không tràn màn hình nhỏ */
+  height: 100%;
+  background: #fff;
+  box-shadow: -8px 0 28px rgba(0, 0, 0, 0.25);
+  z-index: 100001;
+  display: flex;
+  flex-direction: column;
+  animation: slideInRight 0.4s ease forwards;
+  border-top-left-radius: 40px;
+  border-bottom-left-radius: 40px;
+  padding-bottom: 15px;
+  overflow: hidden;
+  transition: width 0.3s ease;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 26px;
+  border-bottom: 1px solid #eee;
+}
+.popup-body-header{
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.popup-header h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #222;
+}
+
+.popup-close {
+  border: none;
+  background: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+  transition: 0.3s;
+}
+
+.popup-close:hover {
+  color: #ff6b35;
+}
+
+.popup-body {
+  flex: 1;
+  padding: 20px 26px;
+  overflow-y: auto;
+}
+
+.popup-body h4 {
+  font-weight: 700;
+  padding-left: 10px;
+}
+
+.popup-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 14px;
+}
+
+.popup-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.popup-adult-icon{
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+.popup-label {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  color: #333;
+}
+
+.popup-price {
+  color: #ff6b35;
+  font-weight: 700;
+}
+
+.popup-counter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.popup-counter button {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #f0f0f0;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.popup-counter button:hover {
+  background: #ff6b35;
+  color: #fff;
+}
+
+.popup-footer {
+  border-top: 1px solid #eee;
+  padding: 18px 26px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.popup-total {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #ff6b35;
+}
+
+.popup-btn-buy {
+  background: #c62828;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 10px 26px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.popup-btn-buy:hover {
+  background: #b71c1c;
 }

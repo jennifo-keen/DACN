@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./BranchesAdmin.css";
 
-const API_BASE = "http://localhost:4000"; // hoặc "" nếu bạn có proxy
+const API_BASE = "http://localhost:4000";
 
 export default function BranchesAdmin() {
   const [branches, setBranches] = useState([]);
@@ -26,25 +26,38 @@ export default function BranchesAdmin() {
       }),
     deleteImage: (branchId, url) =>
       fetch(
-        `${API_BASE}/api/admin/branches/${branchId}/images?url=${encodeURIComponent(url)}`,
+        `${API_BASE}/api/admin/branches/${branchId}/images?url=${encodeURIComponent(
+          url
+        )}`,
         { method: "DELETE" }
       ),
   }), []);
 
-  const fetchBranches = useCallback(async () => {
+  /** Lấy danh sách chi nhánh */
+  const fetchBranches = async () => {
     try {
       const res = await api.listBranches();
       const data = await res.json();
-      setBranches(Array.isArray(data) ? data : []);
+      console.log("Branches response:", data);
+
+      // 👉 Fix quan trọng: tự phát hiện kiểu trả về
+      const list = Array.isArray(data)
+        ? data
+        : Array.isArray(data.data)
+        ? data.data
+        : [];
+
+      setBranches(list);
     } catch (e) {
       console.error("fetchBranches error:", e);
     }
-  }, [api]);
+  };
 
   useEffect(() => {
     fetchBranches();
-  }, [fetchBranches]);
+  }, []);
 
+  /** Tạo chi nhánh mới */
   const createBranch = async () => {
     const name = newName.trim();
     if (!name) return alert("Nhập tên chi nhánh");
@@ -66,6 +79,7 @@ export default function BranchesAdmin() {
     }
   };
 
+  /** Chọn ảnh để upload */
   const onChooseFiles = (branchId, e) => {
     const files = Array.from(e.target.files || []);
     const previews = files.map((f) => URL.createObjectURL(f));
@@ -73,6 +87,7 @@ export default function BranchesAdmin() {
     setPreviewMap((prev) => ({ ...prev, [branchId]: previews }));
   };
 
+  /** Upload ảnh lên Cloudinary */
   const doUploadImages = async (branchId) => {
     const files = filesMap[branchId] || [];
     if (!files.length) return alert("Chưa chọn ảnh");
@@ -92,6 +107,7 @@ export default function BranchesAdmin() {
     }
   };
 
+  /** Xóa ảnh khỏi chi nhánh */
   const removeImage = async (branchId, url) => {
     if (!window.confirm("Xoá ảnh này khỏi chi nhánh?")) return;
     try {
@@ -104,153 +120,97 @@ export default function BranchesAdmin() {
     }
   };
 
-  // Render không dùng JSX
-  return React.createElement(
-    "div",
-    { className: "branches-admin-wrap" },
-    [
-      React.createElement("h1", { key: "title" }, "Quản trị chi nhánh"),
+  return (
+    <div className="branches-admin-wrap">
+      <h1>Quản trị chi nhánh</h1>
 
-      // Form tạo chi nhánh
-      React.createElement(
-        "section",
-        { key: "create", className: "branches-create" },
-        [
-          React.createElement("h2", { key: "subtitle" }, "Thêm chi nhánh mới"),
-          React.createElement("div", { key: "form", className: "branches-create-form" }, [
-            React.createElement("input", {
-              key: "name",
-              className: "branches-input",
-              placeholder: "Tên chi nhánh (bắt buộc)",
-              value: newName,
-              onChange: (e) => setNewName(e.target.value),
-            }),
-            React.createElement("textarea", {
-              key: "desc",
-              className: "branches-textarea",
-              placeholder: "Mô tả ngắn",
-              value: newDesc,
-              onChange: (e) => setNewDesc(e.target.value),
-            }),
-            React.createElement(
-              "button",
-              {
-                key: "createBtn",
-                className: "branches-btn-primary",
-                onClick: createBranch,
-                disabled: loading,
-              },
-              loading ? "Đang tạo..." : "Tạo chi nhánh"
-            ),
-          ]),
-        ]
-      ),
+      {/* Form tạo chi nhánh */}
+      <section className="branches-create">
+        <h2>Thêm chi nhánh mới</h2>
+        <div className="branches-create-form">
+          <input
+            className="branches-input"
+            placeholder="Tên chi nhánh (bắt buộc)"
+            value={newName}
+            onChange={(e) => setNewName(e.target.value)}
+          />
+          <textarea
+            className="branches-textarea"
+            placeholder="Mô tả ngắn"
+            value={newDesc}
+            onChange={(e) => setNewDesc(e.target.value)}
+          />
+          <button
+            className="branches-btn-primary"
+            onClick={createBranch}
+            disabled={loading}
+          >
+            {loading ? "Đang tạo..." : "Tạo chi nhánh"}
+          </button>
+        </div>
+      </section>
 
-      // Danh sách chi nhánh
-      React.createElement(
-        "section",
-        { key: "list", className: "branches-list" },
-        [
-          React.createElement(
-            "h2",
-            { key: "listTitle" },
-            `Danh sách chi nhánh (${branches.length})`
-          ),
-          React.createElement(
-            "div",
-            { key: "grid", className: "branches-grid" },
-            branches.map((b) =>
-              React.createElement(
-                "div",
-                { key: b._id, className: "branches-card" },
-                [
-                  React.createElement("div", { key: "head", className: "branches-card-head" }, [
-                    React.createElement(
-                      "h3",
-                      { key: "bname", className: "branches-card-title" },
-                      b.branchName
-                    ),
-                    React.createElement(
-                      "p",
-                      { key: "bdesc", className: "branches-card-desc" },
-                      b.description_branch || "—"
-                    ),
-                  ]),
+      {/* Danh sách chi nhánh */}
+      <section className="branches-list">
+        <h2>Danh sách chi nhánh ({branches.length})</h2>
+        {branches.length === 0 ? (
+          <p className="branches-empty">Chưa có chi nhánh nào</p>
+        ) : (
+          <div className="branches-grid">
+            {branches.map((b) => (
+              <div key={b._id} className="branches-card">
+                <div className="branches-card-head">
+                  <h3 className="branches-card-title">{b.branchName}</h3>
+                  <p className="branches-card-desc">
+                    {b.description_branch || "—"}
+                  </p>
+                </div>
 
-                  // ảnh đã lưu
-                  React.createElement(
-                    "div",
-                    { key: "imgs", className: "branches-images-grid" },
-                    (b.image_branch || []).map((url, i) =>
-                      React.createElement(
-                        "div",
-                        { key: i, className: "branches-image-item" },
-                        [
-                          React.createElement("img", { key: "img", src: url, alt: "" }),
-                          React.createElement(
-                            "div",
-                            { key: "actions", className: "branches-image-actions" },
-                            [
-                              React.createElement(
-                                "a",
-                                {
-                                  key: "view",
-                                  href: url,
-                                  target: "_blank",
-                                  rel: "noreferrer",
-                                },
-                                "Xem"
-                              ),
-                              React.createElement(
-                                "button",
-                                { key: "del", onClick: () => removeImage(b._id, url) },
-                                "Xoá"
-                              ),
-                            ]
-                          ),
-                        ]
-                      )
-                    )
-                  ),
+                {/* Ảnh hiện có */}
+                <div className="branches-images-grid">
+                  {(b.image_branch || []).map((url, i) => (
+                    <div key={i} className="branches-image-item">
+                      <img src={url} alt="" />
+                      <div className="branches-image-actions">
+                        <a href={url} target="_blank" rel="noreferrer">
+                          Xem
+                        </a>
+                        <button onClick={() => removeImage(b._id, url)}>
+                          Xoá
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
 
-                  // uploader
-                  React.createElement(
-                    "div",
-                    { key: "uploader", className: "branches-uploader" },
-                    [
-                      React.createElement("input", {
-                        key: "file",
-                        type: "file",
-                        multiple: true,
-                        accept: "image/*",
-                        onChange: (e) => onChooseFiles(b._id, e),
-                      }),
-                      (previewMap[b._id] || []).length > 0 &&
-                        React.createElement(
-                          "div",
-                          { key: "preview", className: "branches-preview-grid" },
-                          previewMap[b._id].map((src, idx) =>
-                            React.createElement("img", { key: idx, src, alt: "" })
-                          )
-                        ),
-                      React.createElement(
-                        "button",
-                        {
-                          key: "upload",
-                          className: "branches-btn-secondary",
-                          onClick: () => doUploadImages(b._id),
-                          disabled: !((filesMap[b._id] || []).length),
-                        },
-                        "Upload ảnh"
-                      ),
-                    ]
-                  ),
-                ]
-              )
-            )
-          ),
-        ]
-      ),
-    ]
+                {/* Upload ảnh mới */}
+                <div className="branches-uploader">
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    onChange={(e) => onChooseFiles(b._id, e)}
+                  />
+                  {(previewMap[b._id] || []).length > 0 && (
+                    <div className="branches-preview-grid">
+                      {previewMap[b._id].map((src, idx) => (
+                        <img key={idx} src={src} alt="" />
+                      ))}
+                    </div>
+                  )}
+                  <button
+                    className="branches-btn-secondary"
+                    onClick={() => doUploadImages(b._id)}
+                    disabled={!((filesMap[b._id] || []).length)}
+                  >
+                    Upload ảnh
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+    </div>
   );
 }

@@ -1,283 +1,354 @@
-body {
-    background: white;
-}
-
 .dest-container {
-    position: relative;
-    min-height: 1500px;
+  font-family: "Inter", sans-serif;
+  color: #fff;
+  background: #001d1f;
+  overflow-x: hidden;
 }
 
-.dest-current {
-    position: absolute;
-    z-index: 1000;
-    font-size: 30px;
-    top: 25%;
-    width: 1200px;
-    font-weight: bold;
-    left: 50px;
-    
-    background: rgba(246, 245, 245, 0); 
-    padding: 20px 30px; 
-    border-radius: 15px; 
-    
-    backdrop-filter: blur(2px) brightness(0.8); 
-    -webkit-backdrop-filter: blur(10px) brightness(0.8);
-
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    
-    color: white;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+/* ✅ Ẩn toàn bộ icon mặc định của react-datepicker */
+.react-datepicker__calendar-icon,
+.react-datepicker__calendar-icon::before,
+.react-datepicker__calendar-icon::after,
+.react-datepicker-wrapper::before,
+.react-datepicker-wrapper::after,
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none !important;
+  visibility: hidden !important;
+  content: none !important;
+  background: none !important;
 }
 
-.dest-current h5,
-.dest-current h3 {
-    background: linear-gradient(90deg, #ffffff, #f0f0f0);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+/* --- HERO --- */
+.dest-hero {
+  position: relative;
+  width: 100%;
+  height: 90vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
-.dest-img {
-    position: absolute;
-    top: 0%;
-    margin-bottom: 900px;
-    height:800px;
-    width:100%;
-    object-fit: cover;
+.dest-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.3) 0%,
+    rgba(0, 0, 0, 0.55) 60%,
+    rgba(0, 0, 0, 0.85) 100%
+  );
+  z-index: 1;
 }
 
+.dest-hero-content {
+  position: relative;
+  margin-top: 300px;
+  z-index: 2;
+  color: #fff;
+  text-align: center;
+  padding: 0 20px;
+  animation: fadeIn 1.4s ease forwards;
+}
+
+.dest-hero-content h1 {
+  font-size: 64px;
+  font-weight: 800;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+  line-height: 1.1;
+}
+
+.dest-hero-content p {
+  font-size: 18px;
+  opacity: 0.9;
+  margin-bottom: 28px;
+}
+
+.dest-hero-content button {
+  background: #ffeb3b;
+  color: #000;
+  border: none;
+  padding: 12px 36px;
+  font-weight: 700;
+  font-size: 16px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dest-hero-content button:hover {
+  background: #fff85e;
+  transform: scale(1.05);
+}
+
+/* --- THANH CHỌN NGÀY --- */
 .dest-order-wrapper {
-    position: absolute;
-    top: 51%;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  margin-top: -60px;
+  margin-bottom: 80px;
+  z-index: 20;
 }
 
 .dest-order {
-    background: rgba(248, 246, 246, 0.685); 
-    padding: 20px 30px; 
-    border-radius: 15px; 
-    
-    backdrop-filter: blur(2px) brightness(0.8); 
-    -webkit-backdrop-filter: blur(10px) brightness(0.8);
-
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    height: 80px;
-    width: 900px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
+  display: flex;
+  align-items: center;
+  background: #f7f9fc;
+  border-radius: 50px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+  padding: 12px 18px;
+  gap: 12px;
+  margin-top: 20px;
 }
 
-.dest-dest {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 10px 20px;
-    border-right: 1px solid #000000;
-    gap: 5px;
-}
-
-.dest-dest span:first-child {
-    font-size: 20px;
-    color: #000000;
-    font-weight: 600;
-}
-
+/* KHUNG CHỌN NGÀY */
 .dest-time {
-    position: relative;
-    cursor: pointer;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 10px 20px;
-    gap: 5px;
-    transition: background 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f7f9fc;
+  border-radius: 40px;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #333;
+  cursor: pointer;
+  min-width: 180px;
+  text-align: left;
+  transition: 0.3s;
 }
 
 .dest-time:hover {
-    background: rgba(0, 0, 0, 0.05);
-    border-radius: 20px;
+  background: #eef3f8;
 }
 
-.dest-time .select {
-    font-size: 20px;
-    color: #999;
-    font-weight: 500;
+/* Icon tùy chỉnh của bạn */
+.dest-date-icon {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  filter: brightness(0) saturate(100%) invert(52%) sepia(95%) saturate(4216%)
+    hue-rotate(359deg) brightness(97%) contrast(106%);
 }
 
-.dest-time .select.has-date {
-    color: #1a1a1a;
-    font-weight: 600;
+/* Text ngày */
+.select.has-date {
+  color: #ff6600;
+  font-weight: 600;
 }
 
 .dest-order button {
-    background: #ff6b35;
-    color: white;
-    border: none;
-    border-radius: 30px;
-    padding: 15px 50px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  background: #ff6600;
+  color: #fff;
+  border: none;
+  padding: 10px 32px;
+  border-radius: 40px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.25s ease;
 }
 
 .dest-order button:hover {
-    background: #e55a2b;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+  background: #ff8126;
+  transform: translateY(-2px);
 }
 
-.dest-order button:active {
-    transform: translateY(0);
-}
-
+/* --- CALENDAR POPUP --- */
 .calendar-popup {
-    position: absolute;
-    top: 100%;
-    left: 60%;
-    transform: translateX(-50%);
-    margin-top: 10px;
-    z-index: 2000;
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-    padding: 20px;
-    animation: slideDown 0.3s ease-out;
+  position: fixed;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  z-index: 9999;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  padding: 10px;
+  animation: fadeInCalendar 0.3s ease forwards;
+  transition: all 0.3s ease;
 }
 
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translate(-50%, -10px);
-    }
-    to {
-        opacity: 1;
-        transform: translate(-50%, 0);
-    }
+.calendar-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(3px);
+  z-index: 9998;
+  animation: fadeIn 0.3s ease forwards;
 }
 
+/* DatePicker style */
 .react-datepicker {
-    border: none !important;
-    font-family: inherit;
+  border: none !important;
+  font-family: "Inter", sans-serif;
+  color: #333;
 }
 
 .react-datepicker__header {
-    background-color: #f0f0f0 !important;
-    border-bottom: 1px solid #e0e0e0 !important;
+  background: #f7f9fc !important;
+  border-bottom: none !important;
+  padding-top: 8px;
 }
 
-.react-datepicker__day--selected,
+.react-datepicker__current-month {
+  font-weight: 700 !important;
+  color: #ff6600 !important;
+}
+
+.react-datepicker__day--selected {
+  background: #ff6600 !important;
+  color: #fff !important;
+}
+
 .react-datepicker__day--keyboard-selected {
-    background-color: #4a90e2 !important;
-    color: white !important;
+  background: #ff6600 !important;
+  color: #fff !important;
 }
 
 .react-datepicker__day:hover {
-    background-color: #e8f4fd !important;
+  background: #ffe0c7 !important;
 }
 
+/* --- DANH SÁCH NẰM NGANG --- */
 .dest-explore {
-    position: absolute;
-    top: 900px;
-    width: 100%;
-    padding: 80px 100px;
-    background: white;
-    z-index: 100;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px 60px;
 }
 
 .dest-explore-title {
-    text-align: center;
-    font-size: 36px;
-    font-weight: 700;
-    color: #8B4789;
-    margin-bottom: 60px;
-    letter-spacing: 1px;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 30px;
+  position: relative;
 }
 
-.dest-explore-grid {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 60px;
-    max-width: 1400px;
-    margin: 0 auto;
-    flex-wrap: wrap;
+.dest-explore-title::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: #ff6600;
+  margin: 12px auto 0;
+  border-radius: 2px;
 }
 
+/* --- CUỘN NGANG --- */
+.dest-explore-scroll {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding-bottom: 10px;
+}
+
+.dest-explore-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.dest-explore-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+}
+
+.dest-explore-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.45);
+}
+
+/* --- ITEM --- */
 .dest-explore-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-    animation: floatUpDown 3s ease-in-out infinite;
-    opacity: 0;
-    animation: fadeInFloat 0.8s ease-out forwards, floatUpDown 3s ease-in-out 0.8s infinite;
+  flex: 0 0 auto;
+  width: 260px;
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .dest-explore-item:hover {
-    animation-play-state: paused;
-}
-
-.dest-explore-item:hover .dest-explore-image img {
-    transform: scale(1.1);
-}
-
-@keyframes fadeInFloat {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes floatUpDown {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-20px);
-    }
-}
-
-.dest-explore-image {
-    width: 200px;
-    height: 200px;
-    position: relative;
-    margin-bottom: 20px;
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
 }
 
 .dest-explore-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.3));
-    transition: transform 0.3s ease;
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.dest-explore-item:hover img {
+  transform: scale(1.08);
+  filter: brightness(85%);
 }
 
 .dest-explore-name {
-    text-align: center;
-    font-size: 16px;
-    font-weight: 700;
-    color: #333;
-    text-transform: uppercase;
-    line-height: 1.4;
-    max-width: 200px;
+  padding: 12px 16px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
 }
 
 .dest-explore-empty {
-    text-align: center;
-    color: #999;
-    font-size: 16px;
-    width: 100%;
-    padding: 40px 0;
+  text-align: center;
+  color: #ccc;
+  width: 100%;
+  font-size: 16px;
+}
+
+/* --- ANIMATION --- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInCalendar {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+  .dest-hero-content h1 {
+    font-size: 38px;
+  }
+
+  .dest-info {
+    border-radius: 24px 24px 0 0;
+    padding: 40px 0 80px;
+  }
+
+  .dest-order {
+    flex-direction: column;
+    gap: 12px;
+    width: 90%;
+  }
+
+  .dest-explore-image img {
+    height: 180px;
+  }
 }
