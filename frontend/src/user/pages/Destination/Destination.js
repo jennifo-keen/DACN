@@ -5,6 +5,7 @@ import CurrentPage from "../../components/Layout/CurrentPage/currentPage";
 import { useLocation, useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import date from "../../../assets/icon/date.svg";
 import { vi } from "date-fns/locale";
 
 export default function Destination() {
@@ -14,7 +15,7 @@ export default function Destination() {
   const [idBranch, setIdBranch] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
   const [showCalendar, setShowCalendar] = useState(false);
-  const [featuredBranches, setFeaturedBranches] = useState([]); 
+  const [featuredBranches, setFeaturedBranches] = useState([]);
   const calendarRef = useRef(null);
 
   const location = useLocation();
@@ -53,33 +54,22 @@ export default function Destination() {
   }, [idBranch]);
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (calendarRef.current && !calendarRef.current.contains(event.target)) {
-        const destTime = document.querySelector(".dest-time");
-        if (destTime && !destTime.contains(event.target)) {
-          setShowCalendar(false);
-        }
-      }
-    };
-
-    if (showCalendar) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [showCalendar]);
-
-  useEffect(() => {
     const getFeatured = async () => {
       try {
         const response = await fetch("http://localhost:4000/api/branches");
-        const data = await response.json();
-        const shuffled = [...data].sort(() => 0.5 - Math.random());
-        const featured = shuffled.slice(0, 5);
+        const result = await response.json();
 
-        setFeaturedBranches(featured);
+        if (result.success && Array.isArray(result.data)) {
+          const filtered = result.data.filter((b) => b._id !== idBranch);
+          const shuffled = [...filtered].sort(() => 0.5 - Math.random());
+          const featured = shuffled.slice(0, 4);
+          setFeaturedBranches(featured);
+        } else {
+          setFeaturedBranches([]);
+        }
       } catch (e) {
         console.error("Lỗi lấy danh sách nổi bật:", e);
+        setFeaturedBranches([]);
       }
     };
 
@@ -94,16 +84,20 @@ export default function Destination() {
       return;
     }
 
-    const payload = {
-      branchId: idBranch,
-      branchName: dest?.branchName,
-      provinceName: dest?.provinceName,
-      date: selectedDate
-        ? `${selectedDate.getDate().toString().padStart(2, "0")}-${(selectedDate.getMonth() + 1)
-            .toString()
-            .padStart(2, "0")}-${selectedDate.getFullYear()}`
-        : "",
-    };
+      const payload = {
+        branchId: idBranch,
+        branchName: dest?.branchName,
+        provinceName: dest?.provinceName,
+        branchImages: dest?.image_branch || [], 
+        address: dest?.address || "",            
+        date: selectedDate
+          ? `${selectedDate.getDate().toString().padStart(2, "0")}-${(selectedDate.getMonth() + 1)
+              .toString()
+              .padStart(2, "0")}-${selectedDate.getFullYear()}`
+          : "",
+      };
+
+
 
     navigate(`../search?id=${payload.branchId}&usingDate=${payload.date}`, {
       state: payload,
@@ -120,30 +114,23 @@ export default function Destination() {
 
   return (
     <div className="dest-container">
-      <div className="dest-current">
-        <CurrentPage current={branchName} />
-        <div>
-          <h5>{dest?.branchName}</h5>
-          <h3>{dest?.description_branch}</h3>
+      {/* Hero section */}
+      <div
+        className="dest-hero"
+        style={{
+          backgroundImage: `url(${dest.image_branch?.[0] || ""})`,
+        }}
+      >
+        <div className="dest-hero-content">
+          <h1>{dest.branchName}</h1>
+          <p>Thông tin của khu</p>
+          <button onClick={handleSearch}>ĐẶT VÉ NGAY</button>
         </div>
       </div>
 
-      <div className="dest-content">
-        {Array.isArray(dest.image_branch) && dest.image_branch.length > 0 && (
-          <img
-            className="dest-img"
-            src={dest.image_branch[0]}
-            alt={dest.branchName}
-          />
-        )}
-      </div>
-      
+      {/* Thanh chọn ngày */}
       <div className="dest-order-wrapper">
         <div className="dest-order">
-          <div className="dest-dest">
-            <span>{dest?.branchName}</span>
-          </div>
-
           <div
             className="dest-time"
             onClick={(e) => {
@@ -151,6 +138,7 @@ export default function Destination() {
               setShowCalendar(!showCalendar);
             }}
           >
+            <img src={date} alt="Date Icon" className="dest-date-icon" />
             <span className={`select ${selectedDate ? "has-date" : ""}`}>
               {selectedDate
                 ? selectedDate.toLocaleDateString("vi-VN")
@@ -158,10 +146,18 @@ export default function Destination() {
             </span>
           </div>
 
-          <button onClick={handleSearch}>Tìm kiếm</button>
+          <button onClick={handleSearch}>Tìm vé</button>
         </div>
+      </div>
 
-        {showCalendar && (
+      {/* Popup lịch */}
+      {showCalendar && (
+        <>
+          <div
+            className="calendar-backdrop"
+            onClick={() => setShowCalendar(false)}
+          ></div>
+
           <div
             ref={calendarRef}
             className="calendar-popup"
@@ -179,25 +175,24 @@ export default function Destination() {
               minDate={new Date()}
             />
           </div>
-        )}
-      </div>
+        </>
+      )}
 
+      {/* Danh sách điểm đến khác */}
       <div className="dest-explore">
         <h2 className="dest-explore-title">KHÁM PHÁ CÁC ĐIỂM ĐẾN KHÁC</h2>
-        <div className="dest-explore-grid">
+
+        <div className="dest-explore-scroll">
           {featuredBranches.length > 0 ? (
-            featuredBranches.map((branch, index) => (
-              <div 
-                key={branch._id} 
+            featuredBranches.map((branch) => (
+              <div
+                key={branch._id}
                 className="dest-explore-item"
                 onClick={() => handleBranchClick(branch)}
               >
                 <div className="dest-explore-image">
                   {branch.image_branch && branch.image_branch.length > 0 && (
-                    <img 
-                      src={branch.image_branch[0]} 
-                      alt={branch.branchName}
-                    />
+                    <img src={branch.image_branch[0]} alt={branch.branchName} />
                   )}
                 </div>
                 <h3 className="dest-explore-name">{branch.branchName}</h3>

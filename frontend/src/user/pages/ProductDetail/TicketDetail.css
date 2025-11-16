@@ -1,233 +1,165 @@
-/* Reset & Base */
+/* ==== RESET & BASE ==== */
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: #f9fafb;
-  color: #1f2937;
+  font-family: "Inter", "Segoe UI", Roboto, sans-serif;
+  background: #fafbff;
+  color: #1e293b;
 }
 
-/* Layout */
+/* ==== PAGE LAYOUT ==== */
 .ticket-detail-page {
   min-height: 100vh;
-  background-color: #f9fafb;
+  background: linear-gradient(180deg, #fff 0%, #f8fafc 100%);
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 20px;
 }
 
-/* Header */
-.page-header {
-  background-color: white;
-  border-bottom: 1px solid #e5e7eb;
-  padding: 1rem 0;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.page-header .container {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.back-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: none;
-  border: none;
-  color: #6b7280;
-  font-size: 0.875rem;
-  cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 6px;
-  transition: all 0.2s;
-}
-
-.back-btn:hover {
-  background-color: #f3f4f6;
-  color: #374151;
-}
-
-.page-title {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #374151;
-  margin: 0;
-  flex: 1;
-}
-
-/* Main Content */
 .page-main {
-  padding: 2rem 0;
+  padding: 40px 0;
 }
 
 .ticket-detail-content {
-  background-color: white;
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  border-radius: 18px;
+  padding: 40px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+  animation: fadeIn 0.6s ease;
 }
 
+/* ==== HEADER ==== */
 .ticket-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #1f2937;
-  margin: 0 0 1.5rem;
-  line-height: 1.4;
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 28px;
+  text-align: left;
 }
 
-/* Carousel */
+/* ==== CAROUSEL ==== */
 .ticket-carousel {
   position: relative;
-  margin-bottom: 2rem;
-  border-radius: 12px;
+  margin-bottom: 36px;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
 .carousel-image {
   width: 100%;
-  height: 24rem;
+  height: 500px;
   object-fit: cover;
   display: block;
+  transition: opacity 0.4s ease;
 }
 
 .carousel-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.85);
   border: none;
   border-radius: 50%;
-  width: 3rem;
-  height: 3rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  font-size: 1.5rem;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transition: all 0.2s;
+  color: #ff6b35;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 10;
 }
 
 .carousel-btn:hover {
-  background-color: white;
+  background: #ff6b35;
+  color: #fff;
   transform: translateY(-50%) scale(1.1);
 }
 
-.prev { left: 1rem; }
-.next { right: 1rem; }
-
-.carousel-indicators {
-  position: absolute;
-  bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 0.5rem;
+.carousel-btn.left {
+  left: 20px;
+}
+.carousel-btn.right {
+  right: 20px;
 }
 
-.indicator {
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.5);
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.indicator.active {
-  background-color: white;
-  width: 1.5rem;
-  border-radius: 9999px;
-}
-
-/* Sections */
+/* ==== SECTION ==== */
 .section {
-  margin-bottom: 2rem;
+  margin-bottom: 36px;
 }
 
 .section-title {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: 700;
-  color: #1f2937;
-  margin-bottom: 1rem;
+  color: #1e293b;
+  text-transform: uppercase;
+  margin-bottom: 18px;
   position: relative;
-  padding-bottom: 0.5rem;
+  padding-left: 12px;
 }
 
-.section-title::after {
-  content: '';
+.section-title::before {
+  content: "";
   position: absolute;
   left: 0;
-  bottom: 0;
-  width: 3rem;
-  height: 3px;
-  background-color: #f97316;
+  top: 50%;
+  width: 5px;
+  height: 18px;
+  background: linear-gradient(180deg, #f97316, #fbbf24);
   border-radius: 2px;
+  transform: translateY(-50%);
 }
 
-/* Lists */
-.includes-list,
-.activities-list,
-.terms-list {
+/* ==== LIST ==== */
+.includes-list {
   list-style: none;
   padding: 0;
-  margin: 0 0 1rem;
+  margin-bottom: 20px;
 }
 
-.list-item,
-.activity-item,
-.term-item {
-  align-items: flex-start;
-  margin-bottom: 0.75rem;
-  color: #374151;
+.list-item {
+  background: #f9fafb;
+  border-left: 5px solid #f97316;
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin-bottom: 12px;
   line-height: 1.6;
-}
-
-.bullet {
-  margin-right: 0.75rem;
-  flex-shrink: 0;
-  font-weight: bold;
-}
-
-.bullet.green { color: #16a34a; }
-.bullet.red { color: #dc2626; }
-.bullet.small { font-size: 0.875rem; color: #6b7280; }
-
-.description,
-.schedule,
-.activities-title {
-  margin: 1rem 0;
   color: #374151;
-  line-height: 1.6;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.activities-title {
-  font-weight: 600;
-  margin-top: 1.5rem;
+.list-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
 }
 
-.schedule {
-  font-weight: 500;
+.list-item img {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 10px;
+  margin-top: 10px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
 }
 
-/* Price & Action */
+/* ==== PRICE & ACTION ==== */
 .price-action {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 1.5rem;
   border-top: 1px solid #e5e7eb;
+  padding-top: 24px;
   flex-wrap: wrap;
   gap: 1rem;
 }
@@ -237,49 +169,67 @@ body {
 }
 
 .price-main {
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: #6b7280;
 }
 
 .price-highlight {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #ea580c;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #f97316;
 }
 
 .price-details {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: #9ca3af;
-  margin-top: 0.25rem;
+  margin-top: 4px;
 }
 
 .select-btn {
-  background-color: #f97316;
+  background: linear-gradient(135deg, #f97316 0%, #fbbf24 100%);
   color: white;
-  padding: 0.875rem 2.5rem;
+  padding: 14px 36px;
   border: none;
-  border-radius: 8px;
-  font-weight: 600;
+  border-radius: 12px;
+  font-weight: 700;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 18px rgba(249, 115, 22, 0.3);
 }
 
 .select-btn:hover {
-  background-color: #ea580c;
+  background: linear-gradient(135deg, #ea580c 0%, #f97316 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(249, 115, 22, 0.4);
 }
 
-/* Responsive */
+/* ==== ANIMATIONS ==== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==== RESPONSIVE ==== */
 @media (max-width: 768px) {
-  .page-main { padding: 1rem 0; }
-  .ticket-detail-content { padding: 1.5rem; }
-  .carousel-image { height: 16rem; }
-  .ticket-title { font-size: 1.25rem; }
-  .price-action { flex-direction: column; align-items: stretch; }
-  .select-btn { width: 100%; }
-}
-
-@media (max-width: 480px) {
-  .carousel-btn { width: 2.5rem; height: 2.5rem; }
-  .price-highlight { font-size: 1.5rem; }
+  .ticket-detail-content {
+    padding: 24px;
+  }
+  .carousel-image {
+    height: 320px;
+  }
+  .price-action {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .select-btn {
+    width: 100%;
+    text-align: center;
+  }
 }

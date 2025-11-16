@@ -15,7 +15,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  height: 64px;
+  height: 80px;
 }
 
 /* LOGO + NAV */
@@ -40,9 +40,11 @@
 }
 
 .hd-nav a {
-  color: black; 
+  color: rgb(58, 56, 56); 
+  font-family: "Momo";
   text-decoration: none;
-  font-size: 17px;
+  font-size: 12px;
+  letter-spacing: 1px;
   font-weight: 500;
   transition: color 0.2s ease;
   position: relative;
@@ -414,23 +416,27 @@
 
 .hd-dest-dropdown {
   position: absolute;
-  top: 41.5px;
-  left: 160%;
-  width: 1536px;
-  transform: translateX(-28.11%);
-  height:300px;
+  top: 100%;
+  left: -250px;
+  margin-top: 20px;
+  width: max-content;
+  min-width: 700px;
+  max-width: 90vw;
   background: white;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 16px;
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 40px;
   z-index: 50;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.2s ease, visibility 0s linear 0.2s;
 }
+
+
 
 .hd-dest-container:hover .hd-dest-dropdown {
   opacity: 1;

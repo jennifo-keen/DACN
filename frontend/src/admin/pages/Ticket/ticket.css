@@ -51,6 +51,18 @@
   box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.1);
 }
 
+
+.btn-timkiem {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
 .btn-search {
   background-color: #2196F3;
   color: white;

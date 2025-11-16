@@ -167,6 +167,8 @@ export default function Home() {
             .toString()
             .padStart(2, "0")}-${selectedDate.getFullYear()}`
         : "",
+        branchImages: selectedBranch.image_branch, // ✅ thêm dòng này
+        address: selectedBranch.address,  
     };
     navigate(`/search?id=${payload.branchId}&usingDate=${payload.date}`, { state: payload });
   };
@@ -271,14 +273,40 @@ export default function Home() {
                     <div
                       key={bIndex}
                       className="branch__item"
-                      onClick={() => {
+                    onClick={async () => {
+                      try {
+                        // Gọi API để lấy ảnh chi nhánh chi tiết
+                        const res = await fetch(`http://localhost:4000/api/branches/${branch.branchId}`);
+                        const data = await res.json();
+
+                        if (data.success) {
+                          const detail = data.data;
+                          setSelectedBranch({
+                            provinceName: province.name,
+                            branchName: detail.branchName,
+                            branchId: detail._id,
+                            image_branch: detail.image_branch || [],
+                            address: detail.address || "",
+                          });
+                        } else {
+                          setSelectedBranch({
+                            provinceName: province.name,
+                            branchName: branch.branchName,
+                            branchId: branch.branchId,
+                          });
+                        }
+                      } catch (err) {
+                        console.error("Không thể lấy chi tiết chi nhánh:", err);
                         setSelectedBranch({
                           provinceName: province.name,
                           branchName: branch.branchName,
                           branchId: branch.branchId,
                         });
-                        setIsResultsVisible(false);
-                      }}
+                      }
+
+                      setIsResultsVisible(false);
+                    }}
+
                     >
                       <span className="branchName">{branch.branchName}</span>
                     </div>

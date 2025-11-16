@@ -7,7 +7,7 @@ import bcrypt from "bcryptjs";
 
 // Import routes
 import branchRoutes from "./routes/branch.route.js";
-import uploadRoutes from "./routes/upload.route.js";
+import uploadRoutes from "./admin/upload.route.js";
 import authRoutes from "./routes/auth.routes.js";
 import provinceRouter from "./routes/provinceRouter.js";
 import ticketTypeRouter from "./routes/ticketTypeRouter.js"
