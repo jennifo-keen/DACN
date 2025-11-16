@@ -43,9 +43,9 @@ export default function Header() {
       {
         parent: "Quản lý vé",
         children: [
-          { name: "Cấu hình chung", link: "/admin/tickets/config" },
-          { name: "Bảo mật", link: "/admin/tickets/security" },
-          { name: "Sao lưu dữ liệu", link: "/admin/tickets/backup" },
+          { name: "Danh sách vé", link: "/admin/tickets/list" },
+          { name: "Thêm", link: "/admin/tickets/add" },
+          
         ],
       },
       {

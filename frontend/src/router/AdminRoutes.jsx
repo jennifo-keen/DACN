@@ -5,6 +5,8 @@ import AboutAdmin from "../admin/pages/About_admin";
 import BranchesAdmin from "../admin/pages/Branch/BranchesAdmin";
 import Login from "../admin/pages/Login/Login";
 import Report from "../admin/pages/Report/Report"
+import list from "../admin/pages/Ticket/ticket_list"
+import add from "../admin/pages/Ticket/ticket_add"
 
 export function AdminRoutes() {
   return (
@@ -15,6 +17,8 @@ export function AdminRoutes() {
         <Route path="about" element={<AboutAdmin />} />
         <Route path="branches" element={<BranchesAdmin />} />
         <Route path="report" element={<Report />} />
+        <Route path="tickets/list" element={<list />} />
+        <Route path="tickets/add" element={<add />} />
       </Route>
     </>
   );
