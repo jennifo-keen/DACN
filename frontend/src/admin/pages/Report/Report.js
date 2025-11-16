@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Report() {
     const navigate = useNavigate()
-  // ---- LẤY NGÀY HIỆN TẠI ----
+
     const today = new Date();
     const currentYear = today.getFullYear();
     const currentMonth = today.getMonth() + 1;
@@ -26,7 +26,6 @@ export default function Report() {
     const [summary, setSummary] = useState({ total: 0 });
     const [error, setError] = useState("");
 
-    // ---- Tính số ngày trong tháng (động theo năm và tháng đã chọn) ----
     const getDaysInMonth = (year, month) => {
         return new Date(year, month, 0).getDate();
     };
@@ -34,31 +33,26 @@ export default function Report() {
     const daysInMonth = getDaysInMonth(selectedYear, selectedMonth);
     const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
 
-    // ---- Xử lý khi đổi năm ----
     const handleYearChange = (newYear) => {
         const year = Number(newYear);
         setSelectedYear(year);
         
-        // Kiểm tra xem ngày hiện tại có hợp lệ với năm mới không
         const maxDay = getDaysInMonth(year, selectedMonth);
         if (selectedDay > maxDay) {
         setSelectedDay(maxDay);
         }
     };
 
-    // ---- Xử lý khi đổi tháng ----
     const handleMonthChange = (newMonth) => {
         const month = Number(newMonth);
         setSelectedMonth(month);
         
-        // Tự động điều chỉnh ngày nếu vượt quá số ngày trong tháng mới
         const maxDay = getDaysInMonth(selectedYear, month);
         if (selectedDay > maxDay) {
         setSelectedDay(maxDay);
         }
     };
 
-    // ---- Tạo startDate & endDate ----
     useEffect(() => {
         const dateString = String(selectedDay).padStart(2, "0");
         const monthString = String(selectedMonth).padStart(2, "0");
@@ -68,7 +62,6 @@ export default function Report() {
         setEndDate(date);
     }, [selectedYear, selectedMonth, selectedDay]);
 
-    // ---- Fetch dữ liệu ----
     const fetchReport = async () => {
         setLoading(true);
         setError("");
@@ -83,8 +76,8 @@ export default function Report() {
 
         if (!res.ok) throw new Error(data.message || "Lỗi lấy dữ liệu");
 
-        setRevenueData(data.details || []);
-        setSummary(data.summary || { total: 0 });
+            setRevenueData(data.details || []);
+            setSummary(data.summary || { total: 0 });
 
         } catch (err) {
         setError(err.message);
@@ -102,7 +95,7 @@ export default function Report() {
 
     return (
         <div className="report-container">
-        <h2>Báo cáo doanh thu hôm nay</h2>
+        <h2>Báo cáo doanh thu</h2>
 
         <div className="filters">
             <div className="filter">
@@ -146,17 +139,17 @@ export default function Report() {
 
         <div className="summary-box">
             <h3>
-            Tổng doanh thu: {summary.total ? summary.total.toLocaleString() : 0} VNĐ
+            Tổng doanh thu trong ngày: {summary.total ? summary.total.toLocaleString() : 0} VNĐ
             </h3>
         </div>
 
         <table className="report-table">
             <thead>
             <tr>
-                <th>NGÀY</th>
-                <th>SỐ VÉ</th>
-                <th>DOANH THU</th>
-                <th></th>
+                <th>ngày bán</th>
+                <th>Số lượng vé</th>
+                <th>Doanh thu đơn hàng</th>
+                <th styel={{width: '50px'}}></th>
             </tr>
             </thead>
 
@@ -177,7 +170,7 @@ export default function Report() {
             ) : (
                 !loading && (
                 <tr>
-                    <td colSpan="3" style={{ textAlign: 'center', color: '#999', fontStyle: 'italic' }}>
+                    <td colSpan="3" style={{ textAlign: 'center', color: '#999'}}>
                     Không có dữ liệu
                     </td>
                 </tr>

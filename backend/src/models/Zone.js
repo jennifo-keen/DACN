@@ -2,14 +2,17 @@ import mongoose from "mongoose";
 
 const zoneSchema = new mongoose.Schema(
   {
-    eventName: { type: String, required: true },
-    customerName: { type: String, required: true },
-    email: { type: String, required: true, lowercase: true, trim: true },
-    price: { type: Number, required: true, min: 0 },
-    status: { type: String, enum: ["pending", "paid", "canceled"], default: "pending" }
+    branchesId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Branch',
+      required: true,
+    },
+    zoneName: { type: String, required: true },
+    description: { type: String, required: true },
+    openingTime: { type: Date, required: true },
+    closingTime: { type: Date, required: true },
+    image_zone: { type: [String], default: [] },
   },
-  { timestamps: true }
 );
 
 export const Zone = mongoose.model("Zone", zoneSchema, "zones");
-
