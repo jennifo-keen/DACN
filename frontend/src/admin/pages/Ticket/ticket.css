@@ -51,17 +51,6 @@
   box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.1);
 }
 
-.btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  white-space: nowrap;
-}
-
 .btn-search {
   background-color: #2196F3;
   color: white;
@@ -146,7 +135,6 @@
 .ticket-table-wrapper {
   overflow-x: auto;
   background: white;
-  border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -238,8 +226,9 @@
 .status {
   display: inline-block;
   padding: 4px 12px;
-  border-radius: 12px;
+  border-radius: 5px;
   font-size: 12px;
+  width:90px;
   font-weight: 500;
 }
 

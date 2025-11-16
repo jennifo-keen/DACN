@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./ticket.css";
+import Loading from "../../components/loading";
 
 const AddTicketType = () => {
   const navigate = useNavigate();
@@ -159,6 +160,10 @@ const AddTicketType = () => {
       setLoading(false);
     }
   };
+
+  if (loading) {
+    return <Loading />
+  }
 
   return (
     <div className="ticket-form-container">

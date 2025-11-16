@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Loading from "../../components/loading";
 import "./ticket.css";
 
 const TicketTypeList = () => {
@@ -71,7 +72,7 @@ const TicketTypeList = () => {
   };
 
   if (loading) {
-    return <div className="loading">Đang tải dữ liệu...</div>;
+    return <Loading />;
   }
 
   return (

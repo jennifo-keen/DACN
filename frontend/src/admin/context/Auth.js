@@ -25,7 +25,6 @@ export function AuthProvider({ children }) {
       });
       if (!res.ok) throw new Error();
       const data = await res.json();
-      console.log(data)
       setUser(data.user);
       setIsLoggedIn(true);
     } catch {

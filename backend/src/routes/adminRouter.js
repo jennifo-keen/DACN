@@ -107,9 +107,97 @@ router.get("/admin/profile", verifyToken, async (req, res) => {
 
     res.json({ user: admin });
   } catch (err) {
-    console.error("Profile error:", err);
+    console.error("Lỗi lấy dữ liệu cá nhân:", err);
     res.status(500).json({ error: "Lỗi máy chủ" });
   }
 });
+
+router.get("/admin", async (req, res) => {
+  try {
+    const data = await Admin.find({})
+
+    if (data.length > 0) {
+      res.status(200).json({success: true, message: "Lấy dữ liệu quản trị viên thành công!", data: data})
+    }
+  }
+  catch (err) {
+    console.error("Lỗi lấy dữ liệu quản trị viên:", err);
+    res.status(500).json({ error: "Lỗi server" });
+  }
+})
+
+router.post("/admin", async (req, res) => {
+    try {
+        const { fullName_admin, admin_login, email, phone, password, role } = req.body;
+
+        if (!fullName_admin || !admin_login || !email || !password || !role) {
+            return res.status(400).json({ success: false, message: "Vui lòng nhập đầy đủ thông tin!" });
+        }
+
+        const existing = await Admin.findOne({ admin_login });
+        if (existing) {
+            return res.status(400).json({ success: false, message: "Tên đăng nhập đã tồn tại!" });
+        }
+
+        const newAdmin = new Admin({
+            fullName_admin,
+            admin_login,
+            email,
+            phone,
+            password,
+            role,
+            createdAt: new Date(),
+        });
+
+        await newAdmin.save();
+
+        res.status(201).json({ success: true, message: "Thêm admin thành công!" });
+    } catch (err) {
+        console.error("Lỗi thêm admin:", err);
+        res.status(500).json({ success: false, message: "Lỗi server!" });
+    }
+});
+
+router.delete("/admin/:id", async (req, res) => {
+  try {
+    const {id} = req.params
+    if (!id) {
+      res.status(400).json({succes: false, message: "Lỗi lấy id quản trị viên"})
+    }
+
+    const data = await Admin.deleteOne({_id: id})
+
+    res.status(200).json({success: true, message: "Xóa quản trị viên thành công!"})
+  }
+  catch (err) {
+    console.error("Lỗi xóa dữ liệu quản trị viên:", err);
+    res.status(500).json({ error: "Lỗi server" });
+  }
+})
+
+router.get("/admin/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      return res.status(400).json({success: false, message: "Lỗi lấy id quản trị viên"});
+    }
+
+    const data = await Admin.findById(id); 
+
+    if (!data) {
+      return res.status(404).json({success: false, message: "Không tìm thấy quản trị viên"});
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Lấy dữ liệu quản trị viên thành công!",
+      data
+    });
+  } catch (err) {
+    console.error("Lỗi lấy dữ liệu quản trị viên:", err);
+    res.status(500).json({success: false, message: "Lỗi server"});
+  }
+});
+
 
 export default router;

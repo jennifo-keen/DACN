@@ -1,0 +1,72 @@
+.create-admin-container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    background-color: #ffffff;
+    font-family: Arial, sans-serif;
+}
+
+.create-admin-container h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+.create-admin-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.create-admin-container input,
+.create-admin-container select {
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.2s;
+}
+
+.create-admin-container input:focus,
+.create-admin-container select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.create-admin-container button {
+    padding: 12px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.create-admin-container button:hover {
+    background-color: #0056b3;
+}
+
+.create-admin-container p {
+    margin-bottom: 10px;
+}
+
+.create-admin-container select {
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .create-admin-container {
+        margin: 20px;
+        padding: 20px;
+    }
+    .create-admin-container input,
+    .create-admin-container select,
+    .create-admin-container button {
+        font-size: 14px;
+        padding: 10px;
+    }
+}

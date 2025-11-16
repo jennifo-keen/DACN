@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Admin.css";
 import { useNavigate } from "react-router-dom";
+import Loading from "../../components/loading"
 
 export default function Admin() {
     const [admins, setAdmins] = useState([]);
@@ -26,9 +27,10 @@ export default function Admin() {
                 }
             });
 
-            const data = await response.json();
+            const data = await response.json()
             if (data.success) {
                 setAdmins(data.data);
+                console.log(data.data)
             } else {
                 setError(data.message || "Không thể lấy dữ liệu");
             }
@@ -59,9 +61,10 @@ export default function Admin() {
             });
 
             const data = await response.json();
+            console.log(data)
             if (data.success) {
                 alert("Xóa thành công!");
-                getAllAdmin(); // Refresh danh sách
+                getAllAdmin(); 
             } else {
                 alert(data.message || "Xóa thất bại!");
             }
@@ -72,8 +75,12 @@ export default function Admin() {
     };
 
     const handleAddNew = () => {
-        navigate("/admin/add"); 
+        navigate("/admin/admin/add"); 
     };
+
+    if (loading) {
+        return <Loading />
+    }
 
     return (
         <div className="admin-container">
@@ -83,13 +90,6 @@ export default function Admin() {
                     Thêm Admin Mới
                 </button>
             </div>
-
-            {loading ? (
-                <div className="loading">
-                    <div className="spinner"></div>
-                    <p>Đang tải dữ liệu...</p>
-                </div>
-            ) : (
                 <>
                     <div className="table-container">
                         <table className="admin-table">
@@ -98,8 +98,7 @@ export default function Admin() {
                                     <th>STT</th>
                                     <th>Tên đăng nhập</th>
                                     <th>Vai trò</th>
-                                    <th>Trạng thái</th>
-                                    <th>Hành động</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -110,12 +109,7 @@ export default function Admin() {
                                             <td className="username">{admin.admin_login || admin.username}</td>
                                             <td>
                                                 <span className={`role-badge ${admin.role}`}>
-                                                    {admin.role === 'admin' ? 'Admin' : 'User'}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span className={`status-badge ${admin.status || 'active'}`}>
-                                                    {admin.status === 'active' ? 'Hoạt động' : 'Khóa'}
+                                                    {admin.role}
                                                 </span>
                                             </td>
                                             <td className="actions">
@@ -149,7 +143,6 @@ export default function Admin() {
                         <p>Tổng số admin: <strong>{admins.length}</strong></p>
                     </div>
                 </>
-            )}
 
             {showModal && selectedAdmin && (
                 <div className="modal-overlay" onClick={() => setShowModal(false)}>
@@ -167,7 +160,11 @@ export default function Admin() {
                             </div>
                             <div className="detail-row">
                                 <label>Tên đăng nhập:</label>
-                                <span>{selectedAdmin.admin_login || selectedAdmin.username}</span>
+                                <span>{selectedAdmin.admin_login}</span>
+                            </div>
+                            <div className="detail-row">
+                                <label>Số điện thoại:</label>
+                                <span>{selectedAdmin.phone}</span>
                             </div>
                             <div className="detail-row">
                                 <label>Vai trò:</label>
@@ -180,12 +177,6 @@ export default function Admin() {
                                 <span>{selectedAdmin.email || 'Chưa có'}</span>
                             </div>
                             <div className="detail-row">
-                                <label>Trạng thái:</label>
-                                <span className={`status-badge ${selectedAdmin.status || 'active'}`}>
-                                    {selectedAdmin.status === 'active' ? 'Hoạt động' : 'Khóa'}
-                                </span>
-                            </div>
-                            <div className="detail-row">
                                 <label>Ngày tạo:</label>
                                 <span>
                                     {selectedAdmin.createdAt 
@@ -196,7 +187,7 @@ export default function Admin() {
                             </div>
                         </div>
                         <div className="modal-footer">
-                            <button className="btn-edit">Chỉnh sửa</button>
+                            <button className="btn-edit" >Chỉnh sửa</button>
                             <button className="btn-cancel" onClick={() => setShowModal(false)}>
                                 Đóng
                             </button>
