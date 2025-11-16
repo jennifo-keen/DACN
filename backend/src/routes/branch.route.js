@@ -3,60 +3,108 @@ import { Branch } from "../models/Branch.js";
 
 const router = Router();
 
+router.get("/branches", async (req, res) => {
+  try {
+    const branches = await Branch.find()
+      .select("branchName provincesName provincesId description_branch image_branch")
+      .sort({ createdAt: -1 });
 
-router.get("/branches", async (_req, res) => {
-  const docs = await Branch.find().sort({ createdAt: -1 });
-  res.json(docs);
+    res.status(200).json({
+      success: true,
+      data: branches
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
 });
 
 router.post("/branches", async (req, res) => {
-  const { provincesId, branchName, description_branch } = req.body;
-  if (!branchName) return res.status(400).json({ error: "branchName is required" });
-  const doc = await Branch.create({
-    provincesId: provincesId || null,
-    branchName,
-    description_branch: description_branch || "",
-    image_branch: [],
-  });
-  res.json(doc);
+  try {
+    const { provincesId, branchName, description_branch, provincesName } = req.body;
+    
+    if (!branchName) {
+      return res.status(400).json({ 
+        success: false,
+        error: "branchName is required" 
+      });
+    }
+    
+    const doc = await Branch.create({
+      provincesId: provincesId || null,
+      branchName,
+      provincesName: provincesName || "",
+      description_branch: description_branch || "",
+      image_branch: [],
+    });
+    
+    res.status(201).json({
+      success: true,
+      message: "Tạo chi nhánh thành công",
+      data: doc
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
 });
-
 
 router.get("/branches/:id", async (req, res) => {
   try {
-    const {id} = req.params
+    const { id } = req.params;
 
-    const data = await Branch.findOne({ _id: id})
+    const data = await Branch.findOne({ _id: id });
 
-    if (data) {
+    if (!data) {
+      return res.status(404).json({
+        success: false,
+        message: "Không tìm thấy chi nhánh"
+      });
+    }
+
     res.status(200).json({
       success: true,
-      message: "Lấy tỉnh theo ID thành công!",
+      message: "Lấy chi nhánh theo ID thành công!",
       data: data,
-    })}
-  }
-  catch (e) {
-    res.status(500).json({message: 'Lỗi server'})
+    });
+  } catch (e) {
+    res.status(500).json({ 
+      success: false,
+      message: "Lỗi server",
+      error: e.message
+    });
   }
 });
 
 router.get("/branchesZone/:id", async (req, res) => {
   try {
-    const {id} = req.params
+    const { id } = req.params;
 
-    const data = await Branch.findOne({ branchId: id})
+    const data = await Branch.findOne({ _id: id });
 
-    if (data) {
+    if (!data) {
+      return res.status(404).json({
+        success: false,
+        message: "Không tìm thấy chi nhánh"
+      });
+    }
+
     res.status(200).json({
       success: true,
-      message: "Lấy tỉnh theo ID thành công!",
+      message: "Lấy chi nhánh thành công!",
       data: data,
-    })}
-  }
-  catch (e) {
-    res.status(500).json({message: 'Lỗi server'})
+    });
+  } catch (e) {
+    res.status(500).json({ 
+      success: false,
+      message: "Lỗi server",
+      error: e.message
+    });
   }
 });
-
 
 export default router;

@@ -271,35 +271,4 @@ router.delete("/ticket-types/:id", async (req, res) => {
   }
 });
 
-router.get("/branches", async (req, res) => {
-  try {
-    const branches = await Branch.find().select("branchName provincesName");
-    res.status(200).json({
-      success: true,
-      data: branches
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    });
-  }
-});
-
-router.get("/zones/:branchId", async (req, res) => {
-  try {
-    const zones = await Zone.find({ branchesId: req.params.branchId })
-      .select("zoneName description");
-    res.status(200).json({
-      success: true,
-      data: zones
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    });
-  }
-});
-
 export default router;

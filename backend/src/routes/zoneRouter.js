@@ -30,4 +30,20 @@ router.get("/zones/:id", async (req, res) => {
   }
 });
 
+router.get("/zones/:branchId", async (req, res) => {
+  try {
+    const zones = await Zone.find({ branchesId: req.params.branchId })
+      .select("zoneName description");
+    res.status(200).json({
+      success: true,
+      data: zones
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+});
+
 export default router;
