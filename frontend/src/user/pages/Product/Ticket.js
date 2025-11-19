@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, userInfo } from "react";
 import Loading from "../../components/Layout/loading";
 import CurrentPage from "../../components/Layout/CurrentPage/currentPage";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -351,7 +351,28 @@ export default function Ticket() {
               <span className="popup-total">
                 {totalPrice.toLocaleString("vi-VN")} vnđ
               </span>
-              <button className="popup-btn-buy">Đặt ngay</button>
+                <button
+                  className="popup-btn-buy"
+                  onClick={() => {
+                    setShowPopup(false);
+                    navigate("/payment", {
+                      state: {
+                        userId: userInfo?._id,
+                        usingDate: formatDate(selectedDate),
+                        ticketName: selectedTicket.ticketName,
+                        branchName: state.branchName,
+                        adultCount: ticketCounts.adult,
+                        childCount: ticketCounts.child,
+                        priceAdult: selectedTicket.priceAdult,
+                        priceChild: selectedTicket.priceChild,
+                        totalPrice,
+                        ticketImage: state.branchImages[0],
+                      },
+                    });
+                  }}
+                >
+                  Đặt ngay
+                </button>
             </div>
           </div>
         </>

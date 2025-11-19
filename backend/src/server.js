@@ -12,9 +12,10 @@ import authRoutes from "./routes/auth.routes.js";
 import provinceRouter from "./routes/provinceRouter.js";
 import ticketTypeRouter from "./routes/ticketTypeRouter.js"
 import zoneRouter from "./routes/zoneRouter.js"
-import bookingRouter from "./routes/bookingRouter.js"
+import bookingRouterAdmin from "./admin/bookingRouter.js"
+import bookingRouter from './routes/booking.route.js'
 
-import adminRouter from './routes/adminRouter.js'
+import adminRouter from './admin/adminRouter.js'
 
 const app = express();
 
@@ -70,9 +71,10 @@ app.use("/auth", authRoutes);
 app.use("/api", provinceRouter); 
 app.use("/api", ticketTypeRouter);
 app.use("/api", zoneRouter);
-app.use("/api", bookingRouter);
+app.use("/api/bookings", bookingRouter);
 
 app.use("/api", adminRouter);
+app.use("/api", bookingRouterAdmin);
 
 const PORT = process.env.PORT || 4000;
 
