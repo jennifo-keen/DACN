@@ -207,3 +207,21 @@
   color: #28a745;
   font-weight: 600;
 }
+.funword-checkout-payment {
+  margin-top: 40px;
+  align-items: center;
+}
+.funword-checkout-payment p {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+.funword-checkout-payment img {
+    display: flex;
+  height: 45px;
+  margin: 0 10px;
+}
+.checkout-payment-img{
+    display: flex;
+    justify-content: center;
+}

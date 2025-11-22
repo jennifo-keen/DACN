@@ -2,16 +2,21 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./PaymentPage.css";
 
+const API_BASE = "http://localhost:4000";
+
 export default function PaymentPage() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const [booking, setBooking] = useState(null);
+  const [rid, setRid] = useState(null); // booking ID
   const [remainingTime, setRemainingTime] = useState(null);
   const [promoCode, setPromoCode] = useState("");
   const [discount, setDiscount] = useState(0);
   const [finalTotal, setFinalTotal] = useState(state?.totalPrice || 0);
   const [promoMessage, setPromoMessage] = useState("");
+  const [selectedPayment, setSelectedPayment] = useState("");
 
+  // ===== TẠO BOOKING KHI VÀO TRANG =====
   useEffect(() => {
     const createBooking = async () => {
       try {
@@ -45,7 +50,7 @@ export default function PaymentPage() {
           userId,
           usingDate: usingDateISO,
           totalAmount: Number(state?.totalPrice || 0),
-          paymentMethod: "momo",
+          paymentMethod: "pending", // Chưa chọn, để pending
           tickets: [
             {
               branchId: state?.branchId,
@@ -59,7 +64,7 @@ export default function PaymentPage() {
           ],
         };
 
-        const res = await fetch("http://localhost:4000/api/bookings", {
+        const res = await fetch(`${API_BASE}/api/bookings`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
@@ -68,6 +73,7 @@ export default function PaymentPage() {
         const data = await res.json();
         if (data.success) {
           setBooking(data.booking);
+          setRid(data.booking._id); // Lưu rid để dùng khi thanh toán
         } else {
           alert(data.message || "Lỗi khi lưu booking");
         }
@@ -79,6 +85,7 @@ export default function PaymentPage() {
     createBooking();
   }, [state, navigate]);
 
+  // ===== COUNTDOWN HẾT HẠN =====
   useEffect(() => {
     if (!booking?.expireAt) return;
 
@@ -100,7 +107,7 @@ export default function PaymentPage() {
 
   const handleExpire = async () => {
     if (!booking?._id) return;
-    await fetch(`http://localhost:4000/api/bookings/${booking._id}`, {
+    await fetch(`${API_BASE}/api/bookings/${booking._id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: "expired" }),
@@ -109,53 +116,109 @@ export default function PaymentPage() {
     navigate("/search");
   };
 
-  const handlePayment = async () => {
-    if (!booking?._id) return;
-    await fetch(`http://localhost:4000/api/bookings/${booking._id}/pay`, {
-      method: "PUT",
-    });
-    alert("Thanh toán thành công!");
-    navigate("/user/history");
+  // ===== CHỌN PHƯƠNG THỨC THANH TOÁN =====
+  const handleSelectPayment = (method) => {
+    console.log("Selected:", method);
+    setSelectedPayment(method);
   };
 
-const handleApplyPromo = async () => {
-  if (!promoCode.trim()) return alert("Vui lòng nhập mã giảm giá");
-
-  try {
-    const res = await fetch("http://localhost:4000/api/promo/check-promo", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ code: promoCode.trim() }),
-    });
-    const data = await res.json();
-
-    // 🟢 Thêm đoạn này ngay sau khi nhận data:
-    if (!data.success) {
-      alert(data.message || "Mã giảm giá không hợp lệ hoặc hết hạn");
-      setPromoMessage("");
-      return;
+  // ===== THANH TOÁN =====
+  const handlePayment = async () => {
+    if (!selectedPayment) {
+      return alert("Vui lòng chọn phương thức thanh toán");
     }
 
-    // ✅ Nếu hợp lệ thì tiếp tục xử lý giảm giá
-    const discountValue = (state?.totalPrice * data.discountPercent) / 100;
-    setDiscount(discountValue);
-    setFinalTotal(state?.totalPrice - discountValue);
-    setPromoMessage(`Áp dụng thành công! Giảm ${data.discountPercent}%`);
-  } catch (err) {
-    console.error(err);
-    setPromoMessage("Lỗi khi áp dụng mã");
-  }
-};
+    if (!rid) {
+      return alert("Đang tạo đơn hàng, vui lòng chờ...");
+    }
 
+    try {
+      let res;
+
+      // ====== MOMO ======
+      if (selectedPayment === "momo") {
+        const token = localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
+        if (!token) {
+          alert("Bạn phải đăng nhập trước khi thanh toán");
+          navigate("/login");
+          return;
+        }
+
+        res = await fetch(`${API_BASE}/api/PTTT/momo`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ amount: finalTotal, rid }),
+        });
+      }
+      // ====== VNPAY ======
+      else if (selectedPayment === "vnpay") {
+        res = await fetch(`${API_BASE}/api/PTTT/vnpay`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ amount: finalTotal, rid }),
+        });
+      }
+      // ====== ZALOPAY ======
+      else if (selectedPayment === "zalopay") {
+        res = await fetch(`${API_BASE}/api/PTTT/zalopay`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ amount: finalTotal, rid }),
+        });
+      }
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Không tạo được link thanh toán");
+      }
+
+      // Redirect tới trang thanh toán
+      window.location.href = data.payUrl;
+
+    } catch (err) {
+      console.error("❌ Lỗi thanh toán:", err);
+      alert(err.message);
+    }
+  };
+
+  // ===== ÁP DỤNG MÃ GIẢM GIÁ =====
+  const handleApplyPromo = async () => {
+    if (!promoCode.trim()) return alert("Vui lòng nhập mã giảm giá");
+
+    try {
+      const res = await fetch(`${API_BASE}/api/promo/check-promo`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: promoCode.trim() }),
+      });
+      const data = await res.json();
+
+      if (!data.success) {
+        alert(data.message || "Mã giảm giá không hợp lệ hoặc hết hạn");
+        setPromoMessage("");
+        return;
+      }
+
+      const discountValue = (state?.totalPrice * data.discountPercent) / 100;
+      setDiscount(discountValue);
+      setFinalTotal(state?.totalPrice - discountValue);
+      setPromoMessage(`Áp dụng thành công! Giảm ${data.discountPercent}%`);
+    } catch (err) {
+      console.error(err);
+      setPromoMessage("Lỗi khi áp dụng mã");
+    }
+  };
 
   const fmtMoney = (n) =>
     n?.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
 
   const fmtTime = (sec) => {
     if (sec == null) return "--:--";
-    const m = Math.floor(sec / 60)
-      .toString()
-      .padStart(2, "0");
+    const m = Math.floor(sec / 60).toString().padStart(2, "0");
     const s = (sec % 60).toString().padStart(2, "0");
     return `${m}:${s}`;
   };
@@ -163,11 +226,15 @@ const handleApplyPromo = async () => {
   return (
     <div className="payment-page">
       <div className="payment-page__step">
-        <div className="payment-page__step-item active">
+        <div className="payment-page__step-item completed">
           <div className="payment-page__step-icon">01</div>
           <span>Chọn sản phẩm</span>
         </div>
-        <div className="payment-page__step-item">
+        <div className="payment-page__step-item completed">
+          <div className="payment-page__step-icon">02</div>
+          <span>Xác nhận</span>
+        </div>
+        <div className="payment-page__step-item active">
           <div className="payment-page__step-icon">03</div>
           <span>Thanh toán</span>
         </div>
@@ -232,8 +299,31 @@ const handleApplyPromo = async () => {
             </div>
 
             <p className="payment-page__expire">⏱ Thời gian còn lại: {fmtTime(remainingTime)}</p>
-            <button className="payment-page__btn-continue" onClick={handlePayment}>Tiếp tục</button>
           </div>
+
+          {/* PAYMENT METHODS */}
+          <div className="funword-checkout-payment">
+            <p>Chọn phương thức thanh toán</p>
+            <div className="checkout-payment-img">
+              <div
+                className={`payment-option-box ${selectedPayment === "momo" ? "payment-selected" : ""}`}
+                onClick={() => handleSelectPayment("momo")}
+              >
+                <img src="/img/momo.png" alt="MoMo" />
+                
+              </div>
+            </div>
+
+            {selectedPayment && (
+              <p style={{ marginTop: 10, color: "#28a745", fontWeight: 600 }}>
+                ✓ Đã chọn: {selectedPayment.toUpperCase()}
+              </p>
+            )}
+          </div>
+
+          <button className="payment-page__btn-continue" onClick={handlePayment}>
+            Tiếp tục thanh toán
+          </button>
         </div>
       </div>
     </div>

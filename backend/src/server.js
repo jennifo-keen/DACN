@@ -15,7 +15,8 @@ import zoneRouter from "./routes/zoneRouter.js"
 import bookingRouterAdmin from "./admin/bookingRouter.js"
 import bookingRouter from './routes/booking.route.js'
 import promoRoutes from "./routes/promoCode.routes.js";
-
+import momo from "./routes/PTTT/Momo.js";
+import momoNotify from "./routes/PTTT/MomoNotify.js";
 import adminRouter from './admin/adminRouter.js'
 
 const app = express();
@@ -74,7 +75,8 @@ app.use("/api", ticketTypeRouter);
 app.use("/api", zoneRouter);
 app.use("/api/bookings", bookingRouter);
 app.use("/api/promo", promoRoutes);
-
+app.use("/api/PTTT/momo", momo);
+app.use("/api/PTTT/momo", momoNotify);
 app.use("/api", adminRouter);
 app.use("/api", bookingRouterAdmin);
 
