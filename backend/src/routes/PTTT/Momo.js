@@ -45,7 +45,7 @@ momo.post("/", verifyToken,async (req, res) => {
     const orderId = rid;
     const orderInfo = "Thanh toán vé Funword";
     const redirectUrl = `http://localhost:3000/checkout/result`;
-    const ipnUrl = "https://mae-blastoporic-zetta.ngrok-free.dev/api/payments/momo/notify";
+    const ipnUrl = "https://mae-blastoporic-zetta.ngrok-free.dev/api/PTTT/momo/notify";
     const requestType = "captureWallet";
 
     // lấy userId từ token decode middleware
