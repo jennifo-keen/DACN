@@ -36,29 +36,32 @@ export default function CheckoutResultPage() {
     verifyPayment();
   }, [location.search, navigate]);
 
-  if (status === "loading") return <div className="payment-page">⏳ Đang xác minh thanh toán...</div>;
+  if (status === "loading")
+    return <div className="checkout-result-page">⏳ Đang xác minh thanh toán...</div>;
 
   return (
-    <div className="payment-page">
+    <div className="checkout-result-page">
       {status === "success" && (
-        <div className="result success">
+        <div className="checkout-result-box checkout-result-success">
           <h2>🎉 Thanh toán thành công!</h2>
           <p>Bạn sẽ được chuyển đến trang Đơn hàng trong giây lát...</p>
-          <Link className="btn" to="/orders">Xem đơn hàng</Link>
+          <Link className="checkout-result-btn" to="/orders">Xem đơn hàng</Link>
         </div>
       )}
+
       {status === "failed" && (
-        <div className="result failed">
+        <div className="checkout-result-box checkout-result-failed">
           <h2>❌ Thanh toán thất bại</h2>
           <p>Vui lòng thử lại hoặc liên hệ hỗ trợ.</p>
-          <Link className="btn" to="/">Về trang chủ</Link>
+          <Link className="checkout-result-btn" to="/">Về trang chủ</Link>
         </div>
       )}
+
       {status === "error" && (
-        <div className="result error">
+        <div className="checkout-result-box checkout-result-error">
           <h2>⚠️ Lỗi hệ thống</h2>
           <p>Không thể xác minh trạng thái thanh toán.</p>
-          <Link className="btn" to="/">Thử lại</Link>
+          <Link className="checkout-result-btn" to="/">Thử lại</Link>
         </div>
       )}
     </div>

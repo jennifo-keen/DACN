@@ -1,9 +1,10 @@
-.payment-page {
+.checkout-result-page {
   text-align: center;
   padding: 100px 20px;
 }
 
-.result {
+/* Khung kết quả */
+.checkout-result-box {
   display: inline-block;
   padding: 40px 60px;
   border-radius: 16px;
@@ -11,11 +12,20 @@
   background: #fff;
 }
 
-.success { border-left: 6px solid #22c55e; }
-.failed { border-left: 6px solid #ef4444; }
-.error { border-left: 6px solid #f59e0b; }
+.checkout-result-success {
+  border-left: 6px solid #22c55e;
+}
 
-.btn {
+.checkout-result-failed {
+  border-left: 6px solid #ef4444;
+}
+
+.checkout-result-error {
+  border-left: 6px solid #f59e0b;
+}
+
+/* Nút */
+.checkout-result-btn {
   display: inline-block;
   margin-top: 20px;
   background: #2563eb;
@@ -25,6 +35,6 @@
   border-radius: 6px;
 }
 
-.btn:hover {
+.checkout-result-btn:hover {
   background: #1d4ed8;
 }

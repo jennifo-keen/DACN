@@ -1,37 +1,66 @@
-.ticket-detail-container {
-  max-width: 900px;
-  margin: 40px auto;
-  background: #fff;
-  padding: 30px;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+/* Container chính */
+.tdp-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 30px 20px;
 }
 
-.booking-info {
-  background: #f9fafc;
-  border-left: 4px solid #0ea5e9;
-  padding: 16px;
-  margin-bottom: 24px;
-  border-radius: 8px;
+.tdp-title {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-.ticket-list {
+/* Thông tin booking */
+.tdp-booking-info {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+  margin-bottom: 30px;
+}
+
+/* Loading + Error */
+.tdp-loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+}
+
+.tdp-error {
+  color: #dc2626;
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+}
+
+/* Mỗi block vé */
+.tdp-ticket-block {
+  margin-bottom: 35px;
+}
+
+.tdp-ticket-title {
+  margin-bottom: 15px;
+}
+
+/* Danh sách vé */
+.tdp-ticket-list {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
 }
 
-.ticket-card {
-  background: #f5f8ff;
-  border: 1px solid #e0e7ff;
-  border-radius: 12px;
-  padding: 16px;
+/* Card vé */
+.tdp-ticket-card {
+  background: #ffffff;
   width: 220px;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
   text-align: center;
 }
 
-.qr-img {
-  width: 180px;
-  height: 180px;
+.tdp-qr-img {
+  width: 130px;
+  height: 130px;
   margin-bottom: 10px;
 }
