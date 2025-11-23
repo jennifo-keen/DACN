@@ -137,7 +137,7 @@ export default function PaymentPage() {
 
       // ====== MOMO ======
       if (selectedPayment === "momo") {
-        const token = localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
+        const token = localStorage.getItem("authUser") || sessionStorage.getItem("authUser");
         if (!token) {
           alert("Bạn phải đăng nhập trước khi thanh toán");
           navigate("/login");

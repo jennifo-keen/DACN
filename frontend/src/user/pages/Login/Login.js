@@ -22,10 +22,6 @@ export default function LoginPage() {
   const [confirm, setConfirm] = useState("");
   const [phone, setPhone] = useState(""); // ✅ thêm SĐT
 
-  useEffect(() => {
-    const u = localStorage.getItem("user");
-    if (u) console.log("User:", JSON.parse(u));
-  }, []);
 
   // ================= LOGIN =================
   async function handleLogin(e) {
@@ -53,7 +49,13 @@ export default function LoginPage() {
         return;
       }
 
-      localStorage.setItem("user", JSON.stringify(data));
+      localStorage.setItem("token", data.token); // token
+      localStorage.setItem("user", JSON.stringify({
+        _id: data._id,
+        name: data.name,
+        email: data.email,
+        role: data.role,
+      }));
       setMsg("Đăng nhập thành công!");
       setTimeout(() => navigate("/"), 800);
     } catch (err) {

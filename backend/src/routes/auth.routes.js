@@ -1,7 +1,7 @@
 import express from "express";
 import { User } from "../models/User.js";
 import bcrypt from "bcryptjs";
-
+import jwt from "jsonwebtoken";
 const router = express.Router();
 
 // 📌 Đăng ký
@@ -36,7 +36,14 @@ router.post("/login-plain", async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(401).json({ error: "Invalid credentials" });
 
+    const token = jwt.sign(
+      { id: user._id, email: user.email, role: user.role },
+      "mysecretkey", // đổi thành key bí mật của bạn
+      { expiresIn: "1h" } // token hết hạn 1 tiếng
+    );
+
     res.json({
+      token,
       _id: user._id,
       email: user.email,
       name: user.name,
