@@ -30,7 +30,7 @@ router.get("/zones/:id", async (req, res) => {
   }
 });
 
-router.get("/zones/:branchId", async (req, res) => {
+router.get("/zones/branch/:branchId", async (req, res) => {
   try {
     const zones = await Zone.find({ branchesId: req.params.branchId })
       .select("zoneName description");
