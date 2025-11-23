@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { Booking } from "../models/Booking.js";
+import Booking from "../models/Booking.js";
 import { BookingDetail } from "../models/BookingDetail.js";
 import { Payment } from "../models/Payment.js";
 

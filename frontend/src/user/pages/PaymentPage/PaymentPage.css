@@ -1,0 +1,227 @@
+.payment-page {
+  background-color: #f7f8fc;
+  min-height: 100vh;
+  padding: 20px 60px;
+  font-family: "Inter", sans-serif;
+  color: #333;
+}
+
+/* Steps */
+.payment-page__step {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 50px;
+  margin-bottom: 30px;
+}
+
+.payment-page__step-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #999;
+  font-weight: 500;
+}
+
+.payment-page__step-item.active {
+  color: #f15a29;
+}
+
+.payment-page__step-icon {
+  background-color: #f15a29;
+  color: white;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+/* Layout */
+.payment-page__content {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+/* Left ticket card */
+.payment-page__left {
+  flex: 2;
+}
+
+.payment-page__ticket-card {
+  display: flex;
+  align-items: center;
+  background: white;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+  gap: 20px;
+  position: relative;
+}
+
+.payment-page__ticket-image {
+  width: 120px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.payment-page__ticket-info h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 8px;
+}
+
+.payment-page__ticket-info p {
+  font-size: 14px;
+  margin: 2px 0;
+}
+
+.payment-page__ticket-info .date {
+  color: #555;
+}
+
+.payment-page__ticket-info .people {
+  color: #666;
+}
+
+.payment-page__edit-btn {
+  background: none;
+  color: #f15a29;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+}
+
+/* Right panel */
+.payment-page__right {
+  flex: 1;
+  background: white;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+}
+
+.payment-page__right h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.payment-page__order-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.payment-page__order-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+}
+
+.payment-page__order-row.total {
+  font-weight: 600;
+  border-top: 1px solid #eee;
+  padding-top: 8px;
+}
+
+.payment-page__total-amount {
+  color: #f15a29;
+  font-weight: 700;
+}
+
+.payment-page__expire {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #d9534f;
+}
+
+.payment-page__btn-continue {
+  margin-top: 15px;
+  width: 100%;
+  background-color: #f15a29;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.payment-page__btn-continue:hover {
+  background-color: #d94a20;
+}
+
+/* Promo section */
+.payment-page__promo-section {
+  margin-top: 10px;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+}
+
+.payment-page__promo-input {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.payment-page__promo-input input {
+  flex: 1;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 14px;
+}
+
+.payment-page__promo-input button {
+  background-color: #f15a29;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.payment-page__promo-input button:hover {
+  background-color: #d94a20;
+}
+
+.payment-page__promo-message {
+  font-size: 13px;
+  color: #28a745;
+  margin-top: 5px;
+}
+
+.payment-page__discount-amount {
+  color: #28a745;
+  font-weight: 600;
+}
+.funword-checkout-payment {
+  margin-top: 40px;
+  align-items: center;
+}
+.funword-checkout-payment p {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+.funword-checkout-payment img {
+    display: flex;
+  height: 45px;
+  margin: 0 10px;
+}
+.checkout-payment-img{
+    display: flex;
+    justify-content: center;
+}

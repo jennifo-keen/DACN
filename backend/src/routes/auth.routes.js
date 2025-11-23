@@ -1,9 +1,29 @@
 import express from "express";
 import { User } from "../models/User.js";
 import bcrypt from "bcryptjs";
-
+import jwt from "jsonwebtoken";
 const router = express.Router();
 
+function signToken(user) {
+  const secret = process.env.JWT_SECRET || "funworld_backup_secret_key_2024_minimum_32_chars_long";
+  
+  // ✅ Nhét toàn bộ user info vào payload
+  const payload = { 
+    sub: user._id.toString(),
+    _id: user._id.toString(),
+    email: user.email,
+    name: user.name,
+    phone: user.phone,
+    role: user.role,
+    status: user.status
+  };
+  
+  const expiresIn = process.env.JWT_EXPIRES || "7d";
+  const token = jwt.sign(payload, secret, { expiresIn });
+  
+  console.log("✅ Token created with user data inside");
+  return token;
+}
 // 📌 Đăng ký
 router.post("/register", async (req, res) => {
   try {
@@ -36,13 +56,17 @@ router.post("/login-plain", async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(401).json({ error: "Invalid credentials" });
 
+    const token = signToken(user);
     res.json({
-      _id: user._id,
+      success: true,
+      message: "Đăng nhập thành công",
+      token,
+      user: {
+         _id: user._id,
       email: user.email,
       name: user.name,
-      role: user.role,
-      status: user.status,
-      phone: user.phone,
+      phone: user.phone
+      }
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
