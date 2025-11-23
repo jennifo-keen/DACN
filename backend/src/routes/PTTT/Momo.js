@@ -5,37 +5,30 @@ import jwt from "jsonwebtoken";
 
 const momo = express.Router();
 
+// Middleware kiểm tra token
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
-  
-  console.log("=== AUTH CHECK ===");
-  console.log("Authorization header:", authHeader);
-  
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({ error: "Không có token" });
   }
 
   const token = authHeader.split(" ")[1];
-
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log("Decoded token:", decoded);
-    
-    req.user = { 
-      id: decoded.sub || decoded.userId || decoded.id || decoded._id 
-    };
-    
-    console.log("req.user:", req.user);
+    req.user = { id: decoded.sub || decoded._id || decoded.id };
     next();
   } catch (err) {
     console.error("Token error:", err.message);
     return res.status(401).json({ error: "Token không hợp lệ" });
   }
 };
-momo.post("/", verifyToken,async (req, res) => {
+
+// ======= Tạo thanh toán MoMo =======
+momo.post("/", verifyToken, async (req, res) => {
   try {
-    const { amount, rid } = req.body; 
-    if (!amount || !rid) return res.status(400).json({ error: "Thiếu amount hoặc rid" });
+    const { amount, rid, tickets } = req.body;
+    if (!amount || !rid)
+      return res.status(400).json({ error: "Thiếu amount hoặc rid" });
 
     // ==== Thông tin MoMo ====
     const partnerCode = "MOMO";
@@ -43,14 +36,17 @@ momo.post("/", verifyToken,async (req, res) => {
     const secretKey = "K951B6PE1waDMi640xX08PD3vg6EkVlz";
     const requestId = partnerCode + Date.now();
     const orderId = rid;
-    const orderInfo = "Thanh toán vé Funword";
+    const orderInfo = "Thanh toán vé Funworld";
     const redirectUrl = `http://localhost:3000/checkout/result`;
     const ipnUrl = "https://mae-blastoporic-zetta.ngrok-free.dev/api/PTTT/momo/notify";
     const requestType = "captureWallet";
-
-    // lấy userId từ token decode middleware
     const userId = req.user?.id;
-    const extraData = JSON.stringify({ rid, userId }); 
+
+    // ===== Extra data: gửi bookingId, userId, danh sách vé =====
+    const extraData = Buffer.from(
+      JSON.stringify({ rid, userId, tickets })
+    ).toString("base64");
+
     // ==== Tạo chữ ký ====
     const rawSignature =
       `accessKey=${accessKey}&amount=${amount}&extraData=${extraData}` +
@@ -76,13 +72,13 @@ momo.post("/", verifyToken,async (req, res) => {
       extraData,
       requestType,
       signature,
-      lang: "en",
+      lang: "vi",
     };
 
-    console.log("--------------------REQUEST BODY----------------");
+    console.log("==== REQUEST BODY ====");
     console.log(requestBody);
 
-    // ==== Gửi request tới MoMo test endpoint ====
+    // ==== Gửi request tới MoMo ====
     const options = {
       hostname: "test-payment.momo.vn",
       port: 443,

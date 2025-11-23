@@ -150,7 +150,22 @@ export default function PaymentPage() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ amount: finalTotal, rid }),
+          body: JSON.stringify({
+            amount: finalTotal,
+            rid,
+            tickets: [
+              {
+                branchId: state?.branchId,
+                ticketTypeId: state?.ticketId,
+                quantityAdult: state?.adultCount,
+                quantityChild: state?.childCount,
+                priceAdult: state?.priceAdult,
+                priceChild: state?.priceChild,
+                totalPrice: state?.totalPrice,
+              },
+            ],
+          }),
+
         });
       }
       // ====== VNPAY ======

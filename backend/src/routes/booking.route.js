@@ -119,5 +119,13 @@ router.put("/:id", async (req, res) => {
     res.status(500).json({ success: false, message: "Lỗi server" });
   }
 });
-
+router.get("/user/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const bookings = await Booking.find({ userId }).sort({ createdAt: -1 });
+    res.json(bookings);
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
+});
 export default router;

@@ -17,6 +17,8 @@ import bookingRouter from './routes/booking.route.js'
 import promoRoutes from "./routes/promoCode.routes.js";
 import momo from "./routes/PTTT/Momo.js";
 import momoNotify from "./routes/PTTT/MomoNotify.js";
+import ticketRoute from "./routes/ticket.route.js";
+
 import adminRouter from './admin/adminRouter.js'
 
 const app = express();
@@ -28,7 +30,10 @@ app.use(cors({
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true,
 }));
-
+app.use((req, res, next) => {
+  res.setHeader("ngrok-skip-browser-warning", "true");
+  next();
+});
 
 // Route kiểm tra server
 app.get("/", (_req, res) => res.json({ ok: true }));
@@ -44,6 +49,8 @@ app.use("/api/bookings", bookingRouter);
 app.use("/api/promo", promoRoutes);
 app.use("/api/PTTT/momo", momo);
 app.use("/api/PTTT/momo", momoNotify);
+app.use("/api/bookings", ticketRoute);
+
 app.use("/api", adminRouter);
 app.use("/api", bookingRouterAdmin);
 

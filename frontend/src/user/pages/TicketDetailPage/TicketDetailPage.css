@@ -1,0 +1,37 @@
+.ticket-detail-container {
+  max-width: 900px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.booking-info {
+  background: #f9fafc;
+  border-left: 4px solid #0ea5e9;
+  padding: 16px;
+  margin-bottom: 24px;
+  border-radius: 8px;
+}
+
+.ticket-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.ticket-card {
+  background: #f5f8ff;
+  border: 1px solid #e0e7ff;
+  border-radius: 12px;
+  padding: 16px;
+  width: 220px;
+  text-align: center;
+}
+
+.qr-img {
+  width: 180px;
+  height: 180px;
+  margin-bottom: 10px;
+}

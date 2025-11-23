@@ -9,8 +9,10 @@ import Ticket from "../user/pages/Product/Ticket";
 import TicketDetail from "../user/pages/ProductDetail/TicketDetail";
 import Destination from "../user/pages/Destination/Destination"
 import Profile from "../user/pages/Profile/Profile";
-import PaymentPage
- from "../user/pages/PaymentPage/PaymentPage";
+import PaymentPage from "../user/pages/PaymentPage/PaymentPage";
+import OrdersPage from "../user/pages/Orders/OrdersPage";
+import TicketDetailPage from "../user/pages/TicketDetailPage/TicketDetailPage";
+import CheckoutResultPage from "../user/pages/CheckoutResult/CheckoutResultPage";
 // Admin
 
 export function UserRoutes() {
@@ -24,6 +26,9 @@ export function UserRoutes() {
       <Route path="/dest" element={<Destination />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/payment" element={<PaymentPage />} />
+      <Route path="/orders" element={<OrdersPage />} />
+      <Route path="/ticket-detail/:bookingId" element={<TicketDetailPage />} />
+      <Route path="/checkout/result" element={<CheckoutResultPage />} />
     </Route>
     <Route path="login" element={<Login />} />
     </>
