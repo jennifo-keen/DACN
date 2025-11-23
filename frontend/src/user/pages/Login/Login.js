@@ -51,10 +51,10 @@ export default function LoginPage() {
 
       localStorage.setItem("token", data.token); // token
       localStorage.setItem("user", JSON.stringify({
-        _id: data._id,
-        name: data.name,
-        email: data.email,
-        role: data.role,
+        _id: data.user._id,
+        name: data.user.name,
+        email: data.user.email,
+        phone: data.user.phone
       }));
       setMsg("Đăng nhập thành công!");
       setTimeout(() => navigate("/"), 800);
