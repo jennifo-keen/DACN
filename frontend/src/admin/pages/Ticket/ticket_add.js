@@ -47,15 +47,18 @@ const AddTicketType = () => {
     }
   };
 
-  const fetchZones = async (branchId) => {
+const fetchZones = async (branchId) => {
     try {
-      const response = await fetch(`http://localhost:4000/api/zones/${branchId}`);
+      const response = await fetch(`http://localhost:4000/api/zones/branch/${branchId}`);
       const data = await response.json();
       if (data.success) {
-        setZones(data.data);
+        setZones(data.data || []); 
+      } else {
+        setZones([]); 
       }
     } catch (err) {
       console.error("Không thể tải danh sách khu vực:", err);
+      setZones([]);
       alert("Không thể tải danh sách khu vực");
     }
   };
@@ -272,7 +275,7 @@ const AddTicketType = () => {
           </label>
           {!formData.branchId ? (
             <p className="info-text">Vui lòng chọn chi nhánh trước</p>
-          ) : zones.length === 0 ? (
+          ) : (zones?.length || 0) === 0 ? (
             <p className="info-text">Chi nhánh này chưa có khu vực nào</p>
           ) : (
             <div className="checkbox-group">
