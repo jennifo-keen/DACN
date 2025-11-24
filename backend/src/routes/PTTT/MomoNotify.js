@@ -54,6 +54,7 @@ momoNotify.post("/notify", async (req, res) => {
 
     // ===== 2. Lấy BookingDetails =====
     const bookingDetails = await BookingDetail.find({ bookingId });
+    console.log(`📋 Found ${bookingDetails.length} booking details`);
 
     if (!bookingDetails.length) {
       console.warn("❌ Không tìm thấy BookingDetails cho booking này");
@@ -62,26 +63,37 @@ momoNotify.post("/notify", async (req, res) => {
 
     // ===== 3. Tạo Tickets cho từng BookingDetail =====
     const ticketsToInsert = [];
+    console.log("🎫 Starting ticket creation process...");
 
     for (const detail of bookingDetails) {
-      for (let i = 0; i < (detail.quantityAdult + detail.quantityChild); i++) {
-        const audienceType = detail.quantityAdult;
-        const qrCode = await generateUniqueQRCode(audienceType);
-        ticketsToInsert.push({
+      console.log(`Processing detail ${detail._id}, quantity: ${detail.quantity}`);
+      
+      for (let i = 0; i < detail.quantity; i++) {
+        const qrCode = await generateUniqueQRCode(detail.audience);
+        
+        const ticketData = {
           bookingDetailId: detail._id,
           ticketTypeId: detail.ticketTypeId,
           qrCode,
           status: "confirmed",
-        });
+        };
+        
+        console.log(`➡️ Ticket ${i + 1}/${detail.quantity}:`, ticketData);
+        ticketsToInsert.push(ticketData);
       }
     }
 
+    console.log(`✅ Prepared ${ticketsToInsert.length} tickets for insertion`);
+
     if (ticketsToInsert.length > 0) {
-      await Tickets.insertMany(ticketsToInsert);
-      console.log(`✅ Created ${ticketsToInsert.length} Tickets`);
+      const insertedTickets = await Tickets.insertMany(ticketsToInsert);
+      console.log(`✅ Successfully inserted ${insertedTickets.length} tickets into DB`);
+    } else {
+      console.warn("⚠️ No tickets to insert!");
+      return res.status(400).json({ error: "Failed to prepare tickets" });
     }
 
-    // ===== 4. Update Booking =====
+    // ===== 4. Update Booking (CHỈ KHI ĐÃ TẠO TICKETS THÀNH CÔNG) =====
     booking.status = "paid";
     booking.paymentMethod = "momo";
     await booking.save();
