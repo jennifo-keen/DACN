@@ -1,68 +1,48 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation, Link } from "react-router-dom";
-import "./CheckoutResultPage.css";
+import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
-export default function CheckoutResultPage() {
+export default function CheckoutResult() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const [status, setStatus] = useState("loading");
+  const [searchParams] = useSearchParams();
+  const [status, setStatus] = useState(null); // "success" | "fail"
+  const [rid, setRid] = useState(null);
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const orderId = params.get("orderId");
-    const amount = params.get("amount");
+    const resultCode = searchParams.get("errorCode") || searchParams.get("resultCode"); 
+    const orderId = searchParams.get("orderId");
+    setRid(orderId);
 
-    const verifyPayment = async () => {
-      try {
-        const res = await fetch("http://localhost:4000/api/PTTT/momo/verify", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ orderId, amount }),
-        });
+    if (resultCode === "0") {
+      setStatus("success");
+    } else {
+      setStatus("fail");
+    }
+  }, [searchParams]);
 
-        const data = await res.json();
-        if (data.success) {
-          setStatus("success");
-          setTimeout(() => navigate("/orders"), 4000);
-        } else {
-          setStatus("failed");
-        }
-      } catch (err) {
-        console.error("Verify error:", err);
-        setStatus("error");
-      }
-    };
-
-    verifyPayment();
-  }, [location.search, navigate]);
-
-  if (status === "loading")
-    return <div className="checkout-result-page">⏳ Đang xác minh thanh toán...</div>;
+  const handleBack = () => {
+    if (status === "success") {
+      navigate("/"); // trang thành công
+    } else {
+      navigate(`/checkout?rid=${rid}`); // quay lại giỏ hàng
+    }
+  };
 
   return (
-    <div className="checkout-result-page">
+    <div style={{ textAlign: "center", marginTop: 50 }}>
+      {status === null && <p>Đang xử lý thanh toán...</p>}
       {status === "success" && (
-        <div className="checkout-result-box checkout-result-success">
+        <>
           <h2>🎉 Thanh toán thành công!</h2>
-          <p>Bạn sẽ được chuyển đến trang Đơn hàng trong giây lát...</p>
-          <Link className="checkout-result-btn" to="/orders">Xem đơn hàng</Link>
-        </div>
+          <p>Cảm ơn bạn đã đặt vé. Chúng tôi sẽ gửi thông tin chi tiết về email của bạn.</p>
+          <button onClick={handleBack}>Về trang chính</button>
+        </>
       )}
-
-      {status === "failed" && (
-        <div className="checkout-result-box checkout-result-failed">
+      {status === "fail" && (
+        <>
           <h2>❌ Thanh toán thất bại</h2>
-          <p>Vui lòng thử lại hoặc liên hệ hỗ trợ.</p>
-          <Link className="checkout-result-btn" to="/">Về trang chủ</Link>
-        </div>
-      )}
-
-      {status === "error" && (
-        <div className="checkout-result-box checkout-result-error">
-          <h2>⚠️ Lỗi hệ thống</h2>
-          <p>Không thể xác minh trạng thái thanh toán.</p>
-          <Link className="checkout-result-btn" to="/">Thử lại</Link>
-        </div>
+          <p>Vui lòng kiểm tra lại thông tin hoặc thử lại.</p>
+          <button onClick={handleBack}>Quay lại giỏ hàng</button>
+        </>
       )}
     </div>
   );

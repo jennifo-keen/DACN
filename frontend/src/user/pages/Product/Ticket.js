@@ -11,7 +11,7 @@ export default function Ticket() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [initialDate, setInitialDate] = useState(null);
   const navigate = useNavigate();
-
+  const userInfo = JSON.parse(localStorage.getItem("user"));
   // Popup và vé được chọn
   const [showPopup, setShowPopup] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState(null);
@@ -352,27 +352,49 @@ export default function Ticket() {
                 {totalPrice.toLocaleString("vi-VN")} vnđ
               </span>
                 <button
-                  className="popup-btn-buy"
-                  onClick={() => {
-                    setShowPopup(false);
-                    navigate("/payment", {
-                      state: {
-                        userId: userInfo?._id,
-                        usingDate: formatDate(selectedDate),
-                        ticketName: selectedTicket.ticketName,
-                        branchName: state.branchName,
-                        adultCount: ticketCounts.adult,
-                        childCount: ticketCounts.child,
-                        priceAdult: selectedTicket.priceAdult,
-                        priceChild: selectedTicket.priceChild,
-                        totalPrice,
-                        ticketImage: state.branchImages[0],
-                      },
+                className="popup-btn-buy"
+                onClick={() => {
+                  // Chỉ lấy những loại có quantity > 0
+                  const ticketItems = [];
+                  if (ticketCounts.adult > 0) {
+                    ticketItems.push({
+                      ticketTypeId: selectedTicket._id,
+                      audienceType: "adult",
+                      quantity: ticketCounts.adult,
+                      priceAdult: selectedTicket.priceAdult,
                     });
-                  }}
-                >
-                  Đặt ngay
-                </button>
+                  }
+                  if (ticketCounts.child > 0) {
+                    ticketItems.push({
+                      ticketTypeId: selectedTicket._id,
+                      audienceType: "child",
+                      quantity: ticketCounts.child,
+                      priceChild: selectedTicket.priceChild,
+                    });
+                  }
+
+                  if (ticketItems.length === 0) {
+                    alert("Vui lòng chọn ít nhất 1 vé");
+                    return;
+                  }
+
+                  setShowPopup(false);
+                  navigate("/payment", {
+                    state: {
+                      userId: userInfo?._id,
+                      usingDate: formatDate(selectedDate),
+                      branchName: state.branchName,
+                      ticketItems, // Đây là mảng chuẩn gửi lên BE
+                      ticketName: selectedTicket.ticketName,
+                      ticketImage: state.branchImages[0],
+                      totalPrice, // vẫn giữ cho hiển thị FE
+                    },
+                  });
+                }}
+              >
+                Đặt ngay
+              </button>
+
             </div>
           </div>
         </>

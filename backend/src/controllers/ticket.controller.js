@@ -1,7 +1,7 @@
 import Booking from "../models/Booking.js";
-import { BookingDetail } from "../models/BookingDetail.js";
-import { Ticket } from "../models/Ticket.js";
-import { TicketType } from "../models/TicketType.js";
+import  BookingDetail  from "../models/BookingDetail.js";
+import  Tickets  from "../models/Tickets.js";
+import  {TicketType}  from "../models/TicketType.js";
 
 // API lấy toàn bộ vé theo bookingId
 export const getTicketsByBooking = async (req, res) => {
@@ -13,11 +13,11 @@ export const getTicketsByBooking = async (req, res) => {
       return res.status(404).json({ message: "Không tìm thấy đơn đặt vé" });
     }
 
-    const bookingDetails = await BookingDetail.find({ bookingId });
+    const bookingDetail = await BookingDetail.find({ bookingId });
 
     const detailsWithTickets = await Promise.all(
-      bookingDetails.map(async (detail) => {
-        const tickets = await Ticket.find({ bookingDetailId: detail._id })
+      bookingDetail.map(async (detail) => {
+        const tickets = await Tickets.find({ bookingDetailId: detail._id })
           .populate("ticketTypeId", "ticketName priceAdult priceChild");
         return { bookingDetail: detail, tickets };
       })

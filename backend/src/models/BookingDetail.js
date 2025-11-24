@@ -14,4 +14,4 @@ const BookingDetailSchema = new mongoose.Schema(
 );
 
 export const BookingDetail = mongoose.model("bookingDetails", BookingDetailSchema);
-
+export default BookingDetail;

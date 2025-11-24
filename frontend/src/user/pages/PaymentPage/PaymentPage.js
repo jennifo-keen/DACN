@@ -18,6 +18,8 @@ export default function PaymentPage() {
 
   // ===== TẠO BOOKING KHI VÀO TRANG =====
   useEffect(() => {
+    console.log("State received in PaymentPage:", state);
+    console.log("TicketItems:", state?.ticketItems);
     const createBooking = async () => {
       try {
         let userId = null;
@@ -46,23 +48,25 @@ export default function PaymentPage() {
           usingDateISO = new Date(`${year}-${month}-${day}T00:00:00.000Z`);
         }
 
+        const ticketsPayload = state?.ticketItems?.map(item => {
+        const unitPrice = item.audienceType === "adult" ? item.priceAdult : item.priceChild;
+          return {
+            ticketTypeId: item.ticketTypeId,
+            audienceType: item.audienceType,
+            quantity: item.quantity,
+            unitPrice
+          };
+        }) || [];
+
         const payload = {
           userId,
           usingDate: usingDateISO,
-          totalAmount: Number(state?.totalPrice || 0),
-          paymentMethod: "pending", // Chưa chọn, để pending
-          tickets: [
-            {
-              branchId: state?.branchId,
-              ticketTypeId: state?.ticketId,
-              quantityAdult: state?.adultCount,
-              quantityChild: state?.childCount,
-              priceAdult: state?.priceAdult,
-              priceChild: state?.priceChild,
-              totalPrice: state?.totalPrice,
-            },
-          ],
+          totalAmount: Number(finalTotal || 0),
+          paymentMethod: "pending",
+          tickets: ticketsPayload
         };
+
+
 
         const res = await fetch(`${API_BASE}/api/bookings`, {
           method: "POST",
@@ -73,7 +77,7 @@ export default function PaymentPage() {
         const data = await res.json();
         if (data.success) {
           setBooking(data.booking);
-          setRid(data.booking._id); // Lưu rid để dùng khi thanh toán
+          setRid(data.booking._id);
         } else {
           alert(data.message || "Lỗi khi lưu booking");
         }
@@ -83,7 +87,7 @@ export default function PaymentPage() {
     };
 
     createBooking();
-  }, [state, navigate]);
+  }, [state, finalTotal, navigate]);
 
   // ===== COUNTDOWN HẾT HẠN =====
   useEffect(() => {
@@ -118,67 +122,34 @@ export default function PaymentPage() {
 
   // ===== CHỌN PHƯƠNG THỨC THANH TOÁN =====
   const handleSelectPayment = (method) => {
-    console.log("Selected:", method);
     setSelectedPayment(method);
   };
 
   // ===== THANH TOÁN =====
   const handlePayment = async () => {
-    if (!selectedPayment) {
-      return alert("Vui lòng chọn phương thức thanh toán");
-    }
-
-    if (!rid) {
-      return alert("Đang tạo đơn hàng, vui lòng chờ...");
-    }
+    if (!selectedPayment) return alert("Vui lòng chọn phương thức thanh toán");
+    if (!rid) return alert("Đang tạo đơn hàng, vui lòng chờ...");
 
     try {
       let res;
+      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
-      // ====== MOMO ======
+      const paymentBody = { amount: finalTotal, rid };
+      const headers = { "Content-Type": "application/json" };
+      if (token) headers.Authorization = `Bearer ${token}`;
+
       if (selectedPayment === "momo") {
-        const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-        if (!token) {
-          alert("Bạn phải đăng nhập trước khi thanh toán");
-          navigate("/login");
-          return;
-        }
-
-        res = await fetch(`${API_BASE}/api/PTTT/momo`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ amount: finalTotal, rid }),
-        });
-      }
-      // ====== VNPAY ======
-      else if (selectedPayment === "vnpay") {
-        res = await fetch(`${API_BASE}/api/PTTT/vnpay`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ amount: finalTotal, rid }),
-        });
-      }
-      // ====== ZALOPAY ======
-      else if (selectedPayment === "zalopay") {
-        res = await fetch(`${API_BASE}/api/PTTT/zalopay`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ amount: finalTotal, rid }),
-        });
+        res = await fetch(`${API_BASE}/api/PTTT/momo`, { method: "POST", headers, body: JSON.stringify(paymentBody) });
+      } else if (selectedPayment === "vnpay") {
+        res = await fetch(`${API_BASE}/api/PTTT/vnpay`, { method: "POST", headers, body: JSON.stringify(paymentBody) });
+      } else if (selectedPayment === "zalopay") {
+        res = await fetch(`${API_BASE}/api/PTTT/zalopay`, { method: "POST", headers, body: JSON.stringify(paymentBody) });
       }
 
       const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Không tạo được link thanh toán");
 
-      if (!res.ok) {
-        throw new Error(data.message || "Không tạo được link thanh toán");
-      }
-
-      // Redirect tới trang thanh toán
       window.location.href = data.payUrl;
-
     } catch (err) {
       console.error("❌ Lỗi thanh toán:", err);
       alert(err.message);
@@ -213,9 +184,7 @@ export default function PaymentPage() {
     }
   };
 
-  const fmtMoney = (n) =>
-    n?.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
-
+  const fmtMoney = (n) => n?.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
   const fmtTime = (sec) => {
     if (sec == null) return "--:--";
     const m = Math.floor(sec / 60).toString().padStart(2, "0");
@@ -248,8 +217,13 @@ export default function PaymentPage() {
               <h4>[{state?.promoTitle || "Ưu đãi 50% HSSV"}] - {state?.ticketName}</h4>
               <p className="branch">{state?.branchName}</p>
               <p className="date">📅 {state?.usingDate}</p>
-              <p className="people">👤 {state?.adultCount} Người lớn, 👶 {state?.childCount} Trẻ em</p>
-              <button className="payment-page__edit-btn">Sửa</button>
+              <div>
+                {state?.ticketItems?.map((t, idx) => (
+                  <p key={idx}>
+                    {t.audienceType === "adult" ? "👤 Người lớn" : "👶 Trẻ em"} x {t.quantity}
+                  </p>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -257,17 +231,14 @@ export default function PaymentPage() {
         <div className="payment-page__right">
           <h3>Chi tiết đơn</h3>
           <div className="payment-page__order-box">
-            <p><b>{state?.ticketName}</b> - {state?.branchName}</p>
-            <div className="payment-page__order-row">
-              <span>Trẻ em x{state?.childCount}</span>
-              <span>{fmtMoney(state?.priceChild * state?.childCount)}</span>
-            </div>
-            <div className="payment-page__order-row">
-              <span>Người lớn x{state?.adultCount}</span>
-              <span>{fmtMoney(state?.priceAdult * state?.adultCount)}</span>
-            </div>
+            {state?.ticketItems?.map((t, idx) => (
+              <div className="payment-page__order-row" key={idx}>
+                <span>{t.audienceType === "adult" ? "Người lớn" : "Trẻ em"} x {t.quantity}</span>
+                <span>{fmtMoney(t.quantity * (t.audienceType === "adult" ? state?.priceAdult : state?.priceChild))}</span>
+              </div>
+            ))}
 
-            <div className="payment-page__promo-section">
+          <div className="payment-page__promo-section">
               <label>Mã giảm giá:</label>
               <div className="payment-page__promo-input">
                 <input
@@ -279,7 +250,7 @@ export default function PaymentPage() {
                 <button onClick={handleApplyPromo}>Áp dụng</button>
               </div>
               {promoMessage && <p className="payment-page__promo-message">{promoMessage}</p>}
-            </div>
+            </div>  
 
             <div className="payment-page__order-row total">
               <span>Tổng tiền gốc</span>
@@ -301,7 +272,6 @@ export default function PaymentPage() {
             <p className="payment-page__expire">⏱ Thời gian còn lại: {fmtTime(remainingTime)}</p>
           </div>
 
-          {/* PAYMENT METHODS */}
           <div className="funword-checkout-payment">
             <p>Chọn phương thức thanh toán</p>
             <div className="checkout-payment-img">
@@ -310,7 +280,6 @@ export default function PaymentPage() {
                 onClick={() => handleSelectPayment("momo")}
               >
                 <img src="/img/momo.png" alt="MoMo" />
-                
               </div>
             </div>
 
