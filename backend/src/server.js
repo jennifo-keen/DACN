@@ -35,7 +35,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Route kiểm tra server
+// Route kiểm tra server.
 app.get("/", (_req, res) => res.json({ ok: true }));
 
 // Mount API routes

@@ -39,7 +39,7 @@ export default function CheckoutResult() {
       )}
       {status === "fail" && (
         <>
-          <h2>❌ Thanh toán thất bại</h2>
+          <h2>❌ Thanh toán thất bại.</h2>
           <p>Vui lòng kiểm tra lại thông tin hoặc thử lại.</p>
           <button onClick={handleBack}>Quay lại giỏ hàng</button>
         </>
