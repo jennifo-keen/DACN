@@ -137,7 +137,7 @@ export default function PaymentPage() {
 
       // ====== MOMO ======
       if (selectedPayment === "momo") {
-        const token = localStorage.getItem("token") || sessionStorage.getItem("user");
+        const token = localStorage.getItem("token") || sessionStorage.getItem("token");
         if (!token) {
           alert("Bạn phải đăng nhập trước khi thanh toán");
           navigate("/login");
@@ -150,22 +150,7 @@ export default function PaymentPage() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({
-            amount: finalTotal,
-            rid,
-            tickets: [
-              {
-                branchId: state?.branchId,
-                ticketTypeId: state?.ticketId,
-                quantityAdult: state?.adultCount,
-                quantityChild: state?.childCount,
-                priceAdult: state?.priceAdult,
-                priceChild: state?.priceChild,
-                totalPrice: state?.totalPrice,
-              },
-            ],
-          }),
-
+          body: JSON.stringify({ amount: finalTotal, rid }),
         });
       }
       // ====== VNPAY ======
