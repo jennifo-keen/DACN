@@ -91,7 +91,7 @@ ticketSchema.pre('save', async function(next) {
     const ticketType = await TicketType.findById(this.ticketTypeId);
     if (ticketType) {
       this.qrCode = await this.constructor.generateQRCode(
-        ticketType.name.toUpperCase(),
+        ticketType.ticketName.toUpperCase(),
         Math.floor(Math.random() * 1000)
       );
     }
