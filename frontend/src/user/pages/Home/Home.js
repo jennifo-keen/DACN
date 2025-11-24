@@ -322,29 +322,6 @@ export default function Home() {
         )}
       </div>
 
-      {/* EXPERIENCE GRID */}
-      <section className="experience">
-        <h2 className="experience__title">TRẢI NGHIỆM VINWONDERS</h2>
-        <div className="experience__grid">
-          <div className="expCard">
-            <img src="/exp/exp1.jpg" alt="Khám phá diệu kỳ" />
-            <div className="expCard__label">KHÁM PHÁ DIỆU KỲ</div>
-          </div>
-          <div className="expCard">
-            <img src="/exp/exp2.jpg" alt="Trải nghiệm văn hóa" />
-            <div className="expCard__label">TRẢI NGHIỆM VĂN HÓA</div>
-          </div>
-          <div className="expCard">
-            <img src="/exp/exp3.jpg" alt="Giải trí diệu kỳ" />
-            <div className="expCard__label">GIẢI TRÍ DIỆU KỲ</div>
-          </div>
-          <div className="expCard">
-            <img src="/exp/exp4.jpg" alt="Lễ hội diệu kỳ" />
-            <div className="expCard__label">LỄ HỘI DIỆU KỲ</div>
-          </div>
-        </div>
-      </section>
-
       {/* DESTINATIONS CAROUSEL */}
       <section className="dest">
         <h2 className="dest__title">KHÁM PHÁ CÁC ĐIỂM ĐẾN CỦA FUNWORK!</h2>
@@ -400,6 +377,31 @@ export default function Home() {
           ))}
         </div>
       </section>
+      
+      {/* EXPERIENCE GRID */}
+      <section className="experience">
+        <h2 className="experience__title">TRẢI NGHIỆM VINWONDERS</h2>
+        <div className="experience__grid">
+          <div className="expCard">
+            <img src="/exp/exp1.jpg" alt="Khám phá diệu kỳ" />
+            <div className="expCard__label">KHÁM PHÁ DIỆU KỲ</div>
+          </div>
+          <div className="expCard">
+            <img src="/exp/exp2.jpg" alt="Trải nghiệm văn hóa" />
+            <div className="expCard__label">TRẢI NGHIỆM VĂN HÓA</div>
+          </div>
+          <div className="expCard">
+            <img src="/exp/exp3.jpg" alt="Giải trí diệu kỳ" />
+            <div className="expCard__label">GIẢI TRÍ DIỆU KỲ</div>
+          </div>
+          <div className="expCard">
+            <img src="/exp/exp4.jpg" alt="Lễ hội diệu kỳ" />
+            <div className="expCard__label">LỄ HỘI DIỆU KỲ</div>
+          </div>
+        </div>
+      </section>
+
+
     </div>
   );
 }

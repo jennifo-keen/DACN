@@ -302,7 +302,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 /* ===== EXPERIENCE GRID ===== */
 .experience {
   max-width: 1180px;
-  margin: 100px auto 60px;
+  margin: 60px auto 60px;
   padding: 0 16px;
   text-align: center;
   position: relative; 
@@ -510,7 +510,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 /* ===== DESTINATIONS CAROUSEL ===== */
 .dest {
   max-width: 1180px;
-  margin: 60px auto 60px;
+  margin: 100px auto 60px;
   padding: 0 16px;
   text-align: center;
   position: relative;
