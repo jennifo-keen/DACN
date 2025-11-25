@@ -26,22 +26,23 @@ export async function answerQuestion(req, res) {
 
             const prompt = `
             <s>[INST]
-            Bạn là trợ lý AI. Trả lời CHỈ dựa trên dữ liệu bên dưới.
+            Bạn là trợ lý AI. Chỉ trả lời dựa trên dữ liệu được cung cấp.
 
             Quy tắc:
             - Nếu dữ liệu KHÔNG chứa thông tin trả lời → trả lời: "Không tìm thấy thông tin".
             - Không lặp lại câu hỏi.
+            - Không nhắc lại hướng dẫn.
             - Không giải thích dài dòng.
-            - Không suy đoán.
+            - Trả lời đúng dựa trên dữ liệu.
 
             Câu hỏi:
             ${question}
 
-            Dữ liệu:
+            Dữ liệu liên quan:
             ${contextText}
 
             TRẢ LỜI:
-            [/INST]
+            [/INST]</s>
             `;
 
 
@@ -49,10 +50,25 @@ export async function answerQuestion(req, res) {
             n_predict: 300,
             temperature: 0.2
         });
+        let clean = (answer || "").trim();
+
+        // XÓA toàn bộ phần prompt echo
+        clean = clean
+            .replace(/[\s\S]*TRẢ LỜI:/i, "") // bỏ mọi thứ trước "TRẢ LỜI:"
+            .replace(/\[\/?INST\]/gi, "")
+            .replace(/<s>/gi, "")
+            .replace(/<\/s>/gi, "")
+            .trim();
+
+        // lấy 1–2 dòng cuối (phòng khi Falcon vẫn echo context)
+        const lines = clean.split("\n").map(l => l.trim()).filter(Boolean);
+        clean = lines.slice(-2).join(" ").trim();
+
+        if (!clean) clean = "Không tìm thấy thông tin.";
 
         res.json({
             question,
-            answer: (answer || "").trim() || "Không tìm thấy thông tin.",
+            answer: clean,
             contexts
         });
 

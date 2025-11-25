@@ -10,9 +10,25 @@ function cosineSimilarity(a, b) {
 
 export async function retrieveContext(question, topK = 10) {
     const queryVec = await embedText(question);
-    const allEmbeddings = await Embedding.find({});
 
-    const scored = allEmbeddings.map(doc => {
+    const pricePattern = /giá|vé|bao nhiêu|price/i;
+    const locationPattern = /khu vực|chi nhánh|chỗ|branch|province/i;
+
+    let embeddings;
+
+    if (pricePattern.test(question)) {
+        embeddings = await Embedding.find({
+            "metadata.collection": "ticketTypes"
+        });
+    } else if (locationPattern.test(question)) {
+        embeddings = await Embedding.find({
+            "metadata.collection": { $in: ["provinces", "branches"] }
+        });
+    } else {
+        embeddings = await Embedding.find({});
+    }
+
+    const scored = embeddings.map(doc => {
         const score = cosineSimilarity(queryVec, doc.embedding);
         return { ...doc.toObject(), score };
     });
