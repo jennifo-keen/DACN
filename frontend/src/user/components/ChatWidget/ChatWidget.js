@@ -9,27 +9,43 @@ export default function ChatWidget() {
 
   const toggleChat = () => setOpen(!open);
 
-  const sendMessage = () => {
+  const sendMessage = async () => {
     if (!input.trim()) return;
 
-    // User message
+    // user message
     const userMsg = { sender: "user", text: input };
     setMessages((prev) => [...prev, userMsg]);
-    setInput("");
 
-    // Bot typing simulation
+    const text = input;
+    setInput("");
     setTyping(true);
 
-    setTimeout(() => {
+    try {
+      // gọi về backend AI
+      const res = await fetch("http://localhost:4000/api/ai/qa", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: text })
+      });
+
+      const data = await res.json();
+
       const botMsg = {
         sender: "bot",
-        text: "Mình là Chatbot demo nè! Backend chưa kết nối nên trả lời thử nha 💜",
+        text: data.answer || "AI không trả lời được.",
       };
 
       setMessages((prev) => [...prev, botMsg]);
-      setTyping(false);
-    }, 800);
+    } catch (err) {
+      setMessages((prev) => [
+        ...prev,
+        { sender: "bot", text: "Lỗi kết nối server AI ❌" }
+      ]);
+    }
+
+    setTyping(false);
   };
+
 
   return (
     <>

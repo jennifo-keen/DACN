@@ -1,5 +1,5 @@
 import express from "express";
-import PromoCode from "../models/PromoCodes.js";
+import { PromoCode } from "../models/PromoCodes.js";
 
 const router = express.Router();
 

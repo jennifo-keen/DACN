@@ -4,7 +4,7 @@ const ticketTypeSchema = new mongoose.Schema(
   {
     branchId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Branch",
+      ref: "branches",
       required: true,
     },
     ticketName: { type: String, required: true },
@@ -12,7 +12,7 @@ const ticketTypeSchema = new mongoose.Schema(
     priceAdult: { type: Number, required: true, min: 0 },
     priceChild: { type: Number, required: true, min: 0 },
     includedZones: [{ type: mongoose.Schema.Types.ObjectId, ref: "Zone" }],
-    image_tktypes: [{ type: String }], 
+    image_tktypes: [{ type: String }],
     status: { type: String, default: "hoạt động" },
   },
   { timestamps: true }

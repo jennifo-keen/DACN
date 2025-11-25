@@ -2,7 +2,6 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { connectDB } from "./config/db.js";
-import { User } from "./models/User.js";
 import bcrypt from "bcryptjs";
 
 // Import routes
@@ -20,6 +19,8 @@ import momoNotify from "./routes/PTTT/MomoNotify.js";
 import ticketRoute from "./routes/ticket.route.js";
 
 import adminRouter from './admin/adminRouter.js'
+
+import aiRoute from "../src/routes/aiRoute.js";
 
 const app = express();
 
@@ -42,7 +43,7 @@ app.get("/", (_req, res) => res.json({ ok: true }));
 app.use("/api", branchRoutes);
 app.use("/api/admin", uploadRoutes);
 app.use("/auth", authRoutes);
-app.use("/api", provinceRouter); 
+app.use("/api", provinceRouter);
 app.use("/api", ticketTypeRouter);
 app.use("/api", zoneRouter);
 app.use("/api/bookings", bookingRouter);
@@ -53,6 +54,8 @@ app.use("/api/bookings", ticketRoute);
 
 app.use("/api", adminRouter);
 app.use("/api", bookingRouterAdmin);
+
+app.use("/api/ai", aiRoute);
 
 const PORT = process.env.PORT || 4000;
 

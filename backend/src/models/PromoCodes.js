@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const promoCodeSchema = new mongoose.Schema(
+const PromoCodeSchema = new mongoose.Schema(
   {
     code: {
       type: String,
@@ -8,7 +8,7 @@ const promoCodeSchema = new mongoose.Schema(
       unique: true,
       trim: true,
     },
-    Description_promo: {
+    description_promo: {
       type: String,
       required: true,
     },
@@ -40,7 +40,8 @@ const promoCodeSchema = new mongoose.Schema(
       default: Date.now,
     },
   },
-  { collection: "promo_codes" }
+  { timestamps: true, collection: "promo_codes" }
 );
 
-export default mongoose.model("PromoCode", promoCodeSchema);
+// export theo form Branch
+export const PromoCode = mongoose.model("promo_codes", PromoCodeSchema);

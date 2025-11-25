@@ -1,0 +1,9 @@
+# Bỏ qua thư mục models theo yêu cầu
+models/
+
+# Bỏ qua node_modules (Rất quan trọng, không bao giờ up thư mục này lên git)
+node_modules/
+*/node_modules/
+
+# Bỏ qua các file môi trường chứa mật khẩu/key
+.env
