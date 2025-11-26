@@ -42,7 +42,7 @@ export default function TicketDetailPage() {
       {data.details.map((detail, i) => (
         <div key={i} className="tdp-ticket-block">
           <h3 className="tdp-ticket-title">
-            Vé {detail.ticketTypeId?.ticketName || "Không xác định"}
+            Vé {detail.bookingDetails?.audience === "adult" ? "người lớn" : "trẻ em"} - Số lượng: {detail.tickets.length}
           </h3>
 
           <div className="tdp-ticket-list">

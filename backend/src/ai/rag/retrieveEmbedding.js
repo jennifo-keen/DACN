@@ -8,7 +8,7 @@ function cosineSimilarity(a, b) {
     return dot / (normA * normB);
 }
 
-export async function retrieveContext(question, topK = 10) {
+export async function retrieveContext(question, topK = 20) {
     const queryVec = await embedText(question);
 
     const pricePattern = /giá|vé|bao nhiêu|price/i;
