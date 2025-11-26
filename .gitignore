@@ -1,5 +1,5 @@
 # Bỏ qua thư mục models theo yêu cầu
-models/
+model/
 
 # Bỏ qua node_modules (Rất quan trọng, không bao giờ up thư mục này lên git)
 node_modules/
